@@ -8,6 +8,89 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="resources/script/jquery/jquery-1.11.0.js"></script>
 <script type="text/javascript" src="resources/script/spmain/Mainpage.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	refreshList();
+	
+	$("#searchBtn").on("click", function() {
+		$("input[name='searchText']").val($("#searchText").val());
+		$("input[name='page']").val("1");
+		
+		refreshList();
+	});
+	
+	$("#insertBtn").on("click", function() {
+		$("#actionForm").attr("action", "test7");
+		$("#actionForm").submit();
+	});
+	
+	$("#pagingArea").on("click", "span", function() {
+		$("input[name='page']").val($(this).attr("name"));
+		
+		refreshList();
+	});
+	
+	$("#tb").on("click", "tr", function() {
+		$("input[name='testNo']").val($(this).attr("name"));
+		$("#actionForm").attr("action", "test5"); // #이 test5로 변경됨
+		$("#actionForm").submit();
+	});
+});
+
+function refreshList() {
+	var params = $("#actionForm").serialize();
+	
+	$.ajax({
+		type : "post",
+		url : "refreshTest",
+		dataType : "json",
+		data : params,
+		success : function(result) {
+			var html = "";
+			
+			for(var i = 0 ; i < result.list.length ; i++) {
+				html += "<tr name='" + result.list[i].TEST_NO + "'>";
+				html +=	"<td>" + result.list[i].TEST_NO + "</td>";
+				html +=	"<td>" + result.list[i].TEST_CON + "</td>";
+				html += "</tr>";
+			}
+			
+			$("#tb").html(html);
+			
+			html = "";
+			
+			html += "<span name='1'>처음</span>";
+			
+			if($("input[name='page']").val() == 1) {
+				html += "<span name='1'>이전</span>";
+			} else {
+				html += "<span name = '" + ($("input[name='page']").val() - 1) + "'>이전</span>";
+			}
+			
+			for(var i = result.pb.startPcount ; i <= result.pb.endPcount ; i++) {
+				if (i == $("input[name='page']").val()) {
+					html += "<span name = '" + i + "'><b>" + i + "</b></span>";
+				} else {
+					html += "<span name = '" + i + "'>" + i + "</span>";
+				}
+			}
+			
+			if($("input[name='page']").val() == result.pb.maxPcount) {
+				html += "<span name = '" + result.pb.maxPcount + "'>다음</span>";
+			} else {
+				html += "<span name = '" + ($("input[name='page']").val() * 1 + 1) + "'>다음</span>";
+			}
+			
+			html += "<span name='" + result.pb.maxPcount + "'>마지막</span>";
+			
+			$("#pagingArea").html(html);
+		},
+		error : function(result) {
+			alert("error!!");
+		}
+	});
+}
+</script>
 <link rel="stylesheet" type="text/css" href="resources/css/spmain/Mainpage.css"/>
 
 </head>
@@ -155,7 +238,39 @@
 		</div>
 		
 		<div class="content">
-			
+			<form action="#" id="actionForm" method="post">
+				<c:choose>
+					<c:when test="${empty param.page}">
+						<input type="hidden" name="page" value="1" />
+					</c:when>
+					<c:otherwise>
+						<input type="hidden" name="page" value="${param.page}" />
+					</c:otherwise>
+				</c:choose>
+				<input type="hidden" name="searchText" value="${param.searchText}" />
+				<input type="hidden" name="" />
+			</form>
+			<table border="1">
+				<thead>
+					<tr>
+						<th>글번호</th>
+						<th>물품사진</th>
+						<th>물품명</th>
+						<th>제목</th>
+						<th>현재경매가</th>
+						<th>작성자</th>
+						<th>마감시간</th>
+					</tr>
+				</thead>
+				<tbody id="tb">
+				</tbody>
+			</table>
+			<br/>
+			<input type="text" id="searchText" value="${param.searchText}" />
+			<input type="button" value="검색" id="searchBtn" />
+			<input type="button" value="글쓰기" id="insertBtn" />
+			<br/>
+			<div id="pagingArea"></div>
 		</div>
 	
 	</div>
