@@ -9,20 +9,20 @@
 .main1{
 	vertical-align : top;
 	display : inline-block;
-	width: 50%;
+	width: 60%;
 	height: 100%;
 	background-color: #0F00FF;
 }
 .left{
 	display : inline-block;
-	width: 24%;
+	width: 19%;
 	height: 100%;
 	background-color: #AF12FF;
 }
 
 .right{
 	display : inline-block;
-	width: 24%;
+	width: 19%;
 	height: 100%;
 	background-color: #0FAC12;
 }

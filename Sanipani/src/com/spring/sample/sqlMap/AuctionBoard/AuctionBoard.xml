@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+   <sqlMap namespace="AuctionBoard">
+   
+		<select id="getAuction"
+				parameterClass="java.util.HashMap"
+				resultClass="java.util.HashMap">
+			SELECT A.AUCTIONWORDNO, A.AUCTIONPRODUCTNAME, WORDTITLE, WORDCONTENT, RNOWBUYPAY, NOWBUYPAY, STARTBUYPAY, WRITERDATE, ENDDATE, LOOKUP
+			FROM (SELECT ROW_NUMBER() OVER(ORDER BY AUCTIONWORDNO DESC) AS RNUM, 
+						 AUCTIONWORDNO, AUCTIONPRODUCTNAME, WORDTITLE, WORDCONTENT, RNOWBUYPAY, NOWBUYPAY, STARTBUYPAY, to_char(WRITERDATE, 'YYYY-MM-DD') AS WRITERDATE, ENDDATE, LOOKUP
+      			    FROM AUCTIONBOARD
+      			   WHERE 1 = 1
+				  <isNotEmpty property="searchText">
+					 AND AUCTIONPRODUCTNAME LIKE '%' || #searchText# || '%'
+				  </isNotEmpty>
+				  ) A
+			WHERE A.RNUM BETWEEN #start# AND #end#
+		</select>
+		
+		<select id="getAuctionCount"
+				parameterClass="java.util.HashMap"
+				resultClass="Integer">
+			SELECT COUNT(*) AS CNT
+			FROM AUCTIONBOARD
+			WHERE 1 = 1
+			<isNotEmpty property="searchText">
+				AND AUCTIONPRODUCTNAME LIKE '%' || #searchText# || '%'
+			</isNotEmpty>
+		</select>
+		
+   </sqlMap>
