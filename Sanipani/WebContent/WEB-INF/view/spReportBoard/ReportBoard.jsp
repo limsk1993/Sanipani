@@ -31,6 +31,7 @@
 				<div class="loginAccess" id="loginAccess">
 			</c:otherwise>
 		</c:choose>	
+		
 			<form action="#" id="LoginForm" method="post" style="display:inline"><!--form도  display를 줘야한다 -->
 			
 				<div class="login1">
@@ -45,6 +46,7 @@
 					</div>	
 				</div>
 			</form>	
+			
 				<div class="login3">
 					<div class="loginBtn">
 					로그인
@@ -71,7 +73,8 @@
 			<c:otherwise>
 				<div class="loginCut" id="loginCut" style="display:none" >
 			</c:otherwise>
-		</c:choose>	
+		</c:choose>
+			
 				<div class="login1_1">
 					<div class="memberInfo">
 						<span id="memNick">${sNick}</span>님 환영합니다
@@ -155,7 +158,9 @@
 		</div>
 		
 		<div class="content">
-			
+			<div class="reporttitle">
+				신고 게시판
+			</div>
 		</div>
 	
 	</div>

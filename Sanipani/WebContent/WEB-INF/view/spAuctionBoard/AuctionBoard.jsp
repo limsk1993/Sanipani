@@ -49,9 +49,14 @@ function refreshList() {
 			var html = "";
 			
 			for(var i = 0 ; i < result.list.length ; i++) {
-				html += "<tr name='" + result.list[i].TEST_NO + "'>";
-				html +=	"<td>" + result.list[i].TEST_NO + "</td>";
-				html +=	"<td>" + result.list[i].TEST_CON + "</td>";
+				html += "<tr name='" + result.list[i].AUCTIONWORDNO + "'>";
+				html +=	"<td>" + result.list[i].AUCTIONWORDNO + "</td>";
+				html +=	"<td></td>";
+				html +=	"<td>" + result.list[i].AUCTIONPRODUCTNAME + "</td>";
+				html +=	"<td>" + result.list[i].WORDTITLE + "</td>";
+				html +=	"<td>" + result.list[i].RNOWBUYPAY + "</td>";
+				html +=	"<td></td>";
+				html +=	"<td>" + result.list[i].WRITERDATE + "</td>";
 				html += "</tr>";
 			}
 			
