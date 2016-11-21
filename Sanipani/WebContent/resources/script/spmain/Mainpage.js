@@ -75,7 +75,7 @@ $(document).ready(function(){
 	});
 	
 	$(".reportBoard").on("click",function(){
-		location.href="AuctionBoard";
+		location.href="ReportBoard";
 	});
 	$(".customerBoard").on("click",function(){
 		location.href="AuctionBoard";
