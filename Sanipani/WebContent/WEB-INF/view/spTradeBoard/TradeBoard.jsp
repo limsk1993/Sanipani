@@ -27,6 +27,108 @@
 	background-color: #123FAC;
 }
 </style>
+<script type="text/javascript">
+$(document).ready(function(){
+	refreshList();
+	
+	$("#searchBtn").on("click",function(){
+		$("input[name='searchText']").val($("#searchText").val()); //searchText의 value에 serchTextval의 값을 넣는다.
+		$("input[name='page']").val("1");
+		
+		refreshList();
+	});
+	
+	$("#insertBtn").on("click",function(){
+		$("#actionForm").attr("action", "test7");  //actionForm의 action값에  test7을 넣음.
+		$("#actionForm").submit(); //actionForm 실행
+		
+	});
+	
+	
+	$("#pagingArea").on("click", "span", function(){
+		$("input[name='page']").val($(this).attr("name"));
+		
+		refreshList();
+	});
+	
+	$("#tb").on("click", "tr", function(){
+		$("input[name='testNo']").val($(this).attr("name"));
+		$("#actionForm").attr("action", "test5"); // 밑의 form에 action의 값이#인데 거 에다가 test5를 넣겠다는 소리.
+		$("#actionForm").submit();
+	});
+});		
+		
+		
+
+
+function refreshList(){
+	var params = $("#actionForm").serialize(); //serialize 정렬해서 보여준다.
+	
+	$.ajax({//비동기화방식
+		type : "post",
+		url : "refreshTest", 
+		dataType : "json",
+		data : params,
+		success : function(result){
+			var html = "";
+			
+			for(var i = 0 ; i < result.list.length ; i++){
+				html += "<tr name='" + result.list[i].NO + "'>";
+				html += "<td>" + result.list[i].NO + "</td>";
+				html += "<td></td>";
+				html += "<td>" + result.list[i].TRADE_BOARD + "</td>";
+				html += "<td>" + result.list[i].WORD_TITLE + "</td>";
+				html += "<td>" + result.list[i].BUY_PAY + "</td>";
+				html += "<td></td>";
+				html += "<td></td>";
+				html += "<td>" + result.list[i].WRITER_DATE + "</td>";
+				html += "<td>" + result.list[i].LOOKUP + "</td>";
+				
+				html += "</tr>";
+			}
+			
+			$("#tradeList").html(html);
+			
+		html = "";
+		html += "<span name='1'>처음</span>";
+		
+/* 		if($("input[name='page']").val() == 1){
+			html += "<span name='1'>이전</span>";
+		} else{
+			html += "<span name='" + ($("input[name='page']").val - 1) + "'>이전</span>";
+		} */
+		if($("input[name='page']").val() == 1) {
+            html += "<span name='1'>이전</span>";
+         } else {
+            html += "<span name = '" + ($("input[name='page']").val() - 1) + "'>이전</span>";
+         }
+		
+		for(var i = result.pb.startPcount ; i <= result.pb.endPcount ; i++){
+			if(i == $("input[name='page']").val()){
+				html += "<span name='" + i + "'><b>" + i + "</b></span>";
+			} else{
+				html += "<span name='" + i + "'>" + i + "</b></span>";
+			}
+		}
+		
+		if($("input[name='page']").val() == result.pb.maxPcount){
+			html += "<span name='" + result.pb.maxPcount + "'>다음</span>";
+		} else{
+			html += "<span name='" + ($("input[name='page']").val() * 1 + 1) + "'>다음</span>";
+		}
+		
+		
+		html += "<span name='" + result.pb.maxPcount+"'>마지막</span>";
+		
+		$("#tradePageNo").html(html);
+			
+		},
+		error : function(result){
+			alert("error!!");
+		}
+	});
+}
+</script>
 </head>
 <body>
 <div class="main">
@@ -171,6 +273,10 @@
 			</div>
 		</div>
 		
+		
+		
+		
+		
 		<div class="content">
 		<div class="tradeCategory">
 			<div class="home">가정제품</div>
@@ -186,6 +292,21 @@
 		</div>
 		<div class="tradeTable">
 		<h2>거래게시판 </h2>
+			<form action="#" id="actionForm" method="post">
+				<c:choose>
+					<c:when test="${empty param.page}"> <!-- empty 는 비어있으면. -->
+						<input type="hidden" name="page" value="1" />
+					</c:when>
+			
+					<c:otherwise>
+						<input type="hidden" name="page" value="${param.page}"/>
+					</c:otherwise>
+				</c:choose>
+	
+				<input type="hidden" name="searchText" value="${param.searchText}"/>
+				<input type="hidden" name="" />
+			</form>
+
 			<table border="1">
 				<thead>
 					<tr>
@@ -198,6 +319,7 @@
 					<th>거래상태</th>
 					<th>작성자</th>
 					<th>작성일</th>
+					<th>조회수</th>
 					</tr>
 				</thead>
 				
@@ -207,8 +329,16 @@
 				</tbody>
 			
 			</table>
-		
+			<br/>
+			<input type="text" id="searchText" value="${param.searchText}"/>
+			<input type="button" value="검색" id="searchBtn"/>
+			<input type="button" value="추가" id="insertBtn"/>
+			<br/>
+			<div id="tradePageNo"></div>
 		</div>
+	
+		
+		
 		</div>
 		
 		
