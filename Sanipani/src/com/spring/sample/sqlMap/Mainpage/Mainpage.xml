@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+   <sqlMap namespace="Mainpage">
+		<select id="getMem"
+		parameterClass="java.util.HashMap"
+		resultClass="java.util.HashMap">
+		
+		SELECT MEMBERNO,ID,NICK
+		FROM MEMBERINFO
+		
+		WHERE ID = #Id#
+		AND PW   = #Pw#
+		
+		</select>   
+   
+   
+   
+   </sqlMap>
