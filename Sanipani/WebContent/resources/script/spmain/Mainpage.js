@@ -94,7 +94,9 @@ $(document).ready(function(){
 	
 	
 	
-	
+	$(".logo").on("click",function(){
+		location.href="Mainpage";
+	});
 	
 	$(".home").on("click",function(){
 		location.href="AuctionBoard";

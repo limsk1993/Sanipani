@@ -32,14 +32,6 @@ public class MainController {
 	      return modelAndView;
 	   }
 	 
-	 @RequestMapping(value="/AuctionBoard")
-	   public ModelAndView AuctionBoard(HttpServletRequest request,
-	                      ModelAndView modelAndView){
-	      modelAndView.setViewName("spAuctionBoard/AuctionBoard");
-	      return modelAndView;
-	      
-	   }
-	 
 	   @RequestMapping(value = "/testLoginCheckAjax")
 	   public @ResponseBody ResponseEntity<String> testLoginCheckAjax(
 	         HttpServletRequest request,
