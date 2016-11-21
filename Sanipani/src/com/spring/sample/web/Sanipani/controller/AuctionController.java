@@ -12,7 +12,7 @@ public class AuctionController {
 	                      ModelAndView modelAndView){
 	      modelAndView.setViewName("spAuctionBoard/AuctionBoard");
 	      return modelAndView;
-	      
+	          
 	   }
 	
 }
