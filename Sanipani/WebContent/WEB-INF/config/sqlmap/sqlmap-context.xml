@@ -16,7 +16,7 @@
 	<!-- Mainpage쿼리 -->
 	<sqlMap resource="/com/spring/sample/sqlMap/Mainpage/Mainpage.xml" />
 	<!-- Tradepage쿼리 -->
-	<sqlMap resource="/com/spring/sample/sqlMap/Mainpage/Tradepage.xml" />
+	<sqlMap resource="/com/spring/sample/sqlMap/TradeBoard/Tradepage.xml" />
 	<!-- AuctionBoard쿼리 -->
 	<sqlMap resource="/com/spring/sample/sqlMap/AuctionBoard/AuctionBoard.xml" />
 </sqlMapConfig>
