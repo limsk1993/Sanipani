@@ -29,13 +29,13 @@
 </style>
 <script type="text/javascript">
 $(document).ready(function(){
-	refreshList();
+	refreshList1();
 	
 	$("#searchBtn").on("click",function(){
 		$("input[name='searchText']").val($("#searchText").val()); //searchText의 value에 serchTextval의 값을 넣는다.
 		$("input[name='page']").val("1");
 		
-		refreshList();
+		refreshList1();
 	});
 	
 	$("#insertBtn").on("click",function(){
@@ -48,7 +48,7 @@ $(document).ready(function(){
 	$("#pagingArea").on("click", "span", function(){
 		$("input[name='page']").val($(this).attr("name"));
 		
-		refreshList();
+		refreshList1();
 	});
 	
 	$("#tb").on("click", "tr", function(){
@@ -61,12 +61,12 @@ $(document).ready(function(){
 		
 
 
-function refreshList(){
+function refreshList1(){
 	var params = $("#actionForm").serialize(); //serialize 정렬해서 보여준다.
 	
 	$.ajax({//비동기화방식
 		type : "post",
-		url : "refreshTest", 
+		url : "refreshTest1", 
 		dataType : "json",
 		data : params,
 		success : function(result){

@@ -41,7 +41,7 @@ public class TradeController {
 		   
 		   return modelAndView;
 	   }
-	   @RequestMapping(value = "/refreshTest")
+	   @RequestMapping(value = "/refreshTest1")
 	   public @ResponseBody ResponseEntity<String> refreshTest(
 	         HttpServletRequest request,
 	         @RequestParam HashMap<String, String> params,/*여러개의 값을 한번에 넣어 한번에 받아옴.*/
