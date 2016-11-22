@@ -5,10 +5,14 @@ import java.util.HashMap;
 
 public interface IAuctionService {
 
-	int getAuctionCount(HashMap<String, String> params) throws Throwable;
+	public int getAuctionCount(HashMap<String, String> params) throws Throwable;
 
-	ArrayList<HashMap<String, String>> getAuction(HashMap<String, String> params) throws Throwable;
+	public ArrayList<HashMap<String, String>> getAuction(HashMap<String, String> params) throws Throwable;
 
-	String insertAuction(HashMap<String, String> params) throws Throwable;
+	public String insertAuction(HashMap<String, String> params) throws Throwable;
+
+	public int deleteAuction(HashMap<String, String> params) throws Throwable;
+
+	public HashMap<String, String> getAuctionCon(HashMap<String, String> params) throws Throwable;
 
 }

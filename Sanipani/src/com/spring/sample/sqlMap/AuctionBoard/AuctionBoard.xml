@@ -35,4 +35,18 @@
 			VALUES(AUCTIONBOARD_SEQ.NEXTVAL, #AuctionproductName#, #Auctiontitle#, #AuctionContents#, #StartAuctionPrice#, #StartAuctionPrice#, #StartAuctionPrice#, SYSDATE, SYSDATE, '1')
 		</insert>
 		
+		<delete id="deleteAuction"
+				parameterClass="java.util.HashMap">
+			DELETE FROM AUCTIONBOARD
+			WHERE AUCTIONWORDNO = #auctionNo#
+		</delete>
+		
+		<select id="getAuctionCon"
+				parameterClass="java.util.HashMap"
+				resultClass="java.util.HashMap">
+			SELECT AUCTIONWORDNO, AUCTIONPRODUCTNAME, WORDTITLE, WORDCONTENT, RNOWBUYPAY, NOWBUYPAY, STARTBUYPAY, WRITERDATE, ENDDATE, LOOKUP
+			FROM AUCTIONBOARD
+			WHERE AUCTIONWORDNO = #auctionNo#
+		</select>
+		
    </sqlMap>

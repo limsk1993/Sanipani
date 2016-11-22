@@ -29,4 +29,14 @@ public class AuctionService implements IAuctionService {
 		return iAuctionDao.insertAuction(params);
 	}
 
+	@Override
+	public int deleteAuction(HashMap<String, String> params) throws Throwable {
+		return iAuctionDao.deleteAuction(params);
+	}
+
+	@Override
+	public HashMap<String, String> getAuctionCon(HashMap<String, String> params) throws Throwable {
+		return iAuctionDao.getAuctionCon(params);
+	}
+
 }

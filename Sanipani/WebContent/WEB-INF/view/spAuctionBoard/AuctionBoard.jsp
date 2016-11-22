@@ -48,8 +48,8 @@ $(document).ready(function() {
 	});
 	
 	$("#tb").on("click", "tr", function() {
-		$("input[name='testNo']").val($(this).attr("name"));
-		$("#actionForm").attr("action", "test5"); // #이 test5로 변경됨
+		$("input[name='auctionNo']").val($(this).attr("name"));
+		$("#actionForm").attr("action", "AuctionDetailLook");
 		$("#actionForm").submit();
 	});
 });
@@ -283,7 +283,7 @@ function refreshList() {
 					</c:otherwise>
 				</c:choose>
 				<input type="hidden" name="searchText" value="${param.searchText}" />
-				<input type="hidden" name="" />
+				<input type="hidden" name="auctionNo" />
 			</form>
 			<table border="1">
 				<thead>

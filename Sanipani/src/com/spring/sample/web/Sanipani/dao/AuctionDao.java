@@ -49,4 +49,15 @@ public class AuctionDao implements IAuctionDao {
 		return res;
 	}
 
+	@Override
+	public int deleteAuction(HashMap<String, String> params) throws Throwable {
+		return sqlMapClient.delete("AuctionBoard.deleteAuction", params);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public HashMap<String, String> getAuctionCon(HashMap<String, String> params) throws Throwable {
+		return (HashMap<String, String>) sqlMapClient.queryForObject("AuctionBoard.getAuctionCon", params);
+	}
+
 }

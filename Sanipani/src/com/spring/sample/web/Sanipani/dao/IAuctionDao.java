@@ -11,4 +11,8 @@ public interface IAuctionDao {
 
 	public String insertAuction(HashMap<String, String> params) throws Throwable;
 
+	public int deleteAuction(HashMap<String, String> params) throws Throwable;
+
+	public HashMap<String, String> getAuctionCon(HashMap<String, String> params) throws Throwable;
+
 }
