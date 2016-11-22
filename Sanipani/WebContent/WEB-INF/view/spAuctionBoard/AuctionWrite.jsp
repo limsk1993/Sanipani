@@ -8,9 +8,10 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="resources/script/jquery/jquery-1.11.0.js"></script>
 <script type="text/javascript" src="resources/script/spmain/Mainpage.js"></script>
+<script type="text/javascript" src="resources/script/jquery/jquery.form.js"></script>
 <link rel="stylesheet" type="text/css" href="resources/css/spmain/Mainpage.css"/>
 <style type="text/css">
-.tradeTable{
+.AuctionWrite {
 	vertical-align :top;
 	display : inline-block;
 	padding : 20px;
@@ -18,7 +19,7 @@
 	height: 90%;
 	background-color: #F1232F;
 }
-.tradeCategory{
+.AuctionCategory {
 	display : inline-block;
 	width: 200px;
 	height: 90%;
@@ -26,107 +27,62 @@
 }
 </style>
 <script type="text/javascript">
-$(document).ready(function(){
-	refreshList1();
-	
-	$("#searchBtn").on("click",function(){
-		$("input[name='searchText']").val($("#searchText").val()); //searchText의 value에 serchTextval의 값을 넣는다.
-		$("input[name='page']").val("1");
-		
-		refreshList1();
-	});
-	
-	$("#insertBtn").on("click",function(){
-		$("#actionForm").attr("action", "test7");  //actionForm의 action값에  test7을 넣음.
-		$("#actionForm").submit(); //actionForm 실행
-		
-	});
-	
-	
-	$("#pagingArea").on("click", "span", function(){
-		$("input[name='page']").val($(this).attr("name"));
-		
-		refreshList1();
-	});
-	
-	$("#tb").on("click", "tr", function(){
-		$("input[name='testNo']").val($(this).attr("name"));
-		$("#actionForm").attr("action", "test5"); // 밑의 form에 action의 값이#인데 거 에다가 test5를 넣겠다는 소리.
+$(document).ready(function() {
+	$("#listBtn").on("click", function() {
+		$("#actionForm").attr("action", "AuctionBoard");
 		$("#actionForm").submit();
 	});
-});		
-		
-		
-
-
-function refreshList1(){
-	var params = $("#actionForm").serialize(); //serialize 정렬해서 보여준다.
 	
-	$.ajax({//비동기화방식
-		type : "post",
-		url : "refreshTest1", 
-		dataType : "json",
-		data : params,
-		success : function(result){
-			var html = "";
-			
-			for(var i = 0 ; i < result.list.length ; i++){
-				html += "<tr name='" + result.list[i].NO + "'>";
-				html += "<td>" + result.list[i].NO + "</td>";
-				html += "<td></td>";
-				html += "<td>" + result.list[i].TRADE_BOARD + "</td>";
-				html += "<td>" + result.list[i].WORD_TITLE + "</td>";
-				html += "<td>" + result.list[i].BUY_PAY + "</td>";
-				html += "<td></td>";
-				html += "<td></td>";
-				html += "<td>" + result.list[i].WRITER_DATE + "</td>";
-				html += "<td>" + result.list[i].LOOKUP + "</td>";
-				
-				html += "</tr>";
-			}
-			
-			$("#tradeList").html(html);
-			
-		html = "";
-		html += "<span name='1'>처음</span>";
+	$("#saveBtn").on("click", function() {
+		var insertForm = $("#insertForm")
 		
-/* 		if($("input[name='page']").val() == 1){
-			html += "<span name='1'>이전</span>";
-		} else{
-			html += "<span name='" + ($("input[name='page']").val - 1) + "'>이전</span>";
-		} */
-		if($("input[name='page']").val() == 1) {
-            html += "<span name='1'>이전</span>";
-         } else {
-            html += "<span name = '" + ($("input[name='page']").val() - 1) + "'>이전</span>";
-         }
-		
-		for(var i = result.pb.startPcount ; i <= result.pb.endPcount ; i++){
-			if(i == $("input[name='page']").val()){
-				html += "<span name='" + i + "'><b>" + i + "</b></span>";
-			} else{
-				html += "<span name='" + i + "'>" + i + "</b></span>";
-			}
-		}
-		
-		if($("input[name='page']").val() == result.pb.maxPcount){
-			html += "<span name='" + result.pb.maxPcount + "'>다음</span>";
-		} else{
-			html += "<span name='" + ($("input[name='page']").val() * 1 + 1) + "'>다음</span>";
-		}
-		
-		
-		html += "<span name='" + result.pb.maxPcount+"'>마지막</span>";
-		
-		$("#tradePageNo").html(html);
-			
-		},
-		error : function(result){
-			alert("error!!");
-		}
+		insertForm.ajaxForm(uploadResultCallBack);
+		insertForm.submit();
 	});
+});
+
+function uploadResultCallBack(data, result) {
+	if(result == "success") {
+		var resData = eval("(" + removePre(data) + ")");
+		
+		$("#textFile").val(resData.fileName[0]);
+		
+		var params = $("#insertForm").serialize();
+		
+		$.ajax({
+			type : "post",
+			url : "insertAuction",
+			dataType : "json",
+			data : params,
+			success : function(result) {
+				if(result.res == "true") {
+					location.href = "AuctionBoard";
+				} else {
+					alert("저장 중 문제가 발생했습니다.");
+				}
+			},
+			error : function(result) {
+				alert("ERROR!!");
+			}
+		});
+	} else {
+		alert("저장 실패");
+	}
+}
+
+function removePre(data) {
+	if(data.indexOf("<pre>") > -1) { // pre가 있으면 pre를 없애고 안에 내용만 가져옴
+		var st = data.indexOf(">"); // start지점 <pre>
+		var ed = data.indexOf("<", st); 
+		
+		return data.substring(st + 1, ed);
+	} else {
+		return data;
+	}
 }
 </script>
+<link rel="stylesheet" type="text/css" href="resources/css/spmain/Mainpage.css"/>
+
 </head>
 <body>
 <div class="main">
@@ -271,12 +227,8 @@ function refreshList1(){
 			</div>
 		</div>
 		
-		
-		
-		
-		
 		<div class="content">
-		<div class="tradeCategory">
+		<div class="AuctionCategory">
 			<div class="home">가정제품</div>
 			<div class="elec">전자기기</div>
 			<div class="cloth">의류,신발</div>
@@ -286,60 +238,32 @@ function refreshList1(){
 			<div class="furni">가구</div>
 			<div class="book">도서</div>
 			<div class="etc">기타</div>
-		
 		</div>
-		<div class="tradeTable">
-		<h2>거래게시판 </h2>
+			<div class="AuctionWrite">
 			<form action="#" id="actionForm" method="post">
-				<c:choose>
-					<c:when test="${empty param.page}"> <!-- empty 는 비어있으면. -->
-						<input type="hidden" name="page" value="1" />
-					</c:when>
-			
-					<c:otherwise>
-						<input type="hidden" name="page" value="${param.page}"/>
-					</c:otherwise>
-				</c:choose>
-	
-				<input type="hidden" name="searchText" value="${param.searchText}"/>
-				<input type="hidden" name="" />
+				<input type="hidden" name="page" value="${param.page}" />
+				<input type="hidden" name="searchText" value="${param.searchText}" />
 			</form>
-
-			<table border="1">
-				<thead>
-					<tr>
-					<th>No</th>
-					<th>물품사진</th>
-					<th>물품명</th>
-					<th>내용</th>
-					
-					<th>가격</th>
-					<th>거래상태</th>
-					<th>작성자</th>
-					<th>작성일</th>
-					<th>조회수</th>
-					</tr>
-				</thead>
-				
-				<tbody id="tradeList">
-				
-				
-				</tbody>
-			
-			</table>
-			<br/>
-			<input type="text" id="searchText" value="${param.searchText}"/>
-			<input type="button" value="검색" id="searchBtn"/>
-			<input type="button" value="추가" id="insertBtn"/>
-			<br/>
-			<div id="tradePageNo"></div>
+			<form action="fileUploadAjax" 
+				  id="insertForm"
+				  method="post"
+				  enctype="multipart/form-data">
+				물품명 <input type="text" name="AuctionproductName" />
+				<br/>
+				제목 <input type="text" name="Auctiontitle" />
+				<br/>
+				시작경매가 <input type="text" name="StartAuctionPrice" />
+				<br/>
+				내용 <input type="text" name="AuctionContents" />
+				<br/>
+				물품사진 <input type="file" name="att1" />
+				<input type="hidden" name="textFile" id="textFile" />
+			</form>
+			<input type="button" value="저장" id="saveBtn" />
+			<input type="button" value="목록" id="listBtn" />
+			</div>
 		</div>
 	
-		
-		
-		</div>
-		
-		
 	</div>
 	<div class="right">
 	

@@ -25,4 +25,28 @@ public class AuctionDao implements IAuctionDao {
 		return (ArrayList<HashMap<String, String>>) sqlMapClient.queryForList("AuctionBoard.getAuction", params);
 	}
 
+	@Override
+	public String insertAuction(HashMap<String, String> params) throws Throwable {
+		String res = "false";
+		
+		sqlMapClient.startTransaction();
+		sqlMapClient.startBatch();
+		
+		try {
+			sqlMapClient.insert("AuctionBoard.insertAuction", params);
+			
+			sqlMapClient.executeBatch();
+			sqlMapClient.commitTransaction();
+			
+			res = "true";
+		} catch (Exception e) {
+			res = "false";
+			e.printStackTrace();
+		}
+		
+		sqlMapClient.endTransaction();
+		
+		return res;
+	}
+
 }

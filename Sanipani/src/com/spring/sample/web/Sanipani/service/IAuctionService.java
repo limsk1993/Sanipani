@@ -9,4 +9,6 @@ public interface IAuctionService {
 
 	ArrayList<HashMap<String, String>> getAuction(HashMap<String, String> params) throws Throwable;
 
+	String insertAuction(HashMap<String, String> params) throws Throwable;
+
 }

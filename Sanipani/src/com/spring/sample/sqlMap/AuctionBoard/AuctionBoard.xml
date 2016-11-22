@@ -29,4 +29,10 @@
 			</isNotEmpty>
 		</select>
 		
+		<insert id="insertAuction"
+				parameterClass="java.util.HashMap"> 
+			INSERT INTO AUCTIONBOARD(AUCTIONWORDNO, AUCTIONPRODUCTNAME, WORDTITLE, WORDCONTENT, RNOWBUYPAY, NOWBUYPAY, STARTBUYPAY, WRITERDATE, ENDDATE, LOOKUP)
+			VALUES(AUCTIONBOARD_SEQ.NEXTVAL, #AuctionproductName#, #Auctiontitle#, #AuctionContents#, #StartAuctionPrice#, #StartAuctionPrice#, #StartAuctionPrice#, SYSDATE, SYSDATE, '1')
+		</insert>
+		
    </sqlMap>

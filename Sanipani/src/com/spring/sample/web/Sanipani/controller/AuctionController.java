@@ -36,8 +36,8 @@ public class AuctionController {
 			return modelAndView;
 	}
 	 
-	@RequestMapping(value="/refreshTest")
-	public @ResponseBody ResponseEntity<String> refreshTest(
+	@RequestMapping(value="/refreshAuction")
+	public @ResponseBody ResponseEntity<String> refreshAuction(
 				HttpServletRequest request,
 				@RequestParam HashMap<String, String> params, // 여러개의 request.getParameter를 할 필요 없이 한번에 받아옴.
 				ModelAndView modelAndView) throws Throwable {
@@ -62,4 +62,28 @@ public class AuctionController {
 			return new ResponseEntity<String>(mapper.writeValueAsString(modelMap), responseHeaders, HttpStatus.CREATED);
 		}
 	
+	@RequestMapping(value="/AuctionWrite")
+	public ModelAndView AuctionWrite(HttpServletRequest request,
+									 ModelAndView modelAndView){
+		modelAndView.setViewName("spAuctionBoard/AuctionWrite");
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="/insertAuction")
+	public @ResponseBody ResponseEntity<String> insertAuction(
+			HttpServletRequest request,
+			@RequestParam HashMap<String, String> params, 
+			ModelAndView modelAndView) throws Throwable {
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> modelMap = new HashMap<String, Object>();
+		
+		String res = iAuctionService.insertAuction(params);
+		
+		modelMap.put("res", res);
+		
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Content-Type", "text/json; charset=UTF-8");
+		
+		return new ResponseEntity<String>(mapper.writeValueAsString(modelMap), responseHeaders, HttpStatus.CREATED);
+	}
 }

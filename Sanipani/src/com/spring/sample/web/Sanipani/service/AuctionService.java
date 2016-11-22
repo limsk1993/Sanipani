@@ -24,4 +24,9 @@ public class AuctionService implements IAuctionService {
 		return iAuctionDao.getAuction(params);
 	}
 
+	@Override
+	public String insertAuction(HashMap<String, String> params) throws Throwable {
+		return iAuctionDao.insertAuction(params);
+	}
+
 }

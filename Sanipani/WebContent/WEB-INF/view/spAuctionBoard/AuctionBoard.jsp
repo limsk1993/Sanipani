@@ -8,6 +8,23 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="resources/script/jquery/jquery-1.11.0.js"></script>
 <script type="text/javascript" src="resources/script/spmain/Mainpage.js"></script>
+<link rel="stylesheet" type="text/css" href="resources/css/spmain/Mainpage.css"/>
+<style type="text/css">
+.AuctionTable {
+	vertical-align :top;
+	display : inline-block;
+	padding : 20px;
+	width: 690px;
+	height: 90%;
+	background-color: #F1232F;
+}
+.AuctionCategory {
+	display : inline-block;
+	width: 200px;
+	height: 90%;
+	background-color: #123FAC;
+}
+</style>
 <script type="text/javascript">
 $(document).ready(function() {
 	refreshList();
@@ -20,7 +37,7 @@ $(document).ready(function() {
 	});
 	
 	$("#insertBtn").on("click", function() {
-		$("#actionForm").attr("action", "test7");
+		$("#actionForm").attr("action", "AuctionWrite");
 		$("#actionForm").submit();
 	});
 	
@@ -42,7 +59,7 @@ function refreshList() {
 	
 	$.ajax({
 		type : "post",
-		url : "refreshTest",
+		url : "refreshAuction",
 		dataType : "json",
 		data : params,
 		success : function(result) {
@@ -243,6 +260,19 @@ function refreshList() {
 		</div>
 		
 		<div class="content">
+		<div class="AuctionCategory">
+			<div class="home">가정제품</div>
+			<div class="elec">전자기기</div>
+			<div class="cloth">의류,신발</div>
+			<div class="watch">시계</div>
+			<div class="cosmetic">화장품</div>
+			<div class="travel">여행용품</div>
+			<div class="furni">가구</div>
+			<div class="book">도서</div>
+			<div class="etc">기타</div>
+		</div>
+			<div class="AuctionTable">
+			<h2>경매게시판 </h2>
 			<form action="#" id="actionForm" method="post">
 				<c:choose>
 					<c:when test="${empty param.page}">
@@ -276,6 +306,7 @@ function refreshList() {
 			<input type="button" value="글쓰기" id="insertBtn" />
 			<br/>
 			<div id="pagingArea"></div>
+			</div>
 		</div>
 	
 	</div>
