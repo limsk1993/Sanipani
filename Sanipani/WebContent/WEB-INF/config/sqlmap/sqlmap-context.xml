@@ -17,5 +17,7 @@
 	<sqlMap resource="/com/spring/sample/sqlMap/Mainpage/Mainpage.xml" />
 	<!-- AuctionBoard쿼리 -->
 	<sqlMap resource="/com/spring/sample/sqlMap/AuctionBoard/AuctionBoard.xml" />
+	<!-- ReportBoard쿼리 -->
+	<sqlMap resource="/com/spring/sample/sqlMap/ReportBoard/ReportBoardSQL.xml" />
 </sqlMapConfig>
  
