@@ -44,7 +44,6 @@ public class AuctionController {
 			ObjectMapper mapper = new ObjectMapper();
 			Map<String, Object> modelMap = new HashMap<String, Object>();
 			
-			//String searchText = request.getParameter("searchText");
 			PagingBean pb = iPagingService.getPageingBean(
 					Integer.parseInt(params.get("page")), 
 					iAuctionService.getAuctionCount(params));

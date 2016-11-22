@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    <sqlMap namespace="Tradepage">
+    	<select id="getTradeCount"
+    			parameterClass="java.util.HashMap"
+    			resultClass="Integer">
+    			
+    			SELECT COUNT(TRADE_WORD_NO) AS CNT
+				FROM TRADEBOARD
+				
+				WHERE 1 = 1
+				<isNotEmpty property="searchText">
+				AND WORD_TITLE LIKE '%' || #searchText# || '%'
+				</isNotEmpty>
+    	</select>
+    	
+    	<select id="getTradeBoard"
+    			parameterClass="java.util.HashMap"
+    			resultClass="java.util.HashMap">
+    			SELECT A.NO,A.TRADE_BOARD,A.WORD_TITLE,A.WORD_CONTENTS,A.BUY_PAY,A.WRITER_DATE,A.LOOKUP
+				FROM(  
+				SELECT ROW_NUMBER() OVER (ORDER BY TRADE_WORD_NO DESC) AS NO ,TRADE_BOARD,WORD_TITLE,WORD_CONTENTS,BUY_PAY,TO_CHAR(WRITER_DATE,'YYYY-MM-DD') AS WRITER_DATE ,LOOKUP
+				FROM TRADEBOARD
+				WHERE 1=1
+    			<isNotEmpty property="searchText">
+    			AND WORD_TITLE LIKE '%' || #searchText# || '%'
+    			</isNotEmpty>
+    			) A	
+    			WHERE A.NO BETWEEN #start# AND #end#
+    	</select>
+    
+    </sqlMap>
