@@ -1,0 +1,64 @@
+Scanner sc = new Scanner (System.in);
+		int a = sc.nextInt();
+		int b[] = new int [a];
+
+		for(int i = 0 ; i< b.length ; i++){
+			int w = sc.nextInt();
+			b[i]=w;
+		}
+		for (int i = 0; i < b.length - 1; i++) {
+			for (int j = i + 1; j < b.length; j++) {
+				if (b[i] >b[j]) {
+					int k = 0;
+					k = b[i];
+					b[i] = b[j];
+					b[j] = k;
+				}
+
+			}
+		} 
+		for(int i = 0; i<b.length;i++){
+			System.out.println(b[i]);
+		}
+상속                                       
+Java.lang.object 객체 
+자바 최상위 클래스를 상속 받게 되어있다
+
+New 를 선언하면서 객채를 선언해주고 그 안에 있는 메소드를 호출하려면
+메소드 자체가 아닌 주소값을 호출한다 
+System.out.println(t1.toString());
+System.out.println(t1.hashCode());////Test_0831 클래스의 Test_0831()메소드의 주소            
+
+
+Test07s t1 = new Test07s(1);
+			Test07s t2 =t1;
+			
+			
+			t2.a=2;
+			System.out.println(t1.a);
+			System.out.println(t2.a);//t1과 t2는 같은 주소를 공유함으로 t2를 바꾸더라도 t1까지 적용이 된다 
+			
+			t1 = new Test07s(3);///변수에 선언을 해주었기 때문에 각각 값이 변한다                          
+			t2 = new Test07s(7);
+			
+			System.out.println(t1.a);
+			System.out.println(t2.a);
+
+
+
+Interface 
+
+	틀만 만들어 놓고 내용은 없음 
+	개발의 형태를 동일하게 도와준다 
+	상속과 달리 인터페이스는 여러개를 상속시킬수 있다 
+	
+	Public class 클래스명 implements  인터페이스명 
+	
+	캡슐화
+	보안상 이유로 실제 알맹이를 감추고 껍데기로만 보여줌 
+ 
+	Declaration 선언
+	Implementation 참초 
+
+Abstract 
+	강제로 규칙을 만들기 위해서                                                                                        
