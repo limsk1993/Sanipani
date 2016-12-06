@@ -1,7 +1,6 @@
 package com.spring.sample.web.Sanipani.controller;
 
 import java.util.ArrayList;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,20 +31,33 @@ public class ReportController {
 	
 	 @RequestMapping(value="/ReportBoard")
 	   public ModelAndView ReportBoard(HttpServletRequest request,
-	                      ModelAndView modelAndView){
-	      modelAndView.setViewName("spReportBoard/ReportBoard");
-	      return modelAndView;
-	      
+	                      			   ModelAndView modelAndView){
+	      modelAndView.setViewName("spReportBoard/ReportBoard");	      
+	      return modelAndView;	      
 	   }
+	 
+	 @RequestMapping(value = "/DetailRep")
+		public ModelAndView DetailRep(HttpServletRequest request, @RequestParam HashMap<String, String> params,
+				ModelAndView modelAndView) throws Throwable {
+			
+		 HashMap<String, String> con = iReportService.getReportCon(params);
+			
+			iReportService.updatelook(params);
+
+			modelAndView.addObject("con", con);
+			
+
+			modelAndView.setViewName("spReportBoard/DetailRep");
+			return modelAndView;
+		}
 	 
 	 @RequestMapping(value="/RefreshReport")
 		public @ResponseBody ResponseEntity<String> RefreshReport(
 					HttpServletRequest request,
-					@RequestParam HashMap<String, String> params, // 여러개의 request.getParameter를 할 필요 없이 한번에 받아옴.
+					@RequestParam HashMap<String, String> params, 
 					ModelAndView modelAndView) throws Throwable {
 				ObjectMapper mapper = new ObjectMapper();
 				Map<String, Object> modelMap = new HashMap<String, Object>();
-				
 				PagingBean pb = iPagingService.getPageingBean(
 						Integer.parseInt(params.get("page")), 
 						iReportService.getReportCount(params));
@@ -62,5 +74,159 @@ public class ReportController {
 				responseHeaders.add("Content-Type", "text/json; charset=UTF-8");
 				
 				return new ResponseEntity<String>(mapper.writeValueAsString(modelMap), responseHeaders, HttpStatus.CREATED);
-			}
+			}	 
+	 
+	 @RequestMapping(value = "/InsRep")
+		public ModelAndView InsRep(HttpServletRequest request, ModelAndView modelAndView) throws Throwable {
+			modelAndView.setViewName("spReportBoard/InsRep");
+
+			return modelAndView;
+		}
+	 
+	 @RequestMapping(value = "/insertReport")
+		public @ResponseBody ResponseEntity<String> insertReport(HttpServletRequest request,
+				@RequestParam HashMap<String, String> params, // 한번에 받아와.
+																// getParameter할필요
+																// 없어짐.
+				ModelAndView modelAndView) throws Throwable {
+			ObjectMapper mapper = new ObjectMapper();
+			Map<String, Object> modelMap = new HashMap<String, Object>();
+
+			String res = iReportService.insertReport(params);
+
+			modelMap.put("res", res);
+
+			HttpHeaders responseHeaders = new HttpHeaders();
+			responseHeaders.add("Content-Type", "text/json; charset=UTF-8");
+
+			return new ResponseEntity<String>(mapper.writeValueAsString(modelMap), responseHeaders, HttpStatus.CREATED);
+		}
+	 
+	 @RequestMapping(value = "/ReplyReport")
+	 public ModelAndView ReplyReport(HttpServletRequest request, ModelAndView modelAndView) throws Throwable {
+		 modelAndView.setViewName("spReportBoard/ReplyReport");
+		 
+		 return modelAndView;
+	 }
+	 
+	 @RequestMapping(value = "/deleteReport")
+		public @ResponseBody ResponseEntity<String> deleteTest(
+				HttpServletRequest request,
+				@RequestParam HashMap<String, String> params,
+				ModelAndView modelAndView) throws Throwable {
+			ObjectMapper mapper = new ObjectMapper();
+			Map<String, Object> modelMap = new HashMap<String, Object>();
+			
+			int res = iReportService.deleteReport(params);
+			
+			modelMap.put("res", res);
+			
+			HttpHeaders responseHeaders = new HttpHeaders();
+			responseHeaders.add("Content-Type", "text/json; charset=UTF-8");
+			
+			return new ResponseEntity<String>(mapper.writeValueAsString(modelMap), responseHeaders, HttpStatus.CREATED);
+		}
+	 
+	 @RequestMapping(value="/RefreshBlackList")
+	 public @ResponseBody ResponseEntity<String> RefreshBlackList(
+			 HttpServletRequest request,
+			 @RequestParam HashMap<String, String> params, 
+			 ModelAndView modelAndView) throws Throwable {
+		 ObjectMapper mapper = new ObjectMapper();
+		 Map<String, Object> modelMap = new HashMap<String, Object>();
+		 PagingBean pb = iPagingService.getPageingBean(
+				 Integer.parseInt(params.get("page")), 
+				 iReportService.getBlackListCount(params));
+		 
+		 params.put("start", Integer.toString(pb.getStartCount()));
+		 params.put("end", Integer.toString(pb.getEndCount()));
+		 
+		 ArrayList<HashMap<String, String>> list = iReportService.getBlackList(params);
+		 
+		 modelMap.put("list", list);
+		 modelMap.put("pb", pb);
+		 
+		 HttpHeaders responseHeaders = new HttpHeaders();
+		 responseHeaders.add("Content-Type", "text/json; charset=UTF-8");
+		 
+		 return new ResponseEntity<String>(mapper.writeValueAsString(modelMap), responseHeaders, HttpStatus.CREATED);
+	 }
+	 
+	 @RequestMapping(value="/BlackList")
+	 public ModelAndView BlackList(HttpServletRequest request,
+			 ModelAndView modelAndView){
+		 
+		 modelAndView.setViewName("spReportBoard/BlackList");	      
+		 return modelAndView;	      
+	 }
+	 
+	 @RequestMapping(value = "/DetailBlk")
+		public ModelAndView DetailBlk(HttpServletRequest request, @RequestParam HashMap<String, String> params,
+				ModelAndView modelAndView) throws Throwable {
+			HashMap<String, String> con = iReportService.getBlackListCon(params);
+			iReportService.updatelook(params);
+			modelAndView.addObject("con", con);
+			
+
+			modelAndView.setViewName("spReportBoard/DetailBlk");
+			return modelAndView;
+		}
+	 
+	 
+	 @RequestMapping(value = "/updateReport")
+		public @ResponseBody ResponseEntity<String> updateReport(
+				HttpServletRequest request,
+				@RequestParam HashMap<String, String> params,
+				ModelAndView modelAndView) throws Throwable {
+			ObjectMapper mapper = new ObjectMapper();
+			Map<String, Object> modelMap = new HashMap<String, Object>();
+
+			int res = iReportService.updateReport(params);
+
+			modelMap.put("res", res);
+
+			HttpHeaders responseHeaders = new HttpHeaders();
+			responseHeaders.add("Content-Type", "text/json; charset=UTF-8");
+
+			return new ResponseEntity<String>(mapper.writeValueAsString(modelMap), responseHeaders, HttpStatus.CREATED);
+		}
+	 
+	 @RequestMapping(value = "/updateWarning")
+	 public @ResponseBody ResponseEntity<String> updateWarning(
+			 HttpServletRequest request,
+			 @RequestParam HashMap<String, String> params,
+			 ModelAndView modelAndView) throws Throwable {
+		 ObjectMapper mapper = new ObjectMapper();
+		 Map<String, Object> modelMap = new HashMap<String, Object>();
+		 
+		 int res = iReportService.updateWarning(params);			
+		 
+		 modelMap.put("res", res);
+		 
+		 HttpHeaders responseHeaders = new HttpHeaders();
+		 responseHeaders.add("Content-Type", "text/json; charset=UTF-8");
+		 
+		 return new ResponseEntity<String>(mapper.writeValueAsString(modelMap), responseHeaders, HttpStatus.CREATED);
+	 }
+	 
+	 
+	 
+//	 @RequestMapping(value = "/insertReply")
+//	 public @ResponseBody ResponseEntity<String> insertReply(HttpServletRequest request,
+//			 @RequestParam HashMap<String, String> params, // 한번에 받아와.
+//			 // getParameter할필요
+//			 // 없어짐.
+//			 ModelAndView modelAndView) throws Throwable {
+//		 ObjectMapper mapper = new ObjectMapper();
+//		 Map<String, Object> modelMap = new HashMap<String, Object>();
+//		 
+//		 String res = iReportService.insertReply(params);
+//		 
+//		 modelMap.put("res", res);
+//		 
+//		 HttpHeaders responseHeaders = new HttpHeaders();
+//		 responseHeaders.add("Content-Type", "text/json; charset=UTF-8");
+//		 
+//		 return new ResponseEntity<String>(mapper.writeValueAsString(modelMap), responseHeaders, HttpStatus.CREATED);
+//	 }
 }
