@@ -28,16 +28,10 @@ public class MainController {
 	 @RequestMapping(value="/Mainpage")
 	   public ModelAndView Mainpage(HttpServletRequest request,
 	                      ModelAndView modelAndView){
-	      modelAndView.setViewName("spmain/Mainpage");// /<<는 경로 ㅋ
-	      return modelAndView;
-	   }
-	 
-	 @RequestMapping(value="/AuctionBoard")
-	   public ModelAndView AuctionBoard(HttpServletRequest request,
-	                      ModelAndView modelAndView){
-	      modelAndView.setViewName("spAuctionBoard/AuctionBoard");
-	      return modelAndView;
 	      
+		 modelAndView.setViewName("spmain/Mainpage");// /<<는 경로 ㅋ
+	     
+	      return modelAndView;
 	   }
 	 
 	   @RequestMapping(value = "/testLoginCheckAjax")
@@ -81,5 +75,6 @@ public class MainController {
 		   
 		   return modelAndView;
 	   }
+
 	   
 }
