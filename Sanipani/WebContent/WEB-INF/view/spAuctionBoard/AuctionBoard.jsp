@@ -37,8 +37,13 @@ $(document).ready(function() {
 	});
 	
 	$("#insertBtn").on("click", function() {
-		$("#actionForm").attr("action", "AuctionWrite");
-		$("#actionForm").submit();
+		if($("input[name='sNo']").val() > 0) {
+			$("#actionForm").attr("action", "AuctionWrite");
+			$("#actionForm").submit();
+		} else {
+			alert("로그인 후 글을 쓰실 수 있습니다.");
+			return false;
+		}
 	});
 	
 	$("#pagingArea").on("click", "span", function() {
@@ -68,12 +73,20 @@ function refreshList() {
 			for(var i = 0 ; i < result.list.length ; i++) {
 				html += "<tr name='" + result.list[i].AUCTIONWORDNO + "'>";
 				html +=	"<td>" + result.list[i].AUCTIONWORDNO + "</td>";
-				html +=	"<td></td>";
+				if(result.list[i].PICTURENAME == null) {
+		            html += "<td>등록된 사진이 없습니다</td>";
+		        } else {
+		            html += "<td>" + "<img src=\"resources/upload/" + result.list[i].PICTURENAME + "\"/></td>";
+		        }
 				html +=	"<td>" + result.list[i].AUCTIONPRODUCTNAME + "</td>";
 				html +=	"<td>" + result.list[i].WORDTITLE + "</td>";
-				html +=	"<td>" + result.list[i].RNOWBUYPAY + "</td>";
-				html +=	"<td></td>";
-				html +=	"<td>" + result.list[i].WRITERDATE + "</td>";
+				if(result.list[i].BIDPRICE == null) {
+					html +=	"<td>현재 입찰자가 없습니다.</td>";
+				} else {
+					html +=	"<td>" + result.list[i].BIDPRICE + "</td>";
+				}
+				html +=	"<td>" + result.list[i].NICK + "</td>";;
+				html +=	"<td>" + result.list[i].ENDDATE + "</td>";
 				html += "</tr>";
 			}
 			
@@ -112,12 +125,15 @@ function refreshList() {
 		}
 	});
 }
+
+
 </script>
 <link rel="stylesheet" type="text/css" href="resources/css/spmain/Mainpage.css"/>
 
 </head>
 <body>
 <div class="main">
+<input type="hidden" name="sNo" value="${sNo}" />
 	<div class="left"></div>
 	<div class="main1">
 		
@@ -127,7 +143,6 @@ function refreshList() {
 			
 			
 			<!--로그인 접속전  -->
-		
 		<c:choose>
 			<c:when test="${sNo ne null}">
 				<div class="loginAccess" id="loginAccess" style="display: none;">
@@ -294,13 +309,14 @@ function refreshList() {
 						<th>제목</th>
 						<th>현재경매가</th>
 						<th>작성자</th>
-						<th>마감시간</th>
+						<th>마감일</th>
 					</tr>
 				</thead>
 				<tbody id="tb">
 				</tbody>
 			</table>
 			<br/>
+			<input type="hidden" name="memberNo" value="${params.MEMBERNO}" />
 			<input type="text" id="searchText" value="${param.searchText}" />
 			<input type="button" value="검색" id="searchBtn" />
 			<input type="button" value="글쓰기" id="insertBtn" />

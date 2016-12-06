@@ -39,4 +39,49 @@ public class AuctionService implements IAuctionService {
 		return iAuctionDao.getAuctionCon(params);
 	}
 
+	@Override
+	public String insertAuctionPicture(HashMap<String, String> params) throws Throwable {
+		return iAuctionDao.insertAuctionPicture(params);
+	}
+
+	@Override
+	public int getAuctionNo() throws Throwable {
+		return iAuctionDao.getAuctionNo();
+	}
+
+	@Override
+	public int updateAuction(HashMap<String, String> params) throws Throwable {
+		return iAuctionDao.updateAuction(params);
+	}
+
+	@Override
+	public String updateAuctionPriceRegist(HashMap<String, String> params) throws Throwable {
+		return iAuctionDao.updateAuctionPriceRegist(params);
+	}
+
+	@Override
+	public int updateAuctionPriceCancel(HashMap<String, String> params) throws Throwable {
+		return iAuctionDao.updateAuctionPriceCancel(params);
+	}
+
+	@Override
+	public int updateAuctionAddDate(HashMap<String, String> params) throws Throwable {
+		return iAuctionDao.updateAuctionAddDate(params);
+	}
+
+	@Override
+	public int updateAuctionEnd(HashMap<String, String> params) throws Throwable {
+		return iAuctionDao.updateAuctionEnd(params);
+	}
+
+	@Override
+	public int updateAuctionEnd2(HashMap<String, String> params) throws Throwable {
+		return iAuctionDao.updateAuctionEnd2(params);
+	}
+
+	@Override
+	public int updateAuctionLookup(HashMap<String, String> params) throws Throwable {
+		return iAuctionDao.updateAuctionLookup(params);
+	}
+
 }

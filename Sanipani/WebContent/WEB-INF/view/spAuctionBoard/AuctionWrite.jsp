@@ -45,7 +45,11 @@ function uploadResultCallBack(data, result) {
 	if(result == "success") {
 		var resData = eval("(" + removePre(data) + ")");
 		
-		$("#textFile").val(resData.fileName[0]);
+		$("#auctionFile1").val(resData.fileName[0]);
+		$("#auctionFile2").val(resData.fileName[1]);
+		$("#auctionFile3").val(resData.fileName[2]);
+		$("#auctionFile4").val(resData.fileName[3]);
+		$("#auctionFile5").val(resData.fileName[4]);
 		
 		var params = $("#insertForm").serialize();
 		
@@ -240,6 +244,7 @@ function removePre(data) {
 			<div class="etc">기타</div>
 		</div>
 			<div class="AuctionWrite">
+			<h2>경매게시판 글쓰기 </h2>
 			<form action="#" id="actionForm" method="post">
 				<input type="hidden" name="page" value="${param.page}" />
 				<input type="hidden" name="searchText" value="${param.searchText}" />
@@ -248,16 +253,77 @@ function removePre(data) {
 				  id="insertForm"
 				  method="post"
 				  enctype="multipart/form-data">
-				물품명 <input type="text" name="AuctionproductName" />
-				<br/>
-				제목 <input type="text" name="Auctiontitle" />
-				<br/>
-				시작경매가 <input type="text" name="StartAuctionPrice" />
-				<br/>
-				내용 <input type="text" name="AuctionContents" />
-				<br/>
-				물품사진 <input type="file" name="att1" />
-				<input type="hidden" name="textFile" id="textFile" />
+				  <input type="hidden" name="UserNo" value="${sNo}"/>
+				  <table border="1">
+				  
+				  	<tr>
+				  		<td>
+				  			물품명
+				  		</td>
+				  		<td>
+				  			<input type="text" name="AuctionproductName" style="margin: 0px; width: 580px; height: 15px;"/>
+				  		</td>
+				  	</tr>
+				  	
+				  	<tr>
+				  		<td>
+				  			제목
+				  		</td>
+				  		<td>
+				  			<input type="text" name="Auctiontitle" style="margin: 0px; width: 580px; height: 15px;"/>
+				  		</td>
+				  	</tr>
+				  	
+				  	<tr>
+				  		<td>
+				  			내용
+				  		</td>
+				  		<td>
+				  			<textarea rows="10" cols="80" name="AuctionContents"" style="margin: 0px; width: 580px; height: 195px;"></textarea>
+				  		</td>
+				  	</tr>
+				  	
+				  	<tr>
+				  		<td>
+				  			시작경매가
+				  		</td>
+				  		<td>
+				  			<input type="text" name="StartAuctionPrice" style="margin: 0px; width: 150px; height: 15px;"/>
+				  		</td>
+				  	</tr>
+				  	
+				  	<tr>
+				  		<td>
+				  			즉시구매가
+				  		</td>
+				  		<td>
+				  			<input type="text" name="NowAuctionPrice" style="margin: 0px; width: 150px; height: 15px;"/>
+				  		</td>
+				  	</tr>
+				  	
+				  	<tr>
+				  		<td>
+				  			물품사진
+				  		</td>
+				  		<td>
+				  			<input type="file" name="att1" />
+				  			<input type="hidden" name="auctionFile1" id="auctionFile1" />
+				  			<br/>
+				  			<input type="file" name="att2" />
+				  			<input type="hidden" name="auctionFile2" id="auctionFile2" />
+				  			<br/>
+				  			<input type="file" name="att3" />
+				  			<input type="hidden" name="auctionFile3" id="auctionFile3" />
+				  			<br/>
+				  			<input type="file" name="att4" />
+				  			<input type="hidden" name="auctionFile4" id="auctionFile4" />
+				  			<br/>
+				  			<input type="file" name="att5" />
+				  			<input type="hidden" name="auctionFile5" id="auctionFile5" />
+				  		</td>
+				  	</tr>
+				  	
+				  </table>
 			</form>
 			<input type="button" value="저장" id="saveBtn" />
 			<input type="button" value="목록" id="listBtn" />
