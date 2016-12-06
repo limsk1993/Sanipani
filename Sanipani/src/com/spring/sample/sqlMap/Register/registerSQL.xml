@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="register">
+	<insert id="memberRegister" parameterClass="java.util.HashMap">
+	INSERT INTO MEMBERINFO(MEMBERNO, NAME, ID, NICK, PW, PHONE, BIRTH, SEX, ADDR, DETAILADDR, EMAIL1, EMAIL2,CITATION)
+	VALUES (MEMBERINFO_SEQ.NEXTVAL,#memberName#,#memberId#,#memberNick#,#memberPw#,#phNumber#,SYSDATE,#radioBtn#,#addr#,#dAddr#,#email1#,#email2#,1)
+	</insert>
+	<!-- 아이디 중복확인 -->
+	<select id="selectRegister" parameterClass="java.util.HashMap" resultClass="String">
+	SELECT ID
+	FROM MEMBERINFO
+	WHERE ID = #memberId#
+	</select>
+	
+	<select id="select1Register" parameterClass="java.util.HashMap" resultClass="String">
+	SELECT NICK
+	FROM MEMBERINFO
+	WHERE NICK = #memberNick#
+	</select>
+	
+	<insert id="insertPlusMoney" parameterClass="java.util.HashMap">
+	INSERT INTO SANIPANIMONEY(SA_PA_MO_NO,MEMBERNO,CHARGE_PRICE,CHARGE_DATE)
+ 	VALUES(SA_PA_MONEY.NEXTVAL,#sNo#,#moneyUp#,SYSDATE)
+	
+	</insert>
+	
+	<insert id="insertMinusMoney" parameterClass="java.util.HashMap">
+	INSERT INTO SANIPANIMONEY(SA_PA_MO_NO,MEMBERNO,EXCHANGE_PRICE,EXCHANGE_DATE)
+ 	VALUES(SA_PA_MONEY.NEXTVAL,#sNo#,#moneyDown#,SYSDATE)
+	
+	</insert>
+	
+	<select id="getTradePage"
+	parameterClass="java.util.HashMap" resultClass="Integer"
+	>
+	SELECT COUNT(TRADE_NO) AS CNT        
+	FROM(    
+    SELECT TRADE_NO,WORD_TITLE,T.MEMBERNO
+    FROM TRADE T INNER JOIN TRADEBOARD B ON T.TRADE_WORD_NO = B.TRADE_WORD_NO
+    			 INNER JOIN MEMBERINFO M ON T.MEMBERNO = M.MEMBERNO
+    ) A
+    WHERE 1=1
+    <isNotEmpty property="searchText">
+ 	 AND WORD_TITLE LIKE '%' || #searchText# || '%'
+    </isNotEmpty>
+	AND MEMBERNO = #sNo#
+	</select>
+	
+	<select id="getTradeList"
+	parameterClass="java.util.HashMap" resultClass="java.util.HashMap"
+	>
+	SELECT    NO,TRADE_NO,ID,WORD_TITLE,BUY_PAY,TRADE_STATUS,TRADE_DATE,ESCROW_WHETHER 
+        FROM(  
+        SELECT    ROW_NUMBER() OVER (ORDER BY T.TRADE_NO DESC) AS NO,
+                  TRADE_NO,ID,WORD_TITLE,BUY_PAY,TRADE_STATUS,ESCROW_WHETHER,
+                  TO_CHAR(TRADE_DATE,'YYYY-MM-DD'||' '||'HH:MI:SS') AS TRADE_DATE
+        FROM TRADE T INNER JOIN TRADEBOARD B  ON T.TRADE_WORD_NO = B.TRADE_WORD_NO
+                     INNER JOIN TRADESTATUS S ON T.TRADE_STATUS_NO = S.TRADE_STATUS_NO
+                     INNER JOIN MEMBERINFO I  ON T.MEMBERNO = I.MEMBERNO
+                    <isNotEmpty property="searchText">
+                    AND B.WORD_TITLE LIKE '%' || #searchText# || '%' 
+                  	</isNotEmpty>   
+                  	AND I.MEMBERNO = #sNo#
+           
+             ) A
+        WHERE A.NO BETWEEN #start# AND #end#
+	
+	</select>
+	
+	<select id="getTradePageSell"
+	parameterClass="java.util.HashMap" resultClass="Integer"
+	>
+	SELECT COUNT(TRADE_NO) AS CNT        
+	FROM(    
+      SELECT TRADE_NO,B.MEMBERNO,WORD_TITLE 
+   		FROM TRADEBOARD B INNER JOIN TRADE T ON B.TRADE_WORD_NO = T.TRADE_WORD_NO
+                   		  INNER JOIN MEMBERINFO M ON B.MEMBERNO =M.MEMBERNO 
+    ) A
+    WHERE 1=1
+    <isNotEmpty property="searchText">
+ 	 AND WORD_TITLE LIKE '%' || #searchText# || '%'
+    </isNotEmpty>
+	AND MEMBERNO = #sNo#
+	</select>
+	
+	
+	<select id="getTradeListSell"
+		parameterClass="java.util.HashMap" resultClass="java.util.HashMap"
+	>
+	 SELECT        NO,TRADE_NO,MEMBERNO,WORD_TITLE,TRADE_WORD_NO,TRADE_STATUS,TRADE_DATE ,TRADE_BOARD,ID,ESCROW_WHETHER 
+      FROM(
+      
+      SELECT  ROW_NUMBER() OVER (ORDER BY T.TRADE_NO DESC) AS NO,
+              TRADE_NO,B.MEMBERNO,WORD_TITLE,B.TRADE_WORD_NO,S.TRADE_STATUS,B.TRADE_BOARD,M.ID,T.ESCROW_WHETHER,
+              TO_CHAR(TRADE_DATE,'YYYY-MM-DD'||' '||'HH:MI:SS') AS TRADE_DATE
+       FROM   TRADEBOARD B LEFT OUTER JOIN TRADE T ON B.TRADE_WORD_NO = T.TRADE_WORD_NO
+                    	   LEFT OUTER JOIN MEMBERINFO M ON T.MEMBERNO =M.MEMBERNO 
+                           LEFT OUTER JOIN TRADESTATUS S ON T.TRADE_STATUS_NO = S.TRADE_STATUS_NO
+      WHERE         1=1
+                    <isNotEmpty property="searchText">
+                    AND B.WORD_TITLE LIKE '%' || #searchText# || '%' 
+                  	</isNotEmpty>   
+                    AND T.TRADE_STATUS_NO = 1 AND B.MEMBERNO = #sNo#              
+      )A 
+      
+    WHERE NO BETWEEN #start# AND #end#
+	
+	
+	
+	</select>
+	
+	
+	<select id="getMoney"
+	parameterClass="java.util.HashMap" resultClass="Integer"
+	>
+	 	SELECT TOTAL_M-TOTAL_B AS TOTAL
+  				  FROM 
+ 				  ( SELECT   SUM(CHARGE_PRICE) AS TOTAL_M,MEMBERNO
+  					 FROM      SANIPANIMONEY
+   					 WHERE     MEMBERNO=#sNo#
+   					 GROUP BY MEMBERNO) 
+  	
+  					  T LEFT OUTER JOIN 
+    
+    			(SELECT    SUM(EXCHANGE_PRICE)AS TOTAL_B,MEMBERNO
+   				 FROM      SANIPANIMONEY 
+   				 WHERE     MEMBERNO=#sNo#
+   				 		 
+   				 GROUP BY  MEMBERNO
+    			) U ON T.MEMBERNO =U.MEMBERNO 
+	</select>
+	
+
+
+</sqlMap>

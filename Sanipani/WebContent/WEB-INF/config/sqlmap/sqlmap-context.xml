@@ -19,5 +19,7 @@
 	<sqlMap resource="/com/spring/sample/sqlMap/TradeBoard/Tradepage.xml" />
 	<!-- AuctionBoard쿼리 -->
 	<sqlMap resource="/com/spring/sample/sqlMap/AuctionBoard/AuctionBoard.xml" />
+	<!-- Register쿼리 -->
+	<sqlMap resource="/com/spring/sample/sqlMap/Register/registerSQL.xml" />
 </sqlMapConfig>
  

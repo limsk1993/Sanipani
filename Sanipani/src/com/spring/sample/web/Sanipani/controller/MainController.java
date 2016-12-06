@@ -28,7 +28,9 @@ public class MainController {
 	 @RequestMapping(value="/Mainpage")
 	   public ModelAndView Mainpage(HttpServletRequest request,
 	                      ModelAndView modelAndView){
-	      modelAndView.setViewName("spmain/Mainpage");// /<<는 경로 ㅋ
+	      
+		 modelAndView.setViewName("spmain/Mainpage");// /<<는 경로 ㅋ
+	     
 	      return modelAndView;
 	   }
 	 
