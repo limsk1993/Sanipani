@@ -43,7 +43,71 @@ public class TradeController {
 		
 		   
 		   return modelAndView;
-	   }
+	   }	
+		@RequestMapping(value = "/TradeBoard1")
+		public ModelAndView TradeBoard1(HttpServletRequest request,
+					HttpSession session,
+					ModelAndView modelAndView) {
+					modelAndView.setViewName("spTradeBoard/TradeBoard1");
+					System.out.println("session no : " + session.getAttribute("sNo"));
+					return modelAndView;
+		}
+		@RequestMapping(value = "/TradeBoard2")
+		public ModelAndView TradeBoard2(HttpServletRequest request,
+				HttpSession session,
+				ModelAndView modelAndView) {
+				modelAndView.setViewName("spTradeBoard/TradeBoard2");
+				System.out.println("session no : " + session.getAttribute("sNo"));
+				return modelAndView;
+		}
+		@RequestMapping(value = "/TradeBoard3")
+		public ModelAndView TradeBoard3(HttpServletRequest request,
+				HttpSession session,
+				ModelAndView modelAndView) {
+				modelAndView.setViewName("spTradeBoard/TradeBoard3");
+				System.out.println("session no : " + session.getAttribute("sNo"));
+				return modelAndView;
+		}
+		@RequestMapping(value = "/TradeBoard4")
+		public ModelAndView TradeBoard4(HttpServletRequest request,
+				HttpSession session,
+				ModelAndView modelAndView) {
+				modelAndView.setViewName("spTradeBoard/TradeBoard4");
+				System.out.println("session no : " + session.getAttribute("sNo"));
+				return modelAndView;
+		}
+		@RequestMapping(value = "/TradeBoard5")
+		public ModelAndView TradeBoard5(HttpServletRequest request,
+				HttpSession session,
+				ModelAndView modelAndView) {
+				modelAndView.setViewName("spTradeBoard/TradeBoard5");
+				System.out.println("session no : " + session.getAttribute("sNo"));
+				return modelAndView;
+		}
+		@RequestMapping(value = "/TradeBoard6")
+		public ModelAndView TradeBoard6(HttpServletRequest request,
+				HttpSession session,
+				ModelAndView modelAndView) {
+				modelAndView.setViewName("spTradeBoard/TradeBoard6");
+				System.out.println("session no : " + session.getAttribute("sNo"));
+				return modelAndView;
+		}
+		@RequestMapping(value = "/TradeBoard7")
+		public ModelAndView TradeBoard7(HttpServletRequest request,
+				HttpSession session,
+				ModelAndView modelAndView) {
+				modelAndView.setViewName("spTradeBoard/TradeBoard7");
+				System.out.println("session no : " + session.getAttribute("sNo"));
+				return modelAndView;
+		}
+		@RequestMapping(value = "/TradeBoard8")
+		public ModelAndView TradeBoard8(HttpServletRequest request,
+				HttpSession session,
+				ModelAndView modelAndView) {
+				modelAndView.setViewName("spTradeBoard/TradeBoard8");
+				System.out.println("session no : " + session.getAttribute("sNo"));
+				return modelAndView;
+		}
 	   @RequestMapping(value = "/refreshTest1")
 	   public @ResponseBody ResponseEntity<String> refreshTest(
 	         HttpServletRequest request,
@@ -118,12 +182,12 @@ public class TradeController {
 	      int no = iTradeService.getTradeNo();
 	      params.put("No", Integer.toString(no));
 	      String res1 = iTradeService.insertTrade1(params);
-	      String res2 = iTradeService.insertTrade2(params);
+	      /*String res2 = iTradeService.insertTrade2(params);*/
 	    
 	      
 	      modelMap.put("res", res);
 	      modelMap.put("res1", res1);
-	      modelMap.put("res2", res2);
+	      /*modelMap.put("res2", res2);*/
 
 	      
 	      

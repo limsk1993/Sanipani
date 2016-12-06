@@ -54,7 +54,7 @@ $(document).ready(function(){
 										
 										},
 										error : function(result){
-											alert("ERROR");
+											alert("ERROR1");
 										}
 									});
 								
