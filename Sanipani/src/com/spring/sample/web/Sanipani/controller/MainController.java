@@ -50,7 +50,7 @@ public class MainController {
 	    	  session.setAttribute("sNick", mem.get("NICK"));
 	    	  session.setAttribute("sId", mem.get("ID"));
 	    	
-	    	  
+	      
 	    	  modelMap.put("res","success");
 	    	  modelMap.put("NICK",mem.get("NICK"));
 	      }
