@@ -1,0 +1,25 @@
+@CHARSET "UTF-8";
+.AdminMember_1{
+	display: inline-block;
+	margin-top:3%;
+	margin-left:3%;
+	height : 8%;
+	width:94%;
+	background-color: #FFFFFF;
+}
+.AdminMember_2{
+	display: inline-block;
+	margin-top:3%;
+	margin-left:3%;
+	height : 50%;
+	width:94%;
+	background-color: #FFFFFF;
+}
+.AdminMember_3{
+	display: inline-block;
+	margin-top:2%;
+	margin-left:3%;
+	height : 6%;
+	width:94%;
+	background-color: #FFFFFF;
+}

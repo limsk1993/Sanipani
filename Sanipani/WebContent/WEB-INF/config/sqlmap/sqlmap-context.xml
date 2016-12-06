@@ -15,9 +15,17 @@
 	<sqlMap resource="/com/spring/sample/sqlMap/ajaxBoard/AjaxBoardSQL.xml" />
 	<!-- Mainpage쿼리 -->
 	<sqlMap resource="/com/spring/sample/sqlMap/Mainpage/Mainpage.xml" />
+	<!-- Customer쿼리  -->
+	<sqlMap resource="/com/spring/sample/sqlMap/Customer/Customer.xml" />
 	<!-- Tradepage쿼리 -->
 	<sqlMap resource="/com/spring/sample/sqlMap/TradeBoard/Tradepage.xml" />
 	<!-- AuctionBoard쿼리 -->
 	<sqlMap resource="/com/spring/sample/sqlMap/AuctionBoard/AuctionBoard.xml" />
+	<!-- FreeBoard쿼리 -->
+	<sqlMap resource="/com/spring/sample/sqlMap/FreeBoard/FreeBoard.xml" />
+	<!-- spAdmin쿼리 -->
+	<sqlMap resource="/com/spring/sample/sqlMap/spAdmin/spAdmin.xml" />
+	<!-- Register쿼리 -->
+	<sqlMap resource="/com/spring/sample/sqlMap/Register/registerSQL.xml" />
 </sqlMapConfig>
  

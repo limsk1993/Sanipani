@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="spAdmin">
+
+	<select id="MemberInfo"
+		 parameterClass="java.util.HashMap"
+		 resultClass="java.util.HashMap">
+	SELECT A.MEMBERNO,A.NAME,A.ID,A.NICK,A.PHONE,A.EMAIL1,A.GRADE_NO
+	FROM (
+	SELECT ROW_NUMBER() OVER(ORDER BY MEMBERNO ASC) AS RNUM, MEMBERNO, NAME,ID,NICK,PHONE,EMAIL1,GRADE_NO
+	FROM MEMBERINFO
+	)A
+	WHERE A.RNUM BETWEEN #start# AND #end#
+	</select>
+	
+	<select id="MemberInfoCount" parameterClass="java.util.HashMap" resultClass="Integer">
+	SELECT COUNT(*) AS CNT
+	FROM MEMBERINFO
+	WHERE 1 = 1
+
+	</select>
+	
+</sqlMap>
