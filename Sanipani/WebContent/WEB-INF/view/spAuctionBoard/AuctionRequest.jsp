@@ -10,7 +10,7 @@
 <script type="text/javascript" src="resources/script/spmain/Mainpage.js"></script>
 <link rel="stylesheet" type="text/css" href="resources/css/spmain/Mainpage.css"/>
 <style type="text/css">
-.AuctionTable {
+.AuctionRequsetTable {
 	vertical-align :top;
 	display : inline-block;
 	padding : 20px;
@@ -27,113 +27,14 @@
 </style>
 <script type="text/javascript">
 $(document).ready(function() {
-	refreshList();
 	
-	$("#searchBtn").on("click", function() {
-		$("input[name='searchText']").val($("#searchText").val());
-		$("input[name='page']").val("1");
-		
-		refreshList();
-	});
-	
-	$("#insertBtn").on("click", function() {
-		if($("input[name='sNo']").val() > 0) {
-			$("#actionForm").attr("action", "AuctionWrite");
-			$("#actionForm").submit();
-		} else {
-			alert("로그인 후 글을 쓰실 수 있습니다.");
-			return false;
-		}
-	});
-	
-	$("#pagingArea").on("click", "span", function() {
-		$("input[name='page']").val($(this).attr("name"));
-		
-		refreshList();
-	});
-	
-	$("#tb").on("click", "tr", function() {
-		$("input[name='auctionNo']").val($(this).attr("name"));
-		$("#actionForm").attr("action", "AuctionDetailLook");
-		$("#actionForm").submit();
-	});
 });
-
-function refreshList() {
-	var params = $("#actionForm").serialize();
-	
-	$.ajax({
-		type : "post",
-		url : "refreshAuction",
-		dataType : "json",
-		data : params,
-		success : function(result) {
-			var html = "";
-			
-			for(var i = 0 ; i < result.list.length ; i++) {
-				html += "<tr name='" + result.list[i].AUCTIONWORDNO + "'>";
-				html +=	"<td>" + result.list[i].AUCTIONWORDNO + "</td>";
-				if(result.list[i].PICTURENAME == null) {
-		            html += "<td>등록된 사진이 없습니다</td>";
-		        } else {
-		            html += "<td>" + "<img src=\"resources/upload/" + result.list[i].PICTURENAME + "\"/></td>";
-		        }
-				html +=	"<td>" + result.list[i].AUCTIONPRODUCTNAME + "</td>";
-				html +=	"<td>" + result.list[i].WORDTITLE + "</td>";
-				if(result.list[i].BIDPRICE == null) {
-					html +=	"<td>현재 입찰자가 없습니다.</td>";
-				} else {
-					html +=	"<td>" + result.list[i].BIDPRICE + "</td>";
-				}
-				html +=	"<td>" + result.list[i].NICK + "</td>";;
-				html +=	"<td>" + result.list[i].ENDDATE + "</td>";
-				html += "</tr>";
-			}
-			
-			$("#tb").html(html);
-			
-			html = "";
-			
-			html += "<span name='1'>처음</span>";
-			
-			if($("input[name='page']").val() == 1) {
-				html += "<span name='1'>이전</span>";
-			} else {
-				html += "<span name = '" + ($("input[name='page']").val() - 1) + "'>이전</span>";
-			}
-			
-			for(var i = result.pb.startPcount ; i <= result.pb.endPcount ; i++) {
-				if (i == $("input[name='page']").val()) {
-					html += "<span name = '" + i + "'><b>" + i + "</b></span>";
-				} else {
-					html += "<span name = '" + i + "'>" + i + "</span>";
-				}
-			}
-			
-			if($("input[name='page']").val() == result.pb.maxPcount) {
-				html += "<span name = '" + result.pb.maxPcount + "'>다음</span>";
-			} else {
-				html += "<span name = '" + ($("input[name='page']").val() * 1 + 1) + "'>다음</span>";
-			}
-			
-			html += "<span name='" + result.pb.maxPcount + "'>마지막</span>";
-			
-			$("#pagingArea").html(html);
-		},
-		error : function(result) {
-			alert("error!!");
-		}
-	});
-}
-
-
 </script>
 <link rel="stylesheet" type="text/css" href="resources/css/spmain/Mainpage.css"/>
 
 </head>
 <body>
 <div class="main">
-<input type="hidden" name="sNo" value="${sNo}" />
 	<div class="left"></div>
 	<div class="main1">
 		
@@ -143,6 +44,7 @@ function refreshList() {
 			
 			
 			<!--로그인 접속전  -->
+		
 		<c:choose>
 			<c:when test="${sNo ne null}">
 				<div class="loginAccess" id="loginAccess" style="display: none;">
@@ -286,45 +188,36 @@ function refreshList() {
 			<div class="book">도서</div>
 			<div class="etc">기타</div>
 		</div>
-			<div class="AuctionTable">
-			<h2>경매게시판 </h2>
-			<form action="#" id="actionForm" method="post">
-				<c:choose>
-					<c:when test="${empty param.page}">
-						<input type="hidden" name="page" value="1" />
-					</c:when>
-					<c:otherwise>
-						<input type="hidden" name="page" value="${param.page}" />
-					</c:otherwise>
-				</c:choose>
-				<input type="hidden" name="searchText" value="${param.searchText}" />
-				<input type="hidden" name="auctionNo" />
-			</form>
+		<div class="AuctionRequsetTable">
+			<h2>거래현황</h2>
+			<h3>판매자정보</h3>
 			<table border="1">
-				<thead>
-					<tr>
-						<th>글번호</th>
-						<th>물품사진</th>
-						<th>물품명</th>
-						<th>제목</th>
-						<th>현재경매가</th>
-						<th>작성자</th>
-						<th>마감일</th>
-					</tr>
-				</thead>
-				<tbody id="tb">
-				</tbody>
+				<tr>
+					<td>이름</td>
+					<td>안녕</td>
+				</tr>
+				<tr>
+					<td>전화번호</td>
+					<td>안녕</td>
+				</tr>
+				<tr>
+					<td>주소</td>
+					<td>이메일</td>
+				</tr>
+				<tr>
+					<td>배송여부</td>
+					<td>안녕</td>
+				</tr>
 			</table>
 			<br/>
-			<input type="hidden" name="memberNo" value="${params.MEMBERNO}" />
-			<input type="text" id="searchText" value="${param.searchText}" />
-			<input type="button" value="검색" id="searchBtn" />
-			<input type="button" value="글쓰기" id="insertBtn" />
-			<br/>
-			<div id="pagingArea"></div>
-			</div>
+			<select>
+				<option value="1">대한통운</option>
+				<option value="2"></option>
+				<option value="3"></option>
+				<option value="4"></option>
+			</select>
+			<input type="text" value="운송장 번호">
 		</div>
-	
 	</div>
 	<div class="right">
 	

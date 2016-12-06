@@ -15,4 +15,22 @@ public interface IAuctionDao {
 
 	public HashMap<String, String> getAuctionCon(HashMap<String, String> params) throws Throwable;
 
+	public String insertAuctionPicture(HashMap<String, String> params) throws Throwable;
+
+	public int getAuctionNo() throws Throwable;
+
+	public int updateAuction(HashMap<String, String> params) throws Throwable;
+
+	public String updateAuctionPriceRegist(HashMap<String, String> params) throws Throwable;
+
+	public int updateAuctionPriceCancel(HashMap<String, String> params) throws Throwable;
+
+	public int updateAuctionAddDate(HashMap<String, String> params) throws Throwable;
+
+	public int updateAuctionEnd(HashMap<String, String> params) throws Throwable;
+
+	public int updateAuctionEnd2(HashMap<String, String> params) throws Throwable;
+
+	public int updateAuctionLookup(HashMap<String, String> params) throws Throwable;
+
 }
