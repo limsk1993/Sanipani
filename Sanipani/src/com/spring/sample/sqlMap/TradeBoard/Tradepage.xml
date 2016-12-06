@@ -18,16 +18,374 @@
     	<select id="getTradeBoard"
     			parameterClass="java.util.HashMap"
     			resultClass="java.util.HashMap">
-    			SELECT A.NO,A.TRADE_BOARD,A.WORD_TITLE,A.WORD_CONTENTS,A.BUY_PAY,A.WRITER_DATE,A.LOOKUP
+    			SELECT A.TRADE_WORD_NO,A.NO,A.TRADE_BOARD,A.WORD_TITLE,A.WORD_CONTENTS,A.BUY_PAY,A.WRITER_DATE,A.LOOKUP,A.PICTURENAME,A.NICK
 				FROM(  
-				SELECT ROW_NUMBER() OVER (ORDER BY TRADE_WORD_NO DESC) AS NO ,TRADE_BOARD,WORD_TITLE,WORD_CONTENTS,BUY_PAY,TO_CHAR(WRITER_DATE,'YYYY-MM-DD') AS WRITER_DATE ,LOOKUP
-				FROM TRADEBOARD
-				WHERE 1=1
+				SELECT ROW_NUMBER() OVER (ORDER BY T.TRADE_WORD_NO DESC) AS NO ,T.TRADE_WORD_NO,T.TRADE_DEL ,
+   				 T.TRADE_BOARD,T.WORD_TITLE,T.WORD_CONTENTS,T.BUY_PAY,TO_CHAR(T.WRITER_DATE,'YYYY-MM-DD') AS WRITER_DATE ,T.LOOKUP,P.PICTURENAME,I.NICK
+ 				
+ 				 FROM TRADEBOARD T LEFT OUTER JOIN TRADEPICTURE P ON T.TRADE_WORD_NO = P.TRADE_WORD_NO
+         	    
+        		 LEFT OUTER JOIN MEMBERINFO I ON T.MEMBERNO = I.MEMBERNO
+ 				 WHERE 1=1
+         
     			<isNotEmpty property="searchText">
-    			AND WORD_TITLE LIKE '%' || #searchText# || '%'
+    			AND T.WORD_TITLE LIKE '%' || #searchText# || '%'
     			</isNotEmpty>
+    			<isEqual  property="catogery" compareValue="1" >
+    			AND CATEGORY_NO = 1 
+    			</isEqual>
+    			<isEqual  property="catogery" compareValue="2" >
+    			AND CATEGORY_NO = 2
+    			</isEqual>
+    			<isEqual  property="catogery" compareValue="3" >
+    			AND CATEGORY_NO = 3 
+    			</isEqual>
+    			<isEqual  property="catogery" compareValue="4" >
+    			AND CATEGORY_NO = 4 
+    			</isEqual>
+    			<isEqual  property="catogery" compareValue="5" >
+    			AND CATEGORY_NO = 5 
+    			</isEqual>
+    			<isEqual  property="catogery" compareValue="6" >
+    			AND CATEGORY_NO = 6 
+    			</isEqual>
+    			<isEqual  property="catogery" compareValue="7" >
+    			AND CATEGORY_NO = 7 
+    			</isEqual>
+    			<isEqual  property="catogery" compareValue="8" >
+    			AND CATEGORY_NO = 8 
+    			</isEqual>
+    			<isEqual  property="catogery" compareValue="9" >
+    			AND CATEGORY_NO = 9 
+    			</isEqual>
+    			
+    			
     			) A	
-    			WHERE A.NO BETWEEN #start# AND #end#
+    			WHERE A.NO BETWEEN #start# AND #end# AND A.TRADE_DEL = 1
     	</select>
+    	
+    	<insert id="insertTrade" parameterClass="java.util.HashMap">
+    			INSERT INTO TRADEBOARD (TRADE_WORD_NO,TRADE_BOARD,WORD_TITLE,BUY_PAY,WORD_CONTENTS,WRITER_DATE,MEMBERNO,CATEGORY_NO)
+    			VALUES(TRADE_SEQ.NEXTVAL,#TradeProductName#,#TradeTitle#,#TradePrice#,#TradeContent#,SYSDATE,#TradeMemberNo#,#TradeCategoryNo#)
+    	</insert>
+    	
+    	<insert id="insertTrade1" parameterClass="java.util.HashMap">
+    	INSERT INTO TRADEPICTURE (PICTURENAME,PICTURENAME1,PICTURENAME2,PICTURENAME3,PICTURENAME4,TRADE_WORD_NO) 
+    	VALUES (#textFile#,#textFile1#,#textFile2#,#textFile3#,#textFile4#,#No#)
+    	</insert>
+    	
+    	<select id="getTradeNo"
+    			resultClass="Integer">
+    	SELECT MAX(TRADE_WORD_NO)
+		FROM TRADEBOARD		
+    	
+    	
+    	</select> 
+    	
+    	
+    	<select id="getTradeCon"
+    			parameterClass="java.util.HashMap"
+    			resultClass="java.util.HashMap"
+    	>
+    			SELECT  T.TRADE_WORD_NO,T.TRADE_BOARD,T.WORD_TITLE,T.WORD_CONTENTS,T.BUY_PAY,I.MEMBERNO, 
+           		TO_CHAR(T.WRITER_DATE,'YYYY-MM-DD') AS WRITER_DATE ,P.PICTURENAME,P.PICTURENAME1,P.PICTURENAME2,P.PICTURENAME3,P.PICTURENAME4,
+            	SUBSTR(P.PICTURENAME,INSTR(P.PICTURENAME, '.', -1) +1) AS FILE_EXT,I.NICK,I.MEMBERNO
+ 				 
+ 				FROM TRADEBOARD T LEFT OUTER JOIN TRADEPICTURE P ON T.TRADE_WORD_NO = P.TRADE_WORD_NO
+        	    LEFT OUTER JOIN MEMBERINFO I ON T.MEMBERNO = I.MEMBERNO 
+ 				
+ 				WHERE T.TRADE_WORD_NO=#testNo#
+    	</select>
+    	
+    	<!-- <insert id="insertTrade2" parameterClass="java.util.HashMap">
+    	INSERT INTO TRADECATEGORY(TRADE_CATOGORY_NO,TRADE_WORD_NO,CATEGORY_NAME)
+		VALUES(#TradeCategoryNo#,#No#,#TradeCategoryName#)
+    	</insert> -->
+    	
+    	<update id="getTradereple"
+    	parameterClass="java.util.HashMap">
+    	UPDATE TRADEBOARD SET LOOKUP=LOOKUP+1
+      	WHERE TRADE_WORD_NO=#testNo#
+    	
+    	</update>
+    	
+    	<update id="deleteTrade"
+    	parameterClass="java.util.HashMap">
+    	UPDATE TRADEBOARD SET TRADE_DEL = 0
+    	  WHERE TRADE_WORD_NO=#testNo#
+    	</update>
+    	
+    	<update id="updateTrade1"
+    	parameterClass="java.util.HashMap"	>
     
+    	UPDATE TRADEBOARD SET 
+    						  TRADE_BOARD=#TradeProductName#,
+    						  WORD_TITLE=#TradeTitle#,
+    						  BUY_PAY=#TradePrice#,
+    						  WORD_CONTENTS=#TradeContent#
+    	
+    	WHERE TRADE_WORD_NO=#testNo#
+    
+    
+    	</update>
+    	
+    	<update id="updateTrade2"
+    	parameterClass="java.util.HashMap"	>
+    	UPDATE TRADEPICTURE SET PICTURENAME=#testFile# , 
+    							PICTURENAME1=#testFile1# ,
+    							PICTURENAME2=#testFile2# ,
+    							PICTURENAME3=#testFile3# , 
+    							PICTURENAME4=#testFile5# 
+    						
+    	 WHERE TRADE_WORD_NO=#testNo#
+    	</update>
+    	
+    	<insert id="insertEscrow">
+    		INSERT INTO TRADE(TRADE_NO,MEMBERNO,TRADE_STATUS_NO,TRADE_WORD_NO,ESCROW_WHETHER,TRADE_DATE)
+			VALUES(#TradeNo#,#Member_No#,#Trade_Status_No#,#testNo#,#Escrow#,SYSDATE)
+    	</insert>
+    	
+    	<select id="getTradeUser1"
+    	parameterClass="java.util.HashMap"
+    	resultClass="java.util.HashMap">
+    
+		SELECT M.NAME,M.PHONE,M.ADDR,M.DETAILADDR,M.EMAIL1,M.EMAIL2,T.TRADE_STATUS_NO
+			FROM TRADE T LEFT OUTER JOIN MEMBERINFO M ON T.MEMBERNO = M.MEMBERNO
+            			 
+			WHERE T.TRADE_NO=#TradeNo#
+    	
+    	
+    	</select>
+    	
+    	
+    		<select id="getTradeUser2"
+    	parameterClass="java.util.HashMap"
+    	resultClass="java.util.HashMap">
+    	SELECT M.NAME,M.PHONE,M.ADDR,M.DETAILADDR,M.EMAIL1,M.EMAIL2,T.BUY_PAY
+		FROM TRADEBOARD T LEFT OUTER JOIN MEMBERINFO M ON T.MEMBERNO = M.MEMBERNO
+		WHERE T.TRADE_WORD_NO=#testNo#
+    	</select>
+    	
+    	<update id="updateStatus"
+    	parameterClass="java.util.HashMap"
+    	>
+    	UPDATE TRADE SET TRADE_STATUS_NO=2
+		WHERE TRADE_NO=#TradeNo#
+    	
+    	</update>
+    	
+    	<update id="updateStatus1"
+    	parameterClass="java.util.HashMap"
+    	>
+    	UPDATE TRADE SET TRADE_STATUS_NO1=2
+		WHERE TRADE_NO=#TradeNo#
+    	</update>
+    	
+    	<select id="getStatus"
+    	parameterClass="java.util.HashMap"
+    	resultClass="java.util.HashMap">
+  		  SELECT  T.TRADE_WORD_NO,T.TRADE_BOARD,T.WORD_TITLE,T.WORD_CONTENTS,T.BUY_PAY,T1.TRADE_STATUS_NO,T1.TRADE_STATUS_NO1,
+           		  TO_CHAR(T.WRITER_DATE,'YYYY-MM-DD') AS WRITER_DATE ,P.PICTURENAME,P.PICTURENAME1,P.PICTURENAME2,P.PICTURENAME3,P.PICTURENAME4,
+            	  SUBSTR(P.PICTURENAME,INSTR(P.PICTURENAME, '.', -1) +1) AS FILE_EXT,I.NICK,I.MEMBERNO
+ 				 
+ 				  FROM TRADEBOARD T LEFT OUTER JOIN TRADEPICTURE P ON T.TRADE_WORD_NO = P.TRADE_WORD_NO
+        	      LEFT OUTER JOIN MEMBERINFO I ON T.MEMBERNO = I.MEMBERNO 
+                  LEFT OUTER JOIN TRADE T1 ON T.TRADE_WORD_NO = T1.TRADE_WORD_NO
+          
+ 				
+ 				  WHERE T1.TRADE_NO =#TradeNo#
+    	</select>
+    	
+    	<select id="getStatusNo"
+    	parameterClass="java.util.HashMap"
+    	resultClass="Integer"
+    	>
+		SELECT TRADE_SEQ1.NEXTVAL
+		FROM DUAL 
+    	</select>
+    	
+    	
+    	<select id="getTradeStatus1"
+    	parameterClass="java.util.HashMap"
+    	resultClass="java.util.HashMap">
+        
+ 					SELECT T.TRADE_STATUS_NO,T.TRADE_STATUS_NO1,B.BUY_PAY
+                    FROM TRADE T LEFT OUTER JOIN TRADEBOARD B ON T.TRADE_WORD_NO = B.TRADE_WORD_NO                             
+                  	WHERE T.TRADE_NO=#TradeNo#
+    
+    	</select>
+    	
+    	<insert id="insertBuyerMoney"
+    	parameterClass="java.util.HashMap">
+    	INSERT INTO SANIPANIMONEY(SA_PA_MO_NO,MEMBERNO,EXCHANGE_PRICE,EXCHANGE_DATE)
+		VALUES(SA_PA_MONEY.NEXTVAL,#sNo#,#Pay#,SYSDATE)
+    	
+    	</insert>
+    	
+    	<insert id="insertMoneyStatus"
+    	parameterClass="java.util.HashMap">
+    	    
+    			INSERT INTO SANIPANIMONEY(SA_PA_MO_NO,MEMBERNO,USE_PRICE,USE_DATE)
+                VALUES(SA_PA_MONEY.NEXTVAL,#sNo#,#Pay#,SYSDATE)
+    	
+    	</insert>
+    	
+    	<select id="getTradeTotal1"
+    	parameterClass="java.util.HashMap"
+    	resultClass="Integer">
+    	SELECT TOTAL_M-TOTAL_B AS TOTAL
+  				  FROM 
+ 				  ( SELECT   SUM(CHARGE_PRICE) AS TOTAL_M,MEMBERNO
+  					 FROM      SANIPANIMONEY
+   					 WHERE     MEMBERNO=#sNo#
+   					 GROUP BY MEMBERNO) 
+  	
+  					  T LEFT OUTER JOIN 
+    
+    			(SELECT    SUM(EXCHANGE_PRICE)AS TOTAL_B,MEMBERNO
+   				 FROM      SANIPANIMONEY 
+   				 WHERE     MEMBERNO=#sNo#
+   				 		 
+   				 GROUP BY  MEMBERNO
+    			) U ON T.MEMBERNO =U.MEMBERNO 
+    	</select>
+    	
+    	<update id="DeliveryUpdate"
+    	 parameterClass="java.util.HashMap"
+    	>
+    	UPDATE TRADE SET DELIVERY_NO=#deliveryNo#,DELIVERY_CENTER_NO=#selectDelivery#,TRADE_STATUS_NO=3,DELIVERY_DATE=SYSDATE
+ 		WHERE TRADE_NO=#TradeNo#
+    	</update>
+    	
+    	<select id="getTradeDelivery"
+    	parameterClass="java.util.HashMap"
+    	resultClass="java.util.HashMap"
+    	>
+    	SELECT T.DELIVERY_NO,D.DELIVERY_NAME,S.TRADE_STATUS,T.TRADE_STATUS_NO
+		FROM TRADE T INNER JOIN DELIVERYCENTER D ON T.DELIVERY_CENTER_NO =D.DELIVERY_CENTER_NO
+                  INNER JOIN TRADESTATUS S ON T.TRADE_STATUS_NO = S.TRADE_STATUS_NO 
+		WHERE T.TRADE_NO=#TradeNo#
+    	
+    	</select>
+    	
+    	<update id="CompleteUpdate"
+    	parameterClass="java.util.HashMap"
+    	>
+    	 UPDATE TRADE SET TRADE_STATUS_NO=4
+   		 WHERE  TRADE_NO=#TradeNo#
+    	</update>
+    	
+    	<select id="getTradeUserNo"
+    	parameterClass="java.util.HashMap"
+    	resultClass="java.lang.Long"
+    	>
+    	    
+    	 SELECT T.MEMBERNO
+   		 FROM TRADE T INNER JOIN MEMBERINFO M ON T.MEMBERNO= M.MEMBERNO 
+   		 WHERE TRADE_NO=#TradeNo#
+    	
+    	
+    	</select>
+    	
+    	<insert id="MoneyUpdate"
+    	 parameterClass="java.util.HashMap">
+    	INSERT INTO SANIPANIMONEY(SA_PA_MO_NO,MEMBERNO,CHARGE_PRICE,CHARGE_DATE)
+    	VALUES(SA_PA_MONEY.NEXTVAL,#SellNo#,#Buy#,SYSDATE)
+    	</insert>
+    	
+    	<select id="getTradeCon1"
+    	parameterClass="java.util.HashMap"
+    	resultClass="java.util.HashMap"
+    	>
+    	
+       SELECT TRADE_NO
+       FROM TRADE
+       WHERE MEMBERNO =#sNo# AND TRADE_WORD_NO=#testNo#
+    	</select>
+    	
+    	<update id="updateStar"
+    	 parameterClass="java.util.HashMap"
+    	>
+    	UPDATE MEMBERINFO SET SATIS=SATIS+#Star#
+		WHERE MEMBERNO=#SellNo#
+    	
+    	</update>
+    	
+    	<select id="getStarCount"
+    	parameterClass="java.util.HashMap"
+    	resultClass="java.util.HashMap"
+    	>
+    	SELECT M.SATIS,T.T_COUNT
+		FROM   MEMBERINFO M INNER JOIN (SELECT COUNT(TRADE_NO) AS T_COUNT,MEMBERNO
+                                FROM TRADE
+                                WHERE MEMBERNO =#SellNo#   AND
+                                      TRADE_STATUS_NO=4
+                                GROUP BY MEMBERNO) T
+                                ON M.MEMBERNO = T.MEMBERNO
+		WHERE  M.MEMBERNO=#SellNo#  
+    	
+    	
+    	</select>
+    	
+    	<update id="updateRank1"
+    	parameterClass="java.util.HashMap"
+    	>
+    	UPDATE MEMBERINFO SET GRADE_NO=#Rank#
+		WHERE MEMBERNO=#SellNo# 
+    	
+    	
+    	</update>
+    	
+    	<delete id="TradeCencelDel"
+    	parameterClass="java.util.HashMap"
+    	>
+    		DELETE FROM TRADE
+			WHERE TRADE_NO = #TradeNo#
+    	</delete>
+    	
+    	<delete id="TradeOtherDel">
+    	
+    		DELETE FROM TRADE
+			WHERE TRADE_NO != #TradeNo#  AND TRADE_WORD_NO=#testNo#
+    	
+    	</delete>
+    	
+    	<insert id="insertReple"
+    	parameterClass="java.util.HashMap"
+    	>
+    	 INSERT INTO TRADE_COMMENT(T_COMMENT_NO,TRADE_WORD_NO,MEMBERNO,WRITER_DATE,T_COMMENT_CONTENT)
+ 		 VALUES(TRADE_REPLE.NEXTVAL,#testNo#,#sNo#,SYSDATE,#repleContent#)
+    	
+    	
+    	
+    	</insert>
+    	
+    	<select id="getshowReple"
+    	parameterClass="java.util.HashMap"
+    	resultClass="java.util.HashMap">
+		SELECT  ROW_NUMBER() OVER (ORDER BY C.T_COMMENT_NO DESC) AS NO1,M.NICK,C.MEMBERNO,T_COMMENT_NO,
+		TO_CHAR(C.WRITER_DATE,'YYYY-MM-DD'||' '||'HH:MI:SS') AS WRITER_DATE,C.T_COMMENT_CONTENT
+ 		FROM TRADE_COMMENT C INNER JOIN MEMBERINFO M ON C.MEMBERNO = M.MEMBERNO
+ 		WHERE C.TRADE_WORD_NO=#testNo# AND C.COMMENT_DEL = 1
+		
+
+		</select>
+		
+		
+		<update id="updateDelReple"
+		parameterClass="java.util.HashMap"
+		>
+		   UPDATE TRADE_COMMENT SET  COMMENT_DEL = 0
+   			 WHERE T_COMMENT_NO = #repleNo#
+		
+		</update>
+		
+		<insert id="insertReport"
+		parameterClass="java.util.HashMap"
+		>
+			INSERT INTO REPORTBOARD(REPORTWORDNO,REPORTCATEGORYNO,WORDTITLE,WORDCONTENT,REPORTTARGET,MEMBERNO,WRITERDATE)
+      	    VALUES (REPORT_SEQ.NEXTVAL,#reportCato#,#reportTitle#,#reportContent#,#fraudUser#,#reportUser#,SYSDATE)
+	
+	
+	</insert>
     </sqlMap>

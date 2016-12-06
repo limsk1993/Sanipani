@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+ 
+ <sqlMap namespace="Customer">
+ 	<select id="getTemp" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+SELECT A.CUSTOMER_NO, A.CUSTOMER_WORDTITLE, A.CUSTOMER_WORDCONTENT, A.CUSTOMER_WRITERDATE, A.CUSTOMER_LOOKUP, A.RNK
+FROM(SELECT ROW_NUMBER() OVER(ORDER BY CUSTOMER_NO DESC) AS RNUM,CUSTOMER_NO, CUSTOMER_WORDTITLE,CUSTOMER_WORDCONTENT,TO_CHAR(CUSTOMER_WRITERDATE,'YYYY-MM-DD'||' '||'HH:MI:SS') AS CUSTOMER_WRITERDATE,DENSE_RANK() OVER(ORDER BY CUSTOMER_NO DESC) AS RNK,CUSTOMER_LOOKUP
+		     FROM CUSTOMERBOARD
+		     WHERE 1 = 1
+		     AND CUSTOMER_DEL = 1
+    )A
+    <![CDATA[
+     WHERE A.RNK <= 5]]>
+	 AND A.RNUM BETWEEN #start# AND #end#
+     
+
+ 	</select>
+ 	<select id="getTempCount" parameterClass="java.util.HashMap" resultClass="Integer">
+ 			SELECT COUNT(*) AS CNT
+			FROM CUSTOMERBOARD
+			WHERE 1 = 1
+			
+  	</select>
+  	
+  	<select id="getTemp2" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+ SELECT B.QNA_WORDNUMBER, B.QNA_TITLE, B.QNA_CONTENT, B.QNA_WRITER, B.QNA_WRITEDATE,B.QNA_LOOKUP FROM
+(SELECT A.QNA_WORDNUMBER, A.QNA_TITLE, A.QNA_CONTENT, A.QNA_WRITER, A.QNA_WRITEDATE,A.QNA_LOOKUP
+FROM(SELECT ROW_NUMBER() OVER(ORDER BY QNA_WORDNUMBER DESC) AS RNUM,QNA_WORDNUMBER, QNA_TITLE,QNA_CONTENT,QNA_WRITER,TO_CHAR(QNA_WRITEDATE,'YYYY-MM-DD'||' '||'HH:MI:SS') AS QNA_WRITEDATE,QNA_LOOKUP, DENSE_RANK() OVER(ORDER BY QNA_WORDNUMBER DESC) AS RNK
+		     FROM QNABOARD
+		     WHERE 1 = 1
+		     AND QNA_DEL = 1
+		     )A
+		   <![CDATA[
+		    WHERE RNK <= 5)B
+		   ]]>
+		     	
+  	</select>
+  	<select id="getTempCount2" parameterClass="java.util.HashMap" resultClass="Integer">
+ 			SELECT COUNT(*) AS CNT
+			FROM QNABOARD
+			WHERE 1 = 1
+ 	</select>
+ 	<select id="getCusdetail" parameterClass="java.util.HashMap" resultClass="java.util.HashMap"> 
+ 		SELECT CUSTOMER_NO,CUSTOMER_WORDCONTENT,CUSTOMER_WORDTITLE,CUSTOMER_WRITERDATE,CUSTOMER_LOOKUP
+ 		FROM CUSTOMERBOARD
+ 		WHERE CUSTOMER_NO=#testNo#
+ 	</select>
+  	<select id="getQnAdetail" parameterClass="java.util.HashMap" resultClass="java.util.HashMap"> 
+ 		SELECT QNA_WORDNUMBER,QNA_TITLE,QNA_CONTENT,TO_CHAR(QNA_WRITEDATE,'YYYY-MM-DD'||' '||'HH:MI:SS') AS QNA_WRITEDATE,QNA_WRITER,QNA_LOOKUP,QNA_REPLY,QNA_CATEGORYNO,QNA_MEMBERNO
+ 		FROM QNABOARD
+ 		WHERE QNA_WORDNUMBER=#testNo2#
+ 	</select>
+ 	<select id="getQnAlister" parameterClass="java.util.HashMap" resultClass="Integer">
+ 			SELECT COUNT (*) AS CNT
+ 			FROM CUSTOMERBOARD
+ 			WHERE 1=1
+ 	</select>
+ 	<select id="getTemp3" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+ 		SELECT A.CUSTOMER_NO, A.CUSTOMER_WORDTITLE, A.CUSTOMER_WORDCONTENT, A.CUSTOMER_WRITERDATE, A.CUSTOMER_LOOKUP
+		FROM(SELECT ROW_NUMBER() OVER(ORDER BY CUSTOMER_NO DESC) AS RNUM,CUSTOMER_NO, CUSTOMER_WORDTITLE,CUSTOMER_WORDCONTENT,TO_CHAR(CUSTOMER_WRITERDATE,'YYYY-MM-DD'||' '||'HH:MI:SS') AS CUSTOMER_WRITERDATE,CUSTOMER_LOOKUP
+		     FROM CUSTOMERBOARD
+		     WHERE 1 = 1  
+		     AND CUSTOMER_DEL = 1
+   		 <isNotEmpty property="CuSearch">
+   		 	AND CUSTOMER_WORDTITLE LIKE '%' || #CuSearch# || '%'
+   		 </isNotEmpty>
+    )A
+	WHERE A.RNUM BETWEEN #start# AND #end#
+	
+ 	</select>
+ 	 <select id="getQnABoarder" parameterClass="java.util.HashMap" resultClass="Integer">
+ 			SELECT COUNT(*) AS CNT
+			FROM QNABOARD
+			WHERE 1 = 1
+ 		 
+ 		
+ 		 </select>
+ 	 <select id="getTemp4" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+ 		SELECT A.QNA_WORDNUMBER,QNA_TITLE,A.QNA_CONTENT,A.QNA_WRITEDATE,
+ 		A.QNA_WRITER,A.QNA_LOOKUP,A.QNA_REPLY,A.QNA_CATEGORYNO,A.QNA_MEMBERNO
+ 		FROM
+ 		(SELECT ROW_NUMBER() OVER(ORDER BY QNA_WORDNUMBER DESC) AS RNUM,
+ 		QNA_WORDNUMBER,QNA_TITLE,QNA_CONTENT,
+ 		TO_CHAR(QNA_WRITEDATE,'YYYY-MM-DD'||' '||'HH:MI:SS') AS QNA_WRITEDATE,QNA_WRITER,QNA_LOOKUP,QNA_REPLY,QNA_CATEGORYNO,QNA_MEMBERNO
+ 		FROM QNABOARD
+ 		WHERE 1=1
+ 		AND QNA_DEL = 1
+ 		 <isNotEmpty property="QnAsearch">
+ 		 	AND QNA_TITLE LIKE '%' || #QnAsearch# || '%'
+ 		 </isNotEmpty>
+ 		 )A
+ 		WHERE A.RNUM BETWEEN #start# AND #end#	 
+ 	</select>
+  	<insert id="QnAinsert" parameterClass="java.util.HashMap">
+		INSERT INTO QNABOARD(QNA_WORDNUMBER, QNA_TITLE, QNA_CONTENT,QNA_WRITEDATE,QNA_CATEGORYNO,QNA_LOOKUP)		
+		VALUES(QNA_SEQ.NEXTVAL,#QnATitle#,#QnABoardContent#,SYSDATE,#Category#,0)
+				
+	
+	</insert>
+	<insert id="Cusinsert" parameterClass="java.util.HashMap">
+		INSERT INTO CUSTOMERBOARD(CUSTOMER_NO, CUSTOMER_WORDTITLE, CUSTOMER_WORDCONTENT,CUSTOMER_WRITERDATE,CUSTOMER_CATEGORYNO,CUSTOMER_LOOKUP)		
+		VALUES(CUS_SEQ.NEXTVAL,#CusTitle#,#CusBoardContent#,SYSDATE,#Category#,0)
+						
+		 		
+	</insert> 
+	<update id="getQnAupdate" parameterClass="java.util.HashMap">
+		UPDATE QNABOARD SET QNA_TITLE = #QNATITLE#,
+							QNA_CONTENT = #QNACONTENT#
+		WHERE QNA_WORDNUMBER = #testNo2#					
+	</update>
+	
+	<select id="getQnAdetail1" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+		SELECT QNA_WORDNUMBER,QNA_TITLE,QNA_CONTENT,TO_CHAR(QNA_WRITEDATE,'YYYY-MM-DD'||' '||'HH:MI:SS') AS QNA_WRITEDATE,QNA_WRITER,QNA_LOOKUP,QNA_REPLY,QNA_CATEGORYNO,QNA_MEMBERNO
+ 		FROM QNABOARD
+ 		WHERE QNA_WORDNUMBER=#testNo2#
+	
+	</select>
+	<update id="getQnAdelete" parameterClass="java.util.HashMap">
+	UPDATE QNABOARD SET QNA_DEL = 0
+	WHERE QNA_WORDNUMBER=#testNo2#
+	</update>
+	<update id="getCusupdate" parameterClass="java.util.HashMap">
+	UPDATE CUSTOMERBOARD SET CUSTOMER_WORDTITLE = #CUSTITLE#,
+							 CUSTOMER_WORDCONTENT = #CUSCONTENT#
+	WHERE CUSTOMER_NO=#testNo#						 
+	</update>
+	<update id="getCusdelete" parameterClass="java.util.HashMap">
+	UPDATE CUSTOMERBOARD SET CUSTOMER_DEL = 0
+	WHERE CUSTOMER_NO=#testNo#
+	</update>	
+ </sqlMap>   

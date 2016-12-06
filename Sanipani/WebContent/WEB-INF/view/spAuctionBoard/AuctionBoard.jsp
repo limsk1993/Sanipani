@@ -8,6 +8,23 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="resources/script/jquery/jquery-1.11.0.js"></script>
 <script type="text/javascript" src="resources/script/spmain/Mainpage.js"></script>
+<link rel="stylesheet" type="text/css" href="resources/css/spmain/Mainpage.css"/>
+<style type="text/css">
+.AuctionTable {
+	vertical-align :top;
+	display : inline-block;
+	padding : 20px;
+	width: 690px;
+	height: 90%;
+	background-color: #F1232F;
+}
+.AuctionCategory {
+	display : inline-block;
+	width: 200px;
+	height: 90%;
+	background-color: #123FAC;
+}
+</style>
 <script type="text/javascript">
 $(document).ready(function() {
 	refreshList();
@@ -20,8 +37,13 @@ $(document).ready(function() {
 	});
 	
 	$("#insertBtn").on("click", function() {
-		$("#actionForm").attr("action", "test7");
-		$("#actionForm").submit();
+		if($("input[name='sNo']").val() > 0) {
+			$("#actionForm").attr("action", "AuctionWrite");
+			$("#actionForm").submit();
+		} else {
+			alert("로그인 후 글을 쓰실 수 있습니다.");
+			return false;
+		}
 	});
 	
 	$("#pagingArea").on("click", "span", function() {
@@ -31,8 +53,8 @@ $(document).ready(function() {
 	});
 	
 	$("#tb").on("click", "tr", function() {
-		$("input[name='testNo']").val($(this).attr("name"));
-		$("#actionForm").attr("action", "test5"); // #이 test5로 변경됨
+		$("input[name='auctionNo']").val($(this).attr("name"));
+		$("#actionForm").attr("action", "AuctionDetailLook");
 		$("#actionForm").submit();
 	});
 });
@@ -42,7 +64,7 @@ function refreshList() {
 	
 	$.ajax({
 		type : "post",
-		url : "refreshTest",
+		url : "refreshAuction",
 		dataType : "json",
 		data : params,
 		success : function(result) {
@@ -51,12 +73,20 @@ function refreshList() {
 			for(var i = 0 ; i < result.list.length ; i++) {
 				html += "<tr name='" + result.list[i].AUCTIONWORDNO + "'>";
 				html +=	"<td>" + result.list[i].AUCTIONWORDNO + "</td>";
-				html +=	"<td></td>";
+				if(result.list[i].PICTURENAME == null) {
+		            html += "<td>등록된 사진이 없습니다</td>";
+		        } else {
+		            html += "<td>" + "<img src=\"resources/upload/" + result.list[i].PICTURENAME + "\"/></td>";
+		        }
 				html +=	"<td>" + result.list[i].AUCTIONPRODUCTNAME + "</td>";
 				html +=	"<td>" + result.list[i].WORDTITLE + "</td>";
-				html +=	"<td>" + result.list[i].RNOWBUYPAY + "</td>";
-				html +=	"<td></td>";
-				html +=	"<td>" + result.list[i].WRITERDATE + "</td>";
+				if(result.list[i].BIDPRICE == null) {
+					html +=	"<td>현재 입찰자가 없습니다.</td>";
+				} else {
+					html +=	"<td>" + result.list[i].BIDPRICE + "</td>";
+				}
+				html +=	"<td>" + result.list[i].NICK + "</td>";;
+				html +=	"<td>" + result.list[i].ENDDATE + "</td>";
 				html += "</tr>";
 			}
 			
@@ -95,12 +125,15 @@ function refreshList() {
 		}
 	});
 }
+
+
 </script>
 <link rel="stylesheet" type="text/css" href="resources/css/spmain/Mainpage.css"/>
 
 </head>
 <body>
 <div class="main">
+<input type="hidden" name="sNo" value="${sNo}" />
 	<div class="left"></div>
 	<div class="main1">
 		
@@ -110,7 +143,6 @@ function refreshList() {
 			
 			
 			<!--로그인 접속전  -->
-		
 		<c:choose>
 			<c:when test="${sNo ne null}">
 				<div class="loginAccess" id="loginAccess" style="display: none;">
@@ -243,6 +275,19 @@ function refreshList() {
 		</div>
 		
 		<div class="content">
+		<div class="AuctionCategory">
+			<div class="home">가정제품</div>
+			<div class="elec">전자기기</div>
+			<div class="cloth">의류,신발</div>
+			<div class="watch">시계</div>
+			<div class="cosmetic">화장품</div>
+			<div class="travel">여행용품</div>
+			<div class="furni">가구</div>
+			<div class="book">도서</div>
+			<div class="etc">기타</div>
+		</div>
+			<div class="AuctionTable">
+			<h2>경매게시판 </h2>
 			<form action="#" id="actionForm" method="post">
 				<c:choose>
 					<c:when test="${empty param.page}">
@@ -253,7 +298,7 @@ function refreshList() {
 					</c:otherwise>
 				</c:choose>
 				<input type="hidden" name="searchText" value="${param.searchText}" />
-				<input type="hidden" name="" />
+				<input type="hidden" name="auctionNo" />
 			</form>
 			<table border="1">
 				<thead>
@@ -264,18 +309,20 @@ function refreshList() {
 						<th>제목</th>
 						<th>현재경매가</th>
 						<th>작성자</th>
-						<th>마감시간</th>
+						<th>마감일</th>
 					</tr>
 				</thead>
 				<tbody id="tb">
 				</tbody>
 			</table>
 			<br/>
+			<input type="hidden" name="memberNo" value="${params.MEMBERNO}" />
 			<input type="text" id="searchText" value="${param.searchText}" />
 			<input type="button" value="검색" id="searchBtn" />
 			<input type="button" value="글쓰기" id="insertBtn" />
 			<br/>
 			<div id="pagingArea"></div>
+			</div>
 		</div>
 	
 	</div>

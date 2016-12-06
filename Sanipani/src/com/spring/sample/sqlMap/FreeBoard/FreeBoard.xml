@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="FreeBoard">
+
+
+		<select id="getFreeBoard"
+		parameterClass="java.util.HashMap"
+		resultClass="java.util.HashMap">
+		SELECT A.RNUM, A.FREE_NUM, A.FREE_TITLE,  A.FREE_DATE, A.FREE_LOOKUP, A.FREE_PICTURE, A.MEM_NO
+		FROM (SELECT
+		<isEmpty property="search2">
+			ROW_NUMBER() OVER(ORDER BY FREE_DATE DESC) AS RNUM,
+		</isEmpty>
+		<isEqual property="search2" compareValue="fast">
+			ROW_NUMBER() OVER(ORDER BY FREE_DATE DESC) AS RNUM,
+		</isEqual>
+		<isEqual property="search2" compareValue="old">
+			ROW_NUMBER() OVER(ORDER BY FREE_DATE ASC) AS RNUM,
+		</isEqual>
+		FREE_NUM, FREE_TITLE,TO_CHAR(FREE_DATE,'YYYY/MM/DD'||'  '||'HH24:MI:SS') AS FREE_DATE , FREE_LOOKUP, FREE_PICTURE, MEM_NO
+		FROM FREEBOARD
+	    WHERE 1 = 1
+		AND DELETE_NUM = 0
+		<isNotEmpty property="SearchContent">
+			<isEqual  property="search" compareValue="title" >
+				AND FREE_TITLE LIKE '%' || #SearchContent# || '%'
+			</isEqual>
+			<isEqual  property="search" compareValue="content">
+				AND FREE_CONTENT LIKE '%' || #SearchContent# || '%'
+			</isEqual>
+			<isEqual  property="search" compareValue="id">
+				AND MEM_NO LIKE '%' || #SearchContent# || '%'
+			</isEqual>
+		</isNotEmpty>	
+		)A
+		WHERE A.RNUM BETWEEN #start# AND #end# 
+		</select>
+		<!--===============자유게시판목록  -->
+		
+		
+		
+		<select id="getFreeReple"
+		parameterClass="java.util.HashMap"
+		resultClass="java.util.HashMap">
+		
+		SELECT A.RNUM, A.FREEBOARD_NUM, A.FREEBOARD_CONTENT, A.MEMBER_NUM, A.FREE_DATE, A.FREEREPLE_NUM
+		FROM (SELECT ROW_NUMBER() OVER(ORDER BY FREEREPLE_NUM DESC) AS RNUM, FREEREPLE_NUM, FREEBOARD_CONTENT, MEMBER_NUM, FREEBOARD_NUM, TO_CHAR(REPLE_DATE,'YYYY/MM/DD'||'  '||'HH24:MI:SS') AS FREE_DATE  
+		FROM FREEREPLE
+	    WHERE 1 = 1
+		AND FREEBOARD_NUM = #testNo#
+		AND REPLE_DELETE = 0	
+		)A
+		WHERE 1=1 
+		
+		AND A.RNUM BETWEEN #start# AND #end# 
+		</select>
+		<!--글마다 댓글가져오기  -->
+		
+		
+		
+		<select id="getFreeBoardCount" parameterClass="java.util.HashMap" resultClass="Integer">
+		SELECT COUNT(*) AS CNT
+		FROM FREEBOARD
+		WHERE 1 = 1
+		AND DELETE_NUM = 0
+		<isNotEmpty property="SearchContent">
+			<isEqual  property="search" compareValue="title">
+				AND FREE_TITLE LIKE '%' || #SearchContent# || '%'
+			</isEqual>
+			<isEqual  property="search" compareValue="content">
+				AND FREE_CONTENT LIKE '%' || #SearchContent# || '%'
+			</isEqual>
+			<isEqual  property="search" compareValue="id">
+				AND MEM_NO LIKE '%' || #SearchContent# || '%'
+			</isEqual>
+		</isNotEmpty>	
+		</select>
+		
+		
+		
+		<select id="getFreeBoardRepleCount" parameterClass="java.util.HashMap" resultClass="Integer">
+		SELECT COUNT(*) AS CNT
+		FROM FREEREPLE
+		WHERE FREEBOARD_NUM = #testNo#
+		AND REPLE_DELETE = 0
+		</select>    
+		<!-- 		SELECT FREE_NUM, FREE_TITLE , ID, FREE_DATE, FREE_CONTENT
+		FROM FREEBOARD, MEMBERINFO
+		WHERE FREE_NUM = #testNo# -->
+		
+		
+		<!-- 해당글 정보가져오기 쿼리문  -->
+		<select id="getFreeBoardCon" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+		SELECT A.RNUM,A.FREE_NUM, A.FREE_TITLE, A.FREE_CONTENT, A.FREE_DATE, A.MEM_NO
+		FROM (SELECT ROW_NUMBER() OVER(ORDER BY FREE_NUM DESC) AS RNUM, FREE_NUM, FREE_TITLE, FREE_CONTENT, TO_CHAR(FREE_DATE,'YYYY/MM/DD'||'  '||'HH24:MI:SS') AS FREE_DATE ,  MEM_NO
+		FROM FREEBOARD
+	    WHERE 1 = 1
+		AND DELETE_NUM = 0		
+		)A
+		WHERE A.FREE_NUM = #testNo#
+		</select>
+		
+		
+		<!-- 게시판추가 쿼리문  -->
+		<insert id="FreeBoardAdd" parameterClass="java.util.HashMap">
+		INSERT INTO FREEBOARD(FREE_NUM, FREE_TITLE, FREE_CONTENT,FREE_DATE, MEM_NO)
+		VALUES(FREEBOARD_SEQ.NEXTVAL, #FreeBoardTitle#, #FreeBoardContent#, SYSDATE, #sId#)
+		</insert>
+		
+		
+		<!-- 댓글추가 쿼리문  -->
+		<insert id="FreeBoardRepleAdd" parameterClass="java.util.HashMap">
+		INSERT INTO FREEREPLE(FREEREPLE_NUM, MEMBER_NUM, FREEBOARD_NUM, REPLE_DATE, FREEBOARD_CONTENT)
+		VALUES(FREEREPLE_SEQ.NEXTVAL, #sId#, #testNo#, SYSDATE, #FreeRepleContent#)
+		</insert>
+		
+		
+		<!-- 글수정쿼리문  -->		
+		<update id="FreeBoardMod" parameterClass="java.util.HashMap">
+		UPDATE FREEBOARD SET FREE_TITLE = #FreeBoardTitle#, 
+			   FREE_CONTENT = #FreeBoardContent#
+		WHERE FREE_NUM = #testNo#
+		</update>
+		
+		<!-- 글조회수 쿼리문-->
+		<update id="FreeBoardLookup" parameterClass="java.util.HashMap">
+		UPDATE FREEBOARD SET FREE_LOOKUP = FREE_LOOKUP+1
+		WHERE FREE_NUM = #testNo#
+		</update>
+		
+		
+		
+		
+		<!-- 게시판삭제쿼리문  -->
+		<update id="DeleteFreeBoard" parameterClass="java.util.HashMap">
+		UPDATE FREEBOARD SET DELETE_NUM = 1
+		WHERE FREE_NUM = #testNo#
+		</update>
+		
+		<!-- 게시판댓글삭제쿼리문  -->
+		<update id="DeleteReple" parameterClass="java.util.HashMap">
+		UPDATE FREEREPLE SET REPLE_DELETE = 1
+		WHERE FREEREPLE_NUM = #testNo1#
+		</update>
+		
+		
+</sqlMap>

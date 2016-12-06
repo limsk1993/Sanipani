@@ -17,8 +17,6 @@
 	width: 690px;
 	height: 90%;
 	background-color: #F1232F;
-	
-
 }
 .tradeCategory{
 	display : inline-block;
@@ -26,6 +24,16 @@
 	height: 90%;
 	background-color: #123FAC;
 }
+img{
+	width : 100px;
+	height: 100px;
+}
+td{
+	
+	height: 100px;
+
+}
+
 </style>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -38,29 +46,29 @@ $(document).ready(function(){
 		refreshList1();
 	});
 	
-	$("#insertBtn").on("click",function(){
-		$("#actionForm").attr("action", "test7");  //actionForm의 action값에  test7을 넣음.
+	$("#tradeBoardAddBtn").on("click",function(){
+		$("#actionForm").attr("action", "TradeBoardAdd");  //actionForm의 action값에  test7을 넣음.
 		$("#actionForm").submit(); //actionForm 실행
 		
 	});
 	
 	
-	$("#pagingArea").on("click", "span", function(){
+	$("#tradePageNo").on("click", "span", function(){
 		$("input[name='page']").val($(this).attr("name"));
 		
 		refreshList1();
 	});
 	
-	$("#tb").on("click", "tr", function(){
+	$("#tradeList").on("click", "tr", function(){
 		$("input[name='testNo']").val($(this).attr("name"));
-		$("#actionForm").attr("action", "test5"); // 밑의 form에 action의 값이#인데 거 에다가 test5를 넣겠다는 소리.
+	
+		 $("#actionForm").attr("action", "TradeBoardLook"); // 밑의 form에 action의 값이#인데 거 에다가 test5를 넣겠다는 소리.
 		$("#actionForm").submit();
 	});
 });		
 		
 		
-
-
+	
 function refreshList1(){
 	var params = $("#actionForm").serialize(); //serialize 정렬해서 보여준다.
 	
@@ -73,14 +81,18 @@ function refreshList1(){
 			var html = "";
 			
 			for(var i = 0 ; i < result.list.length ; i++){
-				html += "<tr name='" + result.list[i].NO + "'>";
+				html += "<tr name='" + result.list[i].TRADE_WORD_NO + "'>";
 				html += "<td>" + result.list[i].NO + "</td>";
+				if(result.list[i].PICTURENAME==null){
 				html += "<td></td>";
+				}else{
+					html += "<td>"+"<img src=\"resources/upload/"+result.list[i].PICTURENAME+"\"/></td>";
+				}
 				html += "<td>" + result.list[i].TRADE_BOARD + "</td>";
 				html += "<td>" + result.list[i].WORD_TITLE + "</td>";
 				html += "<td>" + result.list[i].BUY_PAY + "</td>";
 				html += "<td></td>";
-				html += "<td></td>";
+				html += "<td>" + result.list[i].NICK + "</td>";
 				html += "<td>" + result.list[i].WRITER_DATE + "</td>";
 				html += "<td>" + result.list[i].LOOKUP + "</td>";
 				
@@ -302,24 +314,26 @@ function refreshList1(){
 						<input type="hidden" name="page" value="${param.page}"/>
 					</c:otherwise>
 				</c:choose>
-	
+				<input type="hidden" name="catogery" value="1" />
+				<input type="hidden" name="page" value="1" />
 				<input type="hidden" name="searchText" value="${param.searchText}"/>
-				<input type="hidden" name="" />
+				<input type="hidden" name="testNo" />
+				<input type="hidden" name="sNo" value="${sNo}"/>
 			</form>
 
 			<table border="1">
 				<thead>
 					<tr>
-					<th>No</th>
-					<th>물품사진</th>
-					<th>물품명</th>
-					<th>내용</th>
+						<th>No</th>
+						<th>물품사진</th>
+						<th>물품명</th>
+						<th>내용</th>
 					
-					<th>가격</th>
-					<th>거래상태</th>
-					<th>작성자</th>
-					<th>작성일</th>
-					<th>조회수</th>
+						<th>가격</th>
+						<th>거래상태</th>
+						<th>작성자</th>
+						<th>작성일</th>
+						<th>조회수</th>
 					</tr>
 				</thead>
 				
@@ -329,10 +343,11 @@ function refreshList1(){
 				</tbody>
 			
 			</table>
+		
 			<br/>
 			<input type="text" id="searchText" value="${param.searchText}"/>
 			<input type="button" value="검색" id="searchBtn"/>
-			<input type="button" value="추가" id="insertBtn"/>
+			<input type="button" value="추가" id="tradeBoardAddBtn"/>
 			<br/>
 			<div id="tradePageNo"></div>
 		</div>

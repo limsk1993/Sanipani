@@ -81,7 +81,7 @@ $(document).ready(function(){
 		location.href="AuctionBoard";
 	});
 	$(".freeBoard").on("click",function(){
-		location.href="AuctionBoard";
+		location.href="FreeBoard";
 	});
 	
 

@@ -27,7 +27,10 @@
 	<sqlMap resource="/com/spring/sample/sqlMap/spAdmin/spAdmin.xml" />
 	<!-- Register쿼리 -->
 	<sqlMap resource="/com/spring/sample/sqlMap/Register/registerSQL.xml" />
+<<<<<<< HEAD
 	<!-- ReportBoard쿼리 -->
 	<sqlMap resource="/com/spring/sample/sqlMap/ReportBoard/ReportBoardSQL.xml" />
+=======
+>>>>>>> branch 'master' of https://github.com/limsk1993/Sanipani
 </sqlMapConfig>
  

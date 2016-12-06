@@ -28,7 +28,9 @@ public class MainController {
 	 @RequestMapping(value="/Mainpage")
 	   public ModelAndView Mainpage(HttpServletRequest request,
 	                      ModelAndView modelAndView){
-	      modelAndView.setViewName("spmain/Mainpage");// /<<는 경로 ㅋ
+	      
+		 modelAndView.setViewName("spmain/Mainpage");// /<<는 경로 ㅋ
+	     
 	      return modelAndView;
 	   }
 	 
@@ -47,6 +49,7 @@ public class MainController {
 	    	  session.setAttribute("sNo", mem.get("MEMBERNO"));
 	    	  session.setAttribute("sNick", mem.get("NICK"));
 	    	  session.setAttribute("sId", mem.get("ID"));
+	    	  session.setAttribute("sGrade", mem.get("GRADE_NO"));
 	    	
 	      
 	    	  modelMap.put("res","success");
