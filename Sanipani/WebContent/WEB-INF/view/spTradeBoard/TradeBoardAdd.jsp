@@ -71,7 +71,7 @@ function uploadResultCallBack(data, result){ //data:json(아까param가지고 �
 		$("#textFile2").val(resData.fileName[2]);
 		$("#textFile3").val(resData.fileName[3]);
 		$("#textFile4").val(resData.fileName[4]);
-		var params = $("#insertReport").serialize();
+		var params = $("#insertForm").serialize();
 		
 		$.ajax({
 			type : "post",
