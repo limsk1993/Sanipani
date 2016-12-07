@@ -291,15 +291,15 @@ function refreshList1(){
 		
 		<div class="content">
 		<div class="tradeCategory">
-			<div class="home">가정제품</div>
-			<div class="elec">전자기기</div>
-			<div class="cloth">의류,신발</div>
-			<div class="watch">시계</div>
-			<div class="cosmetic">화장품</div>
-			<div class="travel">여행용품</div>
-			<div class="furni">가구</div>
-			<div class="book">도서</div>
-			<div class="etc">기타</div>
+		<div class="home_1">가정제품</div>
+			<div class="elec_1">전자기기</div>
+			<div class="cloth_1">의류,신발</div>
+			<div class="watch_1">시계</div>
+			<div class="cosmetic_1">화장품</div>
+			<div class="travel_1">여행용품</div>
+			<div class="furni_1">가구</div>
+			<div class="book_1">도서</div>
+			<div class="etc_1">기타</div>
 		
 		</div>
 		<div class="tradeTable">
