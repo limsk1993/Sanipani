@@ -80,8 +80,37 @@ function uploadResultCallBack(data, result){ //data:json(아까param가지고 �
 			data : params,
 			success : function(result){
 				if(result.res == "true"){
+					if("${param.catogery}"==1){
 					location.href = "TradeBoard";
-				} else{
+					}
+					else if("${param.catogery}"==2){
+						location.href = "TradeBoard1";
+					}
+					else if("${param.catogery}"==3){
+						location.href = "TradeBoard2";
+					}
+					else if("${param.catogery}"==4){
+						location.href = "TradeBoard3";
+					}
+					else if("${param.catogery}"==5){
+						location.href = "TradeBoard4";
+					}
+					else if("${param.catogery}"==6){
+						location.href = "TradeBoard5";
+					}
+					else if("${param.catogery}"==7){
+						location.href = "TradeBoard6";
+					}
+					else if("${param.catogery}"==8){
+						location.href = "TradeBoard7";
+					}
+					else if("${param.catogery}"==9){
+						location.href = "TradeBoard8";
+					}
+				} 
+				
+				
+				else{
 					alert("저장 중 문제가 발생했습니다.");
 				}
 			},

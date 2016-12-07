@@ -346,7 +346,7 @@ $(document).ready(function() {
 	M = $("input[name='AuctionMinute']").val();
 	S = $("input[name='AuctionSecond']").val();
 
-	if($("input[name='AuctionBoardStatus']").val() == 1) {
+	if($("input[name='AuctionBoardStatus']").val() == 1 && $("input[name='AuctionStatus']").val() == 1) {
 		D = 0;
 		H = 0;
 		M = 0;
@@ -442,7 +442,7 @@ function CancelResultCallBack(data, result) {
 			data : params,
 			success : function(result) {
 				if(result.res > 0) {
-					$("#actionForm").attr("action", "AuctionDetailLook");
+					$("#actionForm").attr("action", "AuctionBoard");
 					$("#actionForm").submit();
 				} else {
 					alert("경매가가 취소되지 않았습니다.");

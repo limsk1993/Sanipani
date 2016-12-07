@@ -13,9 +13,19 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	refreshMemberInfo();
+	$("#popup").hide();
 	$("#pagingArea").on("click", "span", function(){
 		$("input[name='page']").val($(this).attr("name"));
 		refreshMemberInfo();
+	});
+	
+	$("#tb").on("click", "tr", function(){
+		/* $("input[name='testNo']").val($(this).attr("name"));
+		$("#actionForm").attr("action", "FreeBoardDetail"); // 밑의 form에 action의 값이#인데 거 에다가 test5를 넣겠다는 소리.
+		$("#actionForm").submit();
+		FreeBoardLookUp();
+ 		FreeBoardLookUp(); */ 
+	$("#popup").show();	
 	});
 	
 	
@@ -32,7 +42,7 @@ $(document).ready(function(){
 				
 				
 				for(var i = 0 ; i < result.list.length ; i++){
-					html += "<tr>";
+					html += "<tr name='" + result.list[i].MEMBERNO + "'>";
 					html += "<td>" + result.list[i].MEMBERNO + "</td>";
 					html += "<td>" + result.list[i].NAME + "</td>";
 					html += "<td>" + result.list[i].ID + "</td>";
@@ -254,6 +264,8 @@ $(document).ready(function(){
 			 고객정보관리
 			</div>
 			<div class="AdminMember_2">
+					<div id="AdminMemberpopup_1" >
+					</div>
 				<table border="1">
 				<thead>
 					<tr>
@@ -269,13 +281,21 @@ $(document).ready(function(){
 				</thead>
 				<tbody id="tb">
 				</tbody>
+				
 			</table>
+				<div class="AdminMemberpopup_1" id="popup">
+					<div class="AdminMemberpopup_2">
+					</div>
+					<div class="AdminMemberpopup_3">
+					</div>
+				</div>
 			</div>
 			<div class="AdminMember_3">
 				<div id="pagingArea"></div>
 			</div>
 			<div class="AdminMember_3">
 			</div>
+			
 		</div>
 	
 	</div>
@@ -284,5 +304,6 @@ $(document).ready(function(){
 	<div class="ad"></div>
 	</div>
 </div>
+
 </body>
 </html>

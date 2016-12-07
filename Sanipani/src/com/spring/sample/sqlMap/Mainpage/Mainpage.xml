@@ -6,7 +6,7 @@
 		parameterClass="java.util.HashMap"
 		resultClass="java.util.HashMap">
 		
-		SELECT MEMBERNO,ID,NICK
+		SELECT MEMBERNO,ID,NICK,GRADE_NO
 		FROM MEMBERINFO
 		
 		WHERE ID = #Id#

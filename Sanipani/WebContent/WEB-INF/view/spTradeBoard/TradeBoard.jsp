@@ -314,7 +314,7 @@ function refreshList1(){
 						<input type="hidden" name="page" value="${param.page}"/>
 					</c:otherwise>
 				</c:choose>
-				
+				<input type="hidden" name="catogery" value="1" />
 				<input type="hidden" name="page" value="1" />
 				<input type="hidden" name="searchText" value="${param.searchText}"/>
 				<input type="hidden" name="testNo" />
