@@ -548,7 +548,7 @@ function uploadResultCallBack(data, result){ //data:json(아까param가지고 �
 		
 		$.ajax({
 			type : "post",
-			url : "insertReport", // TestController에서 마들기
+			url : "insertTradeReport", // TestController에서 마들기
 			dataType : "json",
 			data : params,
 			success : function(result){

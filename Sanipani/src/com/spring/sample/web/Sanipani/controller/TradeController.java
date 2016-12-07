@@ -655,8 +655,8 @@ public class TradeController {
 	   }
 
 	   
-	   @RequestMapping(value = "/insertReport")
-	   public @ResponseBody ResponseEntity<String> insertReport(
+	   @RequestMapping(value = "/insertTradeReport")
+	   public @ResponseBody ResponseEntity<String> insertTradeReport(
 	         HttpServletRequest request,
 	         @RequestParam HashMap<String, String> params,
 	         ModelAndView modelAndView) throws Throwable {
