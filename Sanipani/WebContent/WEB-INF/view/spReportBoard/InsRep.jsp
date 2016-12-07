@@ -7,20 +7,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
-.BlkList{
-	display: block;
-	   margin-top: 5px;
-	   height:40px;
-	   background-color: #409991;
+.RerportTitle{
+	width: 100px;
+	height: 10px;
 }
-
-.RepList{
-	display: block;
-	   margin-top: 5px;
-	   height:40px;
-	   background-color: #409991;
-}
-   
 .ReportList {
 	vertical-align: top;
 	display: inline-block;
@@ -28,7 +18,6 @@
 	width: 690px;
 	height: 90%;
 	background-color: #F1232F;
-	text-align: center;	
 }
 
 .ReportCategory {
@@ -37,40 +26,68 @@
 	height: 90%;
 	background-color: #123FAC;
 }
+
 </style>
 <script type="text/javascript"
 	src="resources/script/jquery/jquery-1.11.0.js"></script>
 <script type="text/javascript" src="resources/script/spmain/Mainpage.js"></script>
+<script type="text/javascript" src="resources/script/jquery/jquery.form.js"></script>
 <script type="text/javascript">
-$(document).ready(function(){
-	refreshList();
-	
-	$("#searchBtn").on("click", function() {
-		$("input[name='searchText']").val($("#searchText").val());
-		$("input[name='page']").val("1");
+	$(document).ready(function() {
+		$("#listBtn").on("click", function() {
+			$("#actionForm").attr("action", "ReportBoard");
+			$("#actionForm").submit();
+		});
 
-		refreshList();
+		$("#saveBtn").on("click", function() {
+			var insertRepForm = $("#insertRepForm");
+
+			insertRepForm.ajaxForm(uploadResultCallBack);//ajax를 실행하고나서 uploadResultCallBack라는 함수를 호출하겠다.
+			insertRepForm.submit(); // 폼 자체가 실행할때 ajax로 구동을 하겠다. 기존엔 ajax로 이동한것.
+
+		});
 	});
 
-	$("#insertBtn").on("click", function() {
+	function uploadResultCallBack(data, result) { //json 받은것 .
+		if (result == "success") {
+			var resData = eval("(" + removePre(data) + ")"); // eval = 데이터를 용도에 맞춰 분리시켜줌. 원래는 자바스크립트 bean을 만들어줄려고 있는 기능.
 
-		$("#actionForm").attr("action", "InsRep");//추가
-		$("#actionForm").submit();
-	});
+			$("#RepPic").val(resData.fileName[0]);//textFile에 업로드된 파일네임 갖다넣음
 
-	$("#pagingArea").on("click", "span", function() {
-		$("input[name='page']").val($(this).attr("name"));
+			var params = $("#insertRepForm").serialize(); //파일업로드를 하고난 후 글 저장을 하겠다.
 
-		refreshList();
-	});
+			$.ajax({
+				type : "post",
+				url : "insertReport",
+				datatype : "json",
+				data : params,
+				success : function(result) {
+					if (result.res == "true") {
+						location.href = "ReportBoard";
+					} else {
+						alert("저장 중 문제가 발생했습니다.");
+					}
+				},
+				error : function(result) {
+					alert("ERROR!!");
+				}
+			});
 
-	$("#tb").on("click", "tr", function() {
-		$("input[name='ReportNo']").val($(this).attr("name"));
-		$("#actionForm").attr("action", "DetailRep");//내용
-		$("#actionForm").submit();
+		} else {
+			alert("저장실패");
+		}
+	}
 
-		//alert($(this).attr("name"));
-	});
+	function removePre(data) {
+		if (data.indexOf("<pre>") > -1) { // pre가 있다면 pre를 지우고 안에있는 내용을 가져오겠다.
+			var st = data.indexOf(">");
+			var ed = data.indexOf("<", st);
+
+			return data.substring(st + 1, ed);
+		} else {
+			return data;
+		}
+	}
 	
 	$(".BlkList").on("click",function(){
 		location.href="BlackList";
@@ -79,72 +96,6 @@ $(document).ready(function(){
 	$(".RepList").on("click",function(){
 		location.href="ReportBoard";
 	});
-});
-
-	function refreshList() {
-		var params = $("#actionForm").serialize();
-		$.ajax({
-					type : "post",
-					url : "RefreshReport",
-					datatype : "json",
-					data : params,
-					success : function(result) {
-						var html = "";
-						
-						for (var i = 0; i < result.list.length; i++) {
-							html += "<tr name='" + result.list[i].NO + "'>";
-							html += "<td>" + result.list[i].REPORTWORDRNO + "</td>";//글번호													
-							html += "<td>" + result.list[i].WORDTITLE + "</td>";//제목					
-							html += "<td>" + result.list[i].NICK + "</td>"//작성자
-							html += "<td>" + result.list[i].WRITERDATE + "</td>";//작성일				
-							html += "<td>" + result.list[i].REPORTCATEGORYNAME + "</td>";//피해사례
-							html += "<td>" + result.list[i].LOOKUP + "</td>";//조회
-								
-							html += "</tr>";
-						}
-						$("#tb").html(html);
-
-						html = "";
-
-						html += "<span name='1'>처음</span>";
-
-						if ($("input[name='page']").val() == 1) {
-							html += "<span name ='1'>이전</span>";
-						} else {
-							html += "<span name = '"
-									+ ($("input[name='page']").val() - 1)
-									+ "'>이전</span>";
-						}
-
-						for (var i = result.pb.startPcount; i <= result.pb.endPcount; i++) {
-							if (i == $("input[name='page']").val()) {
-								html += "<span name = '" + i + "'><b>" + i
-										+ "</b></span>";
-							} else {
-								html += "<span name = '" + i + "'>" + i
-										+ "</span>";
-							}
-
-						}
-
-						if ($("input[name='page']").val() == result.pb.maxPcount) {
-							html += "<span name= '" + result.pb.maxPcount + "'>다음</span>";
-						} else {
-							html += "<span name= '"
-									+ ($("input[name='page']").val() * 1 + 1)
-									+ "'>다음</span>";
-						}
-
-						html += "<span name= '" + result.pb.maxPcount + "'>마지막</span>";
-
-						$("#pagingArea").html(html);
-
-					},
-					error : function(result) {
-						alert("error!");
-					}
-				});
-	}
 </script>
 <link rel="stylesheet" type="text/css"
 	href="resources/css/spmain/Mainpage.css" />
@@ -278,49 +229,38 @@ $(document).ready(function(){
 
 
 	<div class="content">
-		<div class="ReportCategory">
-			<div class="RepList">신고 접수 목록</div>
-			<div class="BlkList">블랙리스트 목록</div>
+	<div class="ReportCategory">
+			<div class="home">신고 접수 목록</div>
+			<div class="elec">블랙리스트 목록</div>
 		</div>
 		<div class="ReportList">
-			<h2>신고 접수 목록</h2>
-			<form action="#" id="actionForm" method="post">
-				<c:choose>
-					<c:when test="${empty param.page}">
-						<input type="hidden" name="page" value="1">
-					</c:when>
-					<c:otherwise>
-						<input type="hidden" name="page" value="${param.page}" />
-					</c:otherwise>
-				</c:choose>
-				<input type="hidden" name="searchText" value="${param.searchText}" />
-				<input type="hidden" name="ReportNo" />				
-			</form>
-
-			<table border="1">
-				<thead>
-					<tr>
-						<th width="100px">글번호</th>
-						<th width="450px">제목</th>
-						<th width="100px">작성자</th>
-						<th width="150px">작성일</th>
-						<th width="175px">피해사례</th>
-						<th width="100px">조회수</th>						
-					</tr>
-				</thead>
-				<tbody id="tb">
-				</tbody>
-			</table>
-		<br />
+		<form action="#" id="actionForm" method="post">
+			<input type="hidden" name="page" value="${param.page}" /> 
+			<input type="hidden" name="searchText" value="${param.searchText}" />
+		</form>
 		
-		<input type="text" id="searchText" value="${param.searchText}" />
-		<input type="button" value="검색" id="searchBtn" />
-		<input type="button" value="신고" id="insertBtn" />
-
-		
-		<div id="pagingArea"></div>
-		</div>
-
+		<form action="fileUploadAjax" id="insertRepForm" method="post" enctype="multipart/form-data" text-align="center">
+			<input type="hidden" name="MEMNO" value="${sNo }"/>
+			제목<input type="text" class="ReportTitle" name="ReportTitle"/> <br/>
+			피해사례<select name="ReportCategory">
+  			<option value="1">물품상태 불량</option>
+  			<option value="2">구성품 누락</option>
+  			<option value="3">욕설 및 비매너</option>
+			</select>
+			<br />
+			가해자 닉네임 <input type="text" class="FraudNick" name="FraudNick" <%-- value="${con.REPORTTARGET}" --%>/>
+			<br />
+			물품 <input type="text" class="ProductName" name="ProductName"/>
+			<br />
+			내용 <textarea rows="10" cols="80" name="Reportcontent" style="margin: 0px; width: 619px; height: 195px;"></textarea>
+			<br/>
+			 파일 <input type="file" name="RepPic" />
+			 <input type="hidden" name="textFile" id="textFile"/>
+			
+		</form>
+		<input type="button" value="목록" id="listBtn" />
+		<input type="button" value="저장" id="saveBtn" />
+	</div>
 	</div>
 	</div>
 	<div class="right">

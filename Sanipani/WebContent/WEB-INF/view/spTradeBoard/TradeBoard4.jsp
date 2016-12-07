@@ -8,34 +8,15 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="resources/script/jquery/jquery-1.11.0.js"></script>
 <script type="text/javascript" src="resources/script/spmain/Mainpage.js"></script>
-<script type="text/javascript" src="resources/script/jquery/jquery.form.js"></script>
 <link rel="stylesheet" type="text/css" href="resources/css/spmain/Mainpage.css"/>
-
-
 <style type="text/css">
- table{
- 	width : 800px;
- 	margin-left: 20px;
- }
- td{
- 	vertical-align: top;
-
- }
- .TradeContent{
- 	width: 100%;
- 	height: 100%;
- 	overflow : auto;
- 	background-color: #FFFFFF;
- }
- .tradeTable{
+.tradeTable{
 	vertical-align :top;
 	display : inline-block;
 	padding : 20px;
-	width: 850px;
+	width: 690px;
 	height: 90%;
 	background-color: #F1232F;
-	
-
 }
 .tradeCategory{
 	display : inline-block;
@@ -43,97 +24,121 @@
 	height: 90%;
 	background-color: #123FAC;
 }
+img{
+	width : 100px;
+	height: 100px;
+}
+td{
+	
+	height: 100px;
+
+}
+
 </style>
 <script type="text/javascript">
 $(document).ready(function(){
-	$("#listBtn").on("click", function(){
-		$("#actionForm").attr("action", "TradeBoard");
+	refreshList1();
+	
+	$("#searchBtn").on("click",function(){
+		$("input[name='searchText']").val($("#searchText").val()); //searchText의 value에 serchTextval의 값을 넣는다.
+		$("input[name='page']").val("1");
+		
+		refreshList1();
+	});
+	
+	$("#tradeBoardAddBtn").on("click",function(){
+		$("#actionForm").attr("action", "TradeBoardAdd");  //actionForm의 action값에  test7을 넣음.
+		$("#actionForm").submit(); //actionForm 실행
+		
+	});
+	
+	
+	$("#tradePageNo").on("click", "span", function(){
+		$("input[name='page']").val($(this).attr("name"));
+		
+		refreshList1();
+	});
+	
+	$("#tradeList").on("click", "tr", function(){
+		$("input[name='testNo']").val($(this).attr("name"));
+	
+		 $("#actionForm").attr("action", "TradeBoardLook"); // 밑의 form에 action의 값이#인데 거 에다가 test5를 넣겠다는 소리.
 		$("#actionForm").submit();
 	});
-	
-	
-	
-	$("#saveBtn").on("click", function(){
-		var insertForm = $("#insertForm");
+});		
 		
-		insertForm.ajaxForm(uploadResultCallBack); // insertForm을 ajaxForm형태로 바꾸겠다. uploadResultCallBack은 ajax를 호출하고나서 이 함수를 호출하겠다.
-		insertForm.submit();		
-		$("#saveBtn").hide();
-	});
-});
-
-function uploadResultCallBack(data, result){ //data:json(아까param가지고 조랄한거.) result : success와 faile ajax결과
-	if(result =="success"){
-		var resData = eval("(" + removePre(data) + ")");  // eval는 자바스크립트의 bean으로 바꿔주는것.
 		
-		$("#textFile").val(resData.fileName[0]); // 이거아까20자리 맥인거 그거가져오는듯
-		$("#textFile1").val(resData.fileName[1]);
-		$("#textFile2").val(resData.fileName[2]);
-		$("#textFile3").val(resData.fileName[3]);
-		$("#textFile4").val(resData.fileName[4]);
-		var params = $("#insertForm").serialize();
-		
-		$.ajax({
-			type : "post",
-			url : "insertTrade", // TestController에서 마들기
-			dataType : "json",
-			data : params,
-			success : function(result){
-				if(result.res == "true"){
-					if("${param.catogery}"==1){
-					location.href = "TradeBoard";
-					}
-					else if("${param.catogery}"==2){
-						location.href = "TradeBoard1";
-					}
-					else if("${param.catogery}"==3){
-						location.href = "TradeBoard2";
-					}
-					else if("${param.catogery}"==4){
-						location.href = "TradeBoard3";
-					}
-					else if("${param.catogery}"==5){
-						location.href = "TradeBoard4";
-					}
-					else if("${param.catogery}"==6){
-						location.href = "TradeBoard5";
-					}
-					else if("${param.catogery}"==7){
-						location.href = "TradeBoard6";
-					}
-					else if("${param.catogery}"==8){
-						location.href = "TradeBoard7";
-					}
-					else if("${param.catogery}"==9){
-						location.href = "TradeBoard8";
-					}
-				} 
-				
-				
-				else{
-					alert("저장 중 문제가 발생했습니다.");
+	
+function refreshList1(){
+	var params = $("#actionForm").serialize(); //serialize 정렬해서 보여준다.
+	
+	$.ajax({//비동기화방식
+		type : "post",
+		url : "refreshTest1", 
+		dataType : "json",
+		data : params,
+		success : function(result){
+			var html = "";
+			
+			for(var i = 0 ; i < result.list.length ; i++){
+				html += "<tr name='" + result.list[i].TRADE_WORD_NO + "'>";
+				html += "<td>" + result.list[i].NO + "</td>";
+				if(result.list[i].PICTURENAME==null){
+				html += "<td></td>";
+				}else{
+					html += "<td>"+"<img src=\"resources/upload/"+result.list[i].PICTURENAME+"\"/></td>";
 				}
-			},
-			error : function(result){
-				alert("ERROR!!");
+				html += "<td>" + result.list[i].TRADE_BOARD + "</td>";
+				html += "<td>" + result.list[i].WORD_TITLE + "</td>";
+				html += "<td>" + result.list[i].BUY_PAY + "</td>";
+				html += "<td></td>";
+				html += "<td>" + result.list[i].NICK + "</td>";
+				html += "<td>" + result.list[i].WRITER_DATE + "</td>";
+				html += "<td>" + result.list[i].LOOKUP + "</td>";
+				
+				html += "</tr>";
 			}
-		});
-	} else{
-		alert("저장실패");
-	}
-	
-}
-
-
-function removePre(data){
-	if(data.indexOf("<pre>") > -1){ // data의 indexOf(위치찾기) -1은없는경우고  -1보다 크다는건 있다는얘기
-		var st = data.indexOf(">");  //  범위 지정하구있음  pre빼고 짜르겠다는 얘기.
-		var ed = data.indexOf("<", st); // 
+			
+			$("#tradeList").html(html);
+			
+		html = "";
+		html += "<span name='1'>처음</span>";
 		
-		return data.substring(st + 1, ed); // 값을 되돌려줌 짜른 값 pre를 되도렬줌 <>짜르고.
-	} else {
-		return data;
-	}
+/* 		if($("input[name='page']").val() == 1){
+			html += "<span name='1'>이전</span>";
+		} else{
+			html += "<span name='" + ($("input[name='page']").val - 1) + "'>이전</span>";
+		} */
+		if($("input[name='page']").val() == 1) {
+            html += "<span name='1'>이전</span>";
+         } else {
+            html += "<span name = '" + ($("input[name='page']").val() - 1) + "'>이전</span>";
+         }
+		
+		for(var i = result.pb.startPcount ; i <= result.pb.endPcount ; i++){
+			if(i == $("input[name='page']").val()){
+				html += "<span name='" + i + "'><b>" + i + "</b></span>";
+			} else{
+				html += "<span name='" + i + "'>" + i + "</b></span>";
+			}
+		}
+		
+		if($("input[name='page']").val() == result.pb.maxPcount){
+			html += "<span name='" + result.pb.maxPcount + "'>다음</span>";
+		} else{
+			html += "<span name='" + ($("input[name='page']").val() * 1 + 1) + "'>다음</span>";
+		}
+		
+		
+		html += "<span name='" + result.pb.maxPcount+"'>마지막</span>";
+		
+		$("#tradePageNo").html(html);
+			
+		},
+		error : function(result){
+			alert("error!!");
+		}
+	});
 }
 </script>
 </head>
@@ -280,7 +285,11 @@ function removePre(data){
 			</div>
 		</div>
 		
-		<div class="content" >
+		
+		
+		
+		
+		<div class="content">
 		<div class="tradeCategory">
 			<div class="home">가정제품</div>
 			<div class="elec">전자기기</div>
@@ -291,71 +300,63 @@ function removePre(data){
 			<div class="furni">가구</div>
 			<div class="book">도서</div>
 			<div class="etc">기타</div>
+		
 		</div>
-		
 		<div class="tradeTable">
-		<form action="#" id="actionForm" method="post">
-			<input type="hidden" name="page" value="${param.page }"/>
-			<input type="hidden" name="searchText" value="${param.searchText}"/>
-		</form>	
-		
-			<h2>거래게시판 글쓰기</h2>
-			<form action="fileUploadAjax" id="insertForm" method="post" enctype="multipart/form-data">
-			<table border="1">
-				<tr>
-					<td width="20%">물품명 </td>
-					<td width="80%"> <input type="text" name="TradeProductName"></</td>
-				</tr>
-				
-				<tr>
-					<td>제목 </td>
-					<td><input type="text"  name="TradeTitle"> </td>
-				</tr>
-				
-				<tr>
-					<td>닉네임</td>
-					<td>${sNick}<input type="hidden"  name="TradeName" value="${sNick}">
-						<input type="hidden"  name="TradeMemberNo" value="${sNo}">
-						<input type="hidden"  name="TradeCategoryNo" value="${param.catogery}">
-										
-					 													</td>
-				</tr>
-				
-				<tr>
-					<td>거래 가격: </td>
-					<td> <input type="text" name="TradePrice"></td>
-				</tr>
-				
-				<tr height="500px">
-					<td>내용 </td>
-					<td><textarea name="TradeContent" cols="90" rows="40" style="resize: none;"></textarea></td>
-				</tr>
-				
-				
-				
-				<tr>
-					<td>물품 사진 등록:</td>
-					<td><input type="file" name="att1"> 
-					<input type="text" name="textFile" id="textFile"/>
-					<input type="file" name="att2"> 
-					<input type="text" name="textFile1" id="textFile1"/>
-					<input type="file" name="att3"> 
-					<input type="text" name="textFile2" id="textFile2"/>
-					<input type="file" name="att4"> 
-					<input type="text" name="textFile3" id="textFile3"/>
-					<input type="file" name="att5"> 
-					<input type="text" name="textFile4" id="textFile4"/>
-					
-					</td>
-					
-				</tr>
-			</table>
-			</form>
-			<input type="button" value="저장" id="saveBtn"/>
-			</div>
+		<h2>거래게시판 </h2>
+			<form action="#" id="actionForm" method="post">
+				<c:choose>
+					<c:when test="${empty param.page}"> <!-- empty 는 비어있으면. -->
+						<input type="hidden" name="page" value="1" />
+					</c:when>
 			
+					<c:otherwise>
+						<input type="hidden" name="page" value="${param.page}"/>
+					</c:otherwise>
+				</c:choose>
+				<input type="hidden" name="catogery" value="5" />
+				<input type="hidden" name="page" value="1" />
+				<input type="hidden" name="searchText" value="${param.searchText}"/>
+				<input type="hidden" name="testNo" />
+				<input type="hidden" name="sNo" value="${sNo}"/>
+			</form>
+
+			<table border="1">
+				<thead>
+					<tr>
+						<th>No</th>
+						<th>물품사진</th>
+						<th>물품명</th>
+						<th>내용</th>
+					
+						<th>가격</th>
+						<th>거래상태</th>
+						<th>작성자</th>
+						<th>작성일</th>
+						<th>조회수</th>
+					</tr>
+				</thead>
+				
+				<tbody id="tradeList">
+				
+				
+				</tbody>
+			
+			</table>
+		
+			<br/>
+			<input type="text" id="searchText" value="${param.searchText}"/>
+			<input type="button" value="검색" id="searchBtn"/>
+			<input type="button" value="추가" id="tradeBoardAddBtn"/>
+			<br/>
+			<div id="tradePageNo"></div>
 		</div>
 	
+		
+		
+		</div>
+		
+		
 	</div>
 	<div class="right">
 	

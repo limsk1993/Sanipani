@@ -65,8 +65,8 @@
     	</select>
     	
     	<insert id="insertTrade" parameterClass="java.util.HashMap">
-    			INSERT INTO TRADEBOARD (TRADE_WORD_NO,TRADE_BOARD,WORD_TITLE,BUY_PAY,WORD_CONTENTS,WRITER_DATE,MEMBERNO)
-    			VALUES(TRADE_SEQ.NEXTVAL,#TradeProductName#,#TradeTitle#,#TradePrice#,#TradeContent#,SYSDATE,#TradeMemberNo#)
+    			INSERT INTO TRADEBOARD (TRADE_WORD_NO,TRADE_BOARD,WORD_TITLE,BUY_PAY,WORD_CONTENTS,WRITER_DATE,MEMBERNO,CATEGORY_NO)
+    			VALUES(TRADE_SEQ.NEXTVAL,#TradeProductName#,#TradeTitle#,#TradePrice#,#TradeContent#,SYSDATE,#TradeMemberNo#,#TradeCategoryNo#)
     	</insert>
     	
     	<insert id="insertTrade1" parameterClass="java.util.HashMap">
@@ -97,10 +97,10 @@
  				WHERE T.TRADE_WORD_NO=#testNo#
     	</select>
     	
-    	<insert id="insertTrade2" parameterClass="java.util.HashMap">
+    	<!-- <insert id="insertTrade2" parameterClass="java.util.HashMap">
     	INSERT INTO TRADECATEGORY(TRADE_CATOGORY_NO,TRADE_WORD_NO,CATEGORY_NAME)
 		VALUES(#TradeCategoryNo#,#No#,#TradeCategoryName#)
-    	</insert>
+    	</insert> -->
     	
     	<update id="getTradereple"
     	parameterClass="java.util.HashMap">

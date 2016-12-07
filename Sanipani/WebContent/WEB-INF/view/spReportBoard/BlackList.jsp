@@ -21,7 +21,7 @@
 	   background-color: #409991;
 }
    
-.ReportList {
+.BlackList {
 	vertical-align: top;
 	display: inline-block;
 	padding: 20px;
@@ -37,6 +37,7 @@
 	height: 90%;
 	background-color: #123FAC;
 }
+
 </style>
 <script type="text/javascript"
 	src="resources/script/jquery/jquery-1.11.0.js"></script>
@@ -64,9 +65,9 @@ $(document).ready(function(){
 		refreshList();
 	});
 
-	$("#tb").on("click", "tr", function() {
+	$("#tb1").on("click", "tr", function() {
 		$("input[name='ReportNo']").val($(this).attr("name"));
-		$("#actionForm").attr("action", "DetailRep");//내용
+		$("#actionForm").attr("action", "DetailBlk");//내용
 		$("#actionForm").submit();
 
 		//alert($(this).attr("name"));
@@ -82,27 +83,29 @@ $(document).ready(function(){
 });
 
 	function refreshList() {
+		
 		var params = $("#actionForm").serialize();
+		
 		$.ajax({
 					type : "post",
-					url : "RefreshReport",
+					url : "RefreshBlackList",
 					datatype : "json",
 					data : params,
 					success : function(result) {
 						var html = "";
 						
 						for (var i = 0; i < result.list.length; i++) {
-							html += "<tr name='" + result.list[i].NO + "'>";
-							html += "<td>" + result.list[i].REPORTWORDRNO + "</td>";//글번호													
-							html += "<td>" + result.list[i].WORDTITLE + "</td>";//제목					
-							html += "<td>" + result.list[i].NICK + "</td>"//작성자
-							html += "<td>" + result.list[i].WRITERDATE + "</td>";//작성일				
-							html += "<td>" + result.list[i].REPORTCATEGORYNAME + "</td>";//피해사례
-							html += "<td>" + result.list[i].LOOKUP + "</td>";//조회
+							html += "<tr name='" + result.list[i].BNO + "'>";
+							html += "<td>" + result.list[i].BLACKLISTRNO + "</td>";//블랙리스트번호													
+							html += "<td>" + result.list[i].NICK + "</td>"//블랙리스트닉네임
+							html += "<td>" + result.list[i].BDATE + "</td>";//날짜					
+							html += "<td>" + result.list[i].REPORTCATEGORYNAME + "</td>";//신고유형				
+							html += "<td>" + result.list[i].REPORTWORDNO + "</td>";//거래글번호. 임시로 신고글번호 가져옴
+							/* html += "<td>" + result.list[i].LOOKUP + "</td>";//조회 */
 								
 							html += "</tr>";
 						}
-						$("#tb").html(html);
+						$("#tb1").html(html);
 
 						html = "";
 
@@ -282,8 +285,8 @@ $(document).ready(function(){
 			<div class="RepList">신고 접수 목록</div>
 			<div class="BlkList">블랙리스트 목록</div>
 		</div>
-		<div class="ReportList">
-			<h2>신고 접수 목록</h2>
+		<div class="BlackList">
+			<h2>블랙리스트 목록</h2>
 			<form action="#" id="actionForm" method="post">
 				<c:choose>
 					<c:when test="${empty param.page}">
@@ -294,21 +297,20 @@ $(document).ready(function(){
 					</c:otherwise>
 				</c:choose>
 				<input type="hidden" name="searchText" value="${param.searchText}" />
-				<input type="hidden" name="ReportNo" />				
+				<input type="hidden" name="ReportNo" />
 			</form>
 
 			<table border="1">
 				<thead>
 					<tr>
-						<th width="100px">글번호</th>
-						<th width="450px">제목</th>
-						<th width="100px">작성자</th>
-						<th width="150px">작성일</th>
-						<th width="175px">피해사례</th>
-						<th width="100px">조회수</th>						
+						<th width="100px">번호</th>
+						<th width="100px">닉네임</th>
+						<th width="122px">날짜</th>
+						<th width="122px">신고유형</th>
+						<th width="122px">거래글번호</th>												
 					</tr>
 				</thead>
-				<tbody id="tb">
+				<tbody id="tb1">
 				</tbody>
 			</table>
 		<br />
