@@ -50,7 +50,14 @@ $(document).ready(function(){
 	});
 	
 
+	$(".logout").on("click",function(){
+		
+		location.href="testLogout";
+	});
 	
+	$(".memberLogiBtn").on("click", function() {
+		location.href="spmember";
+	})
 	
 	
 	
@@ -78,7 +85,7 @@ $(document).ready(function(){
 		location.href="ReportBoard";
 	});
 	$(".customerBoard").on("click",function(){
-		location.href="AuctionBoard";
+		location.href="CusBoard";
 	});
 	$(".freeBoard").on("click",function(){
 		location.href="FreeBoard";
@@ -129,31 +136,31 @@ $(document).ready(function(){
 	
 	
 	$(".home_1").on("click",function(){
-		location.href="test9";
+		location.href="TradeBoard";
 	});
 	
 	$(".elec_1").on("click",function(){
-		location.href="test9";
+		location.href="TradeBoard";
 	});
 	$(".cloth_1").on("click",function(){
-		location.href="test9";
+		location.href="TradeBoard";
 	});
 	$(".watch_1").on("click",function(){
-		location.href="test9";
+		location.href="TradeBoard";
 	});
 	$(".cosmetic_1").on("click",function(){
-		location.href="test9";
+		location.href="TradeBoard";
 	});
 	$(".travel_1").on("click",function(){
-		location.href="test9";
+		location.href="TradeBoard";
 	});
 	$(".furni_1").on("click",function(){
-		location.href="test9";
+		location.href="TradeBoard";
 	});
 	$(".book_1").on("click",function(){
-		location.href="test9";
+		location.href="TradeBoard";
 	});
 	$(".etc_1").on("click",function(){
-		location.href="test9";
+		location.href="TradeBoard";
 	});
 });
