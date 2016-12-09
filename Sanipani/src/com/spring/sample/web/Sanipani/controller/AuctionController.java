@@ -257,4 +257,22 @@ public class AuctionController {
 		modelAndView.setViewName("spAuctionBoard/AuctionRequest");
 		return modelAndView;
 	}
+	
+	@RequestMapping(value="/deleteNotAuctionMember")
+	public @ResponseBody ResponseEntity<String> deleteNotAuctionMember(
+			HttpServletRequest request,
+			@RequestParam HashMap<String, String> params, 
+			ModelAndView modelAndView) throws Throwable {
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> modelMap = new HashMap<String, Object>();
+		
+		int res = iAuctionService.deleteNotAuctionMember(params);
+		
+		modelMap.put("res", res);
+		
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Content-Type", "text/json; charset=UTF-8");
+		
+		return new ResponseEntity<String>(mapper.writeValueAsString(modelMap), responseHeaders, HttpStatus.CREATED);
+	}
 }

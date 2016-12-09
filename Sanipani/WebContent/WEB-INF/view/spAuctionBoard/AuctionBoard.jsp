@@ -86,7 +86,7 @@ function refreshList() {
 					html +=	"<td>" + result.list[i].BIDPRICE + "</td>";
 				}
 				html +=	"<td>" + result.list[i].NICK + "</td>";;
-				html +=	"<td>" + result.list[i].ENDDATE + "</td>";
+				html +=	"<td>" + result.list[i].REALENDDATE + "</td>";
 				html += "</tr>";
 			}
 			
@@ -288,7 +288,7 @@ function refreshList() {
 		</div>
 			<div class="AuctionTable">
 			<h2>경매게시판 </h2>
-			<form action="#" id="actionForm" method="post">
+			<form action="#" id="actionForm" method="get">
 				<c:choose>
 					<c:when test="${empty param.page}">
 						<input type="hidden" name="page" value="1" />

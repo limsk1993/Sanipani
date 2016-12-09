@@ -1,5 +1,6 @@
 package com.spring.sample.web.Sanipani.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.sample.common.bean.PagingBean;
+import com.spring.sample.common.service.IPagingService;
+import com.spring.sample.web.Sanipani.service.IAuctionService;
 import com.spring.sample.web.Sanipani.service.IMainService;
 
 @Controller
@@ -24,14 +28,21 @@ public class MainController {
 	   @Autowired
 	   public IMainService iMainService;
 	   
+	   @Autowired
+	   public IAuctionService iAuctionService;
+	   
+	   @Autowired
+	   public IPagingService iPagingService;
+	   
 	
 	 @RequestMapping(value="/Mainpage")
 	   public ModelAndView Mainpage(HttpServletRequest request,
-	                      ModelAndView modelAndView){
-	      
+			   						@RequestParam HashMap<String, String> params,
+			   						ModelAndView modelAndView) throws Throwable{
+		 
 		 modelAndView.setViewName("spmain/Mainpage");// /<<는 경로 ㅋ
 	     
-	      return modelAndView;
+	     return modelAndView;
 	   }
 	 
 	   @RequestMapping(value = "/testLoginCheckAjax")
@@ -77,4 +88,29 @@ public class MainController {
 		   return modelAndView;
 	   }
 	   
+	   @RequestMapping(value="/refreshNotice")
+		public @ResponseBody ResponseEntity<String> refreshNotice(
+					HttpServletRequest request,
+					@RequestParam HashMap<String, String> params, // 여러개의 request.getParameter를 할 필요 없이 한번에 받아옴.
+					ModelAndView modelAndView) throws Throwable {
+				ObjectMapper mapper = new ObjectMapper();
+				Map<String, Object> modelMap = new HashMap<String, Object>();
+				
+				PagingBean pb = iPagingService.getPageingBean(
+						Integer.parseInt(params.get("page")), 
+						iMainService.getNoticeCount(params));
+				
+				params.put("start", Integer.toString(pb.getStartCount()));
+				params.put("end", Integer.toString(pb.getEndCount()));
+
+				ArrayList<HashMap<String, String>> list = iMainService.getNotice(params);
+				
+				modelMap.put("list", list);
+				modelMap.put("pb", pb);
+				
+				HttpHeaders responseHeaders = new HttpHeaders();
+				responseHeaders.add("Content-Type", "text/json; charset=UTF-8");
+				
+				return new ResponseEntity<String>(mapper.writeValueAsString(modelMap), responseHeaders, HttpStatus.CREATED);
+		}
 }

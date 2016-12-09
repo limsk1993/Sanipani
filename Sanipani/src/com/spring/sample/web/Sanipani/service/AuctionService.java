@@ -84,4 +84,8 @@ public class AuctionService implements IAuctionService {
 		return iAuctionDao.updateAuctionLookup(params);
 	}
 
+	@Override
+	public int deleteNotAuctionMember(HashMap<String, String> params) throws Throwable {
+		return iAuctionDao.deleteNotAuctionMember(params);
+	}
 }

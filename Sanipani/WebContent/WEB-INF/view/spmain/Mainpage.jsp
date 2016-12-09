@@ -9,7 +9,168 @@
 <script type="text/javascript" src="resources/script/jquery/jquery-1.11.0.js"></script>
 <script type="text/javascript" src="resources/script/spmain/Mainpage.js"></script>
 <link rel="stylesheet" type="text/css" href="resources/css/spmain/Mainpage.css"/>
+<style type="text/css">
+.sample {
+	display : inline-block;
+	background-color: #FFFFFF;
+	vertical-align : top;
+	width: 200px;
+	height: 220px;
+	margin: 1em;
+	font-size: 12px;
+}
 
+.AuctionProductPicture {
+	display : inline-block;
+	margin-top : 5px;
+	margin-left: 5px;
+	width : 149px;
+	height: 150px;
+}
+
+.AuctionProductName {
+	display : inline-block;
+	vertical-align : top;
+	margin-top : 3px;
+	margin-left: 5px;
+}
+
+.AuctionNowPrice {
+	display : inline-block;
+	vertical-align : top;
+	margin-top : 3px;
+	margin-left: 5px;
+}
+
+.AuctionRemainTime {
+	display : inline-block;
+	vertical-align : top;
+	margin-top : 3px;
+	margin-left: 5px;
+}
+
+.AuctionProductPicture img {
+	width : 190px;
+	height: 150px;
+}
+
+</style>
+<script type="text/javascript">
+$(document).ready(function() {
+	refreshList();
+	NoticeList();
+	
+	$(".sampleMain").on("click", ".sample", function() {
+		$("input[name='auctionNo']").val($(this).attr("name"));
+		$("#actionForm").attr("action", "AuctionDetailLook");
+		$("#actionForm").submit();
+	});
+	
+});
+
+function refreshList() {
+	var params = $("#actionForm").serialize();
+	
+	$.ajax({
+		type : "post",
+		url : "refreshAuction",
+		dataType : "json",
+		data : params,
+		success : function(result) {
+			var html = "";
+			
+			for(var i = 0 ; i < 5 ; i++) {
+				
+				html += "<div class='sample' name='" + result.list[i].AUCTIONWORDNO + "'>";
+				
+				html += "<input type='hidden' name='auctionNo' value='" + result.list[i].AUCTIONWORDNO + "' />";
+				
+				if(result.list[i].PICTURENAME == null) {
+		            html += "<div class='AuctionProductPicture'>등록된 사진이 없습니다</div><br/>";
+		        } else {
+		            html += "<div class='AuctionProductPicture'><img src=\"resources/upload/" + result.list[i].PICTURENAME + "\"/></div><br/>";
+		        }
+				
+				html +=	"<div class='AuctionProductName'> 물품명 : " + result.list[i].AUCTIONPRODUCTNAME + "</div><br/>";
+				
+				if(result.list[i].BIDPRICE == null) {
+					html +=	"<div class='AuctionNowPrice'>현재 입찰자가 없습니다.</div><br/>";
+				} else {
+					html +=	"<div class='AuctionNowPrice'> 현재 입찰가 : " + result.list[i].BIDPRICE + "</div><br/>";
+				}
+				
+				html +=	"<div class='AuctionRemainTime'> 남은 시간 : " + result.list[i].REMAINTIME + "</div>";
+				
+				html += "</div>";
+			}
+			
+			$(".sampleMain").html(html);
+			
+			html = "";
+		},
+		error : function(result) {
+			alert("error!!");
+		}
+	});
+}
+
+function NoticeList() {
+	var params = $("#NoticeForm").serialize();
+	
+	$.ajax({
+		type : "post",
+		url : "refreshNotice",
+		dataType : "json",
+		data : params,
+		success : function(result) {
+			var html = "";
+			
+			for(var i = 0 ; i < result.list.length ; i++) {
+				html += "<tr name='" + result.list[i].NOTICENO + "'>";
+				html +=	"<td>" + result.list[i].NOTICENO + "</td>";
+				html +=	"<td>" + result.list[i].NOTICETITLE + "</td>";
+				html +=	"<td>" + result.list[i].NICK + "</td>";;
+				html +=	"<td>" + result.list[i].NOTICEWRITERDATE + "</td>";
+				html += "</tr>";
+			}
+			
+			$("#NoticeCon").html(html);
+			
+			
+			html = "";
+			
+			html += "<span name='1'>처음</span>";
+			
+			if($("input[name='page']").val() == 1) {
+				html += "<span name='1'>이전</span>";
+			} else {
+				html += "<span name = '" + ($("input[name='page']").val() - 1) + "'>이전</span>";
+			}
+			
+			for(var i = result.pb.startPcount ; i <= result.pb.endPcount ; i++) {
+				if (i == $("input[name='page']").val()) {
+					html += "<span name = '" + i + "'><b>" + i + "</b></span>";
+				} else {
+					html += "<span name = '" + i + "'>" + i + "</span>";
+				}
+			}
+			
+			if($("input[name='page']").val() == result.pb.maxPcount) {
+				html += "<span name = '" + result.pb.maxPcount + "'>다음</span>";
+			} else {
+				html += "<span name = '" + ($("input[name='page']").val() * 1 + 1) + "'>다음</span>";
+			}
+			
+			html += "<span name='" + result.pb.maxPcount + "'>마지막</span>";
+			
+			$("#pagingArea").html(html);
+		},
+		error : function(result) {
+			alert("error!!");
+		}
+	});
+}
+</script>
 </head>
 <body>
 <div class="main">
@@ -155,9 +316,59 @@
 		</div>
 		
 		<div class="content">
+			<div class="EndApproachAuction">
+				<h2>마감 임박 경매</h2>
+			</div>
+				<form action="#" id="actionForm" method="get">
+					<c:choose>
+						<c:when test="${empty param.page}">
+							<input type="hidden" name="page" value="1" />
+						</c:when>
+						<c:otherwise>
+							<input type="hidden" name="page" value="${param.page}" />
+						</c:otherwise>
+					</c:choose>
+					<input type="hidden" name="searchText" value="${param.searchText}" />
+					<input type="hidden" name="auctionNo" />
+				</form>
+			<div class="sampleMain">
+			</div>
 			
+ 			<div class="NoticeBoard">
+				<h2>공지사항</h2>
+				<form action="#" id="NoticeForm" method="get">
+					<c:choose>
+						<c:when test="${empty param.page}">
+							<input type="hidden" name="page" value="1" />
+						</c:when>
+						<c:otherwise>
+							<input type="hidden" name="page" value="${param.page}" />
+						</c:otherwise>
+					</c:choose>
+					<input type="hidden" name="searchText" value="${param.searchText}" />
+					<input type="hidden" name="NoticeNo" />
+				</form>
+				<table border="1">
+					<thead>
+						<tr>
+							<th>글번호</th>
+							<th>제목</th>
+							<th>작성자</th>
+							<th>작성일</th>
+						</tr>
+					</thead>
+					<tbody id="NoticeCon">
+					</tbody>
+				</table>
+			<br/>
+			<div id="pagingArea"></div>
+			</div>
+			</div>
+			
+			<div class="RecentWordLook">
+				<h2>최신 글보기</h2>
+			</div>
 		</div>
-	
 	</div>
 	<div class="right">
 	
