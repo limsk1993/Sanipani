@@ -62,8 +62,8 @@ $(document).ready(function(){
 	$("#tradeList").on("click", "tr", function(){
 		$("input[name='testNo']").val($(this).attr("name"));
 	
-		 $("#actionForm").attr("action", "TradeBoardLook"); // 밑의 form에 action의 값이#인데 거 에다가 test5를 넣겠다는 소리.
-		$("#actionForm").submit();
+		 $("#actionForm1").attr("action", "TradeBoardLook"); // 밑의 form에 action의 값이#인데 거 에다가 test5를 넣겠다는 소리.
+		$("#actionForm1").submit();
 	});
 });		
 		
@@ -304,7 +304,7 @@ function refreshList1(){
 		</div>
 		<div class="tradeTable">
 		<h2>거래게시판 </h2>
-			<form action="#" id="actionForm" method="post">
+			<form action="#" id="actionForm" method="get">
 				<c:choose>
 					<c:when test="${empty param.page}"> <!-- empty 는 비어있으면. -->
 						<input type="hidden" name="page" value="1" />
@@ -319,6 +319,22 @@ function refreshList1(){
 				<input type="hidden" name="searchText" value="${param.searchText}"/>
 				<input type="hidden" name="testNo" />
 				<input type="hidden" name="sNo" value="${sNo}"/>
+			</form>
+			<form action="#" id="actionForm1" method="get">
+				<c:choose>
+					<c:when test="${empty param.page}"> <!-- empty 는 비어있으면. -->
+						<input type="hidden" name="page" value="1" />
+					</c:when>
+			
+					<c:otherwise>
+						<input type="hidden" name="page" value="${param.page}"/>
+					</c:otherwise>
+				</c:choose>
+				
+				<input type="hidden" name="page" value="1" />
+				<input type="hidden" name="searchText" value="${param.searchText}"/>
+				<input type="hidden" name="testNo" />
+				
 			</form>
 
 			<table border="1">

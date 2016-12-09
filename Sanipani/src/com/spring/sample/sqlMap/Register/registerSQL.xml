@@ -131,7 +131,40 @@
    				 GROUP BY  MEMBERNO
     			) U ON T.MEMBERNO =U.MEMBERNO 
 	</select>
+	<select id="showAutionBuyPage"
+	parameterClass="java.util.HashMap" resultClass="Integer"
+	>
+	  SELECT COUNT(MAX(BIDPRICE))
+      FROM AUCTION
+      WHERE MEMBERNO =#sNo#
+       <isNotEmpty property="searchText">
+ 	 AND WORD_TITLE LIKE '%' || #searchText# || '%'
+   	   </isNotEmpty>
+      GROUP BY AUCTIONWORDNO
 	
+	</select>
+	
+	<select id="showAutionBuy"
+			parameterClass="java.util.HashMap" resultClass="java.util.HashMap"
+	>
+	   SELECT A.AUCTIONWORDNO,STARTBUYPAY,WORDCONTENT,ID,ROW_NUMBER() OVER (ORDER BY A.AUCTIONWORDNO DESC) AS NO,BIDPRICE_NO,BIDPRICE,AUCTIONNO
+			  ,TO_CHAR(ENDDATE,'YYYY-MM-DD'||' '||'HH:MI:SS') AS ENDDATE,TRADESTATUSNO
+		 FROM (SELECT ROW_NUMBER() OVER(PARTITION BY AUCTIONWORDNO ORDER BY BIDPRICE DESC) AS BIDPRICE_NO
+		 		,AUCTIONWORDNO,MEMBERNO,TRADESTATUSNO,BIDPRICE,AUCTIONNO
+     		     FROM AUCTION
+     		  ) A 
+     					 INNER JOIN AUCTIONBOARD B ON A.AUCTIONWORDNO =B.AUCTIONWORDNO
+     					 INNER JOIN MEMBERINFO I ON A.MEMBERNO = I.MEMBERNO 
+			             AND A.BIDPRICE_NO = 1                 
+	WHERE A.MEMBERNO =#sNo#
+		<isNotEmpty property="searchText">
+ 	 AND WORD_TITLE LIKE '%' || #searchText# || '%'
+   	   </isNotEmpty>
+   	   <isNotEmpty property="comple">
+ 	 AND TRADESTATUSNO = 6 
+   	   </isNotEmpty>
+	
+	</select>
 
 
 </sqlMap>

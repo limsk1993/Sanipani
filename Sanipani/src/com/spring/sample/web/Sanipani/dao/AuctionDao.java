@@ -142,4 +142,9 @@ public class AuctionDao implements IAuctionDao {
 	public int updateAuctionLookup(HashMap<String, String> params) throws Throwable {
 		return sqlMapClient.update("AuctionBoard.updateAuctionLookup", params);
 	}
+
+	@Override
+	public int deleteNotAuctionMember(HashMap<String, String> params) throws Throwable {
+		return sqlMapClient.delete("AuctionBoard.deleteNotAuctionMember", params);
+	}
 }

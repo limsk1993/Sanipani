@@ -9,48 +9,22 @@
 <script type="text/javascript" src="resources/script/jquery/jquery-1.11.0.js"></script>
 <script type="text/javascript" src="resources/script/spmain/Mainpage.js"></script>
 <link rel="stylesheet" type="text/css" href="resources/css/spmain/Mainpage.css"/>
-<style type="text/css">
-.tradeTable{
-	vertical-align :top;
-	display : inline-block;
-	padding : 20px;
-	width: 690px;
-	height: 90%;
-	background-color: #F1232F;
-}
-.tradeCategory{
-	display : inline-block;
-	width: 200px;
-	height: 90%;
-	background-color: #123FAC;
-}
-img{
-	width : 100px;
-	height: 100px;
-}
-td{
-	
-	height: 100px;
 
-}
-
-</style>
 <script type="text/javascript">
 $(document).ready(function(){
-	refreshList1();
+
 	
 	$("#searchBtn").on("click",function(){
 		$("input[name='searchText']").val($("#searchText").val()); //searchText의 value에 serchTextval의 값을 넣는다.
+		$("input[name='searchDate']").val($("#searchDate").val());
+		$("input[name='searchUseDate']").val($("#searchUseDate").val());
+		
 		$("input[name='page']").val("1");
 		
 		refreshList1();
 	});
 	
-	$("#tradeBoardAddBtn").on("click",function(){
-		$("#actionForm").attr("action", "TradeBoardAdd");  //actionForm의 action값에  test7을 넣음.
-		$("#actionForm").submit(); //actionForm 실행
-		
-	});
+	
 	
 	
 	$("#tradePageNo").on("click", "span", function(){
@@ -59,43 +33,83 @@ $(document).ready(function(){
 		refreshList1();
 	});
 	
-	$("#tradeList").on("click", "tr", function(){
-		$("input[name='testNo']").val($(this).attr("name"));
 	
-		 $("#actionForm1").attr("action", "TradeBoardLook"); // 밑의 form에 action의 값이#인데 거 에다가 test5를 넣겠다는 소리.
-		$("#actionForm1").submit();
-	});
+	
+	$("#tradeList").on("click", ".moneyRefund", function(){
+	
+		      if(confirm("환불하겠습니까?")){
+		         $("input[name='moneyNo']").val($(this).attr("name"));
+		      
+		         var ar= $("input[name='moneyNo']").val();
+		         
+		         var arr = ar.split("_");
+		       
+		         $("input[name='moneyNo']").val(arr[0]);
+		         $("input[name='UserNo']").val(arr[3]);
+		         alert($("input[name='UserNo']").val());
+				
+				  if(arr[1]!=0){
+					  $("input[name='moneyRefund']").val(arr[1]);
+				
+				  }
+				  else if(arr[2]!=0){
+					  $("input[name='moneyRefund']").val(arr[2]);	
+					
+				  }
+				 
+				 
+		         var params = $("#moneyForm").serialize();
+					
+					$.ajax({
+						type:"post",
+						url:"insertMoneyRefund",
+						dataType:"json",
+						data : params,
+						success : function(result){
+						
+							alert("완료");
+								
+						
+						},
+						error : function(result){
+							alert("ERROR");
+						}
+					});
+		      }
+		      else{
+		         
+		      }
+		   });
+		 
+		
+	  
 });		
 		
 		
 	
 function refreshList1(){
-	var params = $("#actionForm").serialize(); //serialize 정렬해서 보여준다.
+	var params = $("#moneyForm").serialize(); //serialize 정렬해서 보여준다.
 	
 	$.ajax({//비동기화방식
 		type : "post",
-		url : "refreshTest1", 
+		url : "getAdminMoney", 
 		dataType : "json",
 		data : params,
 		success : function(result){
 			var html = "";
 			
 			for(var i = 0 ; i < result.list.length ; i++){
-				html += "<tr name='" + result.list[i].TRADE_WORD_NO + "'>";
+				html += "<tr name='" + result.list[i].SA_PA_MO_NO + "'>";
 				html += "<td>" + result.list[i].NO + "</td>";
-				if(result.list[i].PICTURENAME==null){
-				html += "<td></td>";
-				}else{
-					html += "<td>"+"<img src=\"resources/upload/"+result.list[i].PICTURENAME+"\"/></td>";
-				}
-				html += "<td>" + result.list[i].TRADE_BOARD + "</td>";
-				html += "<td>" + result.list[i].WORD_TITLE + "</td>";
-				html += "<td>" + result.list[i].BUY_PAY + "</td>";
-				html += "<td></td>";
-				html += "<td>" + result.list[i].NICK + "</td>";
-				html += "<td>" + result.list[i].WRITER_DATE + "</td>";
-				html += "<td>" + result.list[i].LOOKUP + "</td>";
+	
+				html += "<td>" + result.list[i].ID + "</td>";
+				html += "<td>" + result.list[i].CHARGE_PRICE + "</td>";
+				html += "<td>" + result.list[i].CHARGE_DATE + "</td>";
 				
+				html += "<td>" + result.list[i].EXCHANGE_PRICE + "</td>";
+				html += "<td>" + result.list[i].EXCHANGE_DATE + "</td>";
+				
+				html += "<td class='moneyRefund' name='" + result.list[i].SA_PA_MO_NO+"_"+result.list[i].CHARGE_PRICE+"_"+result.list[i].EXCHANGE_PRICE +"_"+result.list[i].MEMBERNO+"'>" + '환불' + "</td>";
 				html += "</tr>";
 			}
 			
@@ -290,19 +304,7 @@ function refreshList1(){
 		
 		
 		<div class="content">
-		<div class="tradeCategory">
-			<div class="home_1">가정제품</div>
-			<div class="elec_1">전자기기</div>
-			<div class="cloth_1">의류,신발</div>
-			<div class="watch_1">시계</div>
-			<div class="cosmetic_1">화장품</div>
-			<div class="travel_1">여행용품</div>
-			<div class="furni_1">가구</div>
-			<div class="book_1">도서</div>
-			<div class="etc_1">기타</div>
-		
-		</div>
-		<div class="tradeTable">
+	
 		<h2>거래게시판 </h2>
 			<form action="#" id="actionForm" method="get">
 				<c:choose>
@@ -314,16 +316,14 @@ function refreshList1(){
 						<input type="hidden" name="page" value="${param.page}"/>
 					</c:otherwise>
 				</c:choose>
-				<input type="hidden" name="catogery" value="8" />
-				<input type="hidden" name="page" value="1" />
+				<input type="hidden" name="catogery" value="1" />
+				
 				<input type="hidden" name="searchText" value="${param.searchText}"/>
 				<input type="hidden" name="testNo" />
-				<input type="hidden" name="sNo" value="${sNo}"/>
+				
 			</form>
-			
-			
-			<form action="#" id="actionForm1" method="get">
-				<c:choose>
+			<form action="#" id="moneyForm" method="post">
+			<c:choose>
 					<c:when test="${empty param.page}"> <!-- empty 는 비어있으면. -->
 						<input type="hidden" name="page" value="1" />
 					</c:when>
@@ -332,25 +332,27 @@ function refreshList1(){
 						<input type="hidden" name="page" value="${param.page}"/>
 					</c:otherwise>
 				</c:choose>
-				
-				<input type="hidden" name="page" value="1" />
-				<input type="hidden" name="searchText" value="${param.searchText}"/>
-				<input type="hidden" name="testNo" />
-				
+				<input type="hidden" name="sNo" value="${sNo}"/>
+				<input type="hidden" name="searchDate"/>
+				<input type="hidden" name="searchUseDate"/>
+				<input type="hidden" name="searchText" value=""/>
+				<input type="hidden" name="moneyNo" value=""/>
+				<input type="hidden" name="moneyRefund" value=""/>
+				<input type="hidden" name="UserNo" value=""/>
 			</form>
+
 			<table border="1">
 				<thead>
 					<tr>
 						<th>No</th>
-						<th>물품사진</th>
-						<th>물품명</th>
-						<th>내용</th>
+						<th>아이디</th>
+						<th>충전금액</th>
+						<th>충전날짜</th>
 					
-						<th>가격</th>
-						<th>거래상태</th>
-						<th>작성자</th>
-						<th>작성일</th>
-						<th>조회수</th>
+						<th>사용금액</th>
+						<th>사용날짜</th>
+						<th>환전</th>
+						
 					</tr>
 				</thead>
 				
@@ -362,12 +364,15 @@ function refreshList1(){
 			</table>
 		
 			<br/>
-			<input type="text" id="searchText" value="${param.searchText}"/>
+			<input type="text" id="searchText" value="${param.searchText}" placeholder="아이디 입력"/>
+			<input type="text" id="searchDate" value="" placeholder="충전날짜 YY/MM/DD"/>
+			<input type="text" id="searchUseDate" value="" placeholder="사용날짜 YY/MM/DD"/>
+			
 			<input type="button" value="검색" id="searchBtn"/>
 			<input type="button" value="추가" id="tradeBoardAddBtn"/>
 			<br/>
 			<div id="tradePageNo"></div>
-		</div>
+		
 	
 		
 		

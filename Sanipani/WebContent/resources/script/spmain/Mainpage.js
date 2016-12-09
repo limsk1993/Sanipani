@@ -57,7 +57,7 @@ $(document).ready(function(){
 	
 	$(".memberLogiBtn").on("click", function() {
 		location.href="spmember";
-	})
+	});
 	
 	
 	
@@ -85,7 +85,7 @@ $(document).ready(function(){
 		location.href="ReportBoard";
 	});
 	$(".customerBoard").on("click",function(){
-		location.href="AuctionBoard";
+		location.href="CusBoard";
 	});
 	$(".freeBoard").on("click",function(){
 		location.href="FreeBoard";
@@ -137,30 +137,66 @@ $(document).ready(function(){
 	
 	$(".home_1").on("click",function(){
 		location.href="TradeBoard";
+
 	});
 	$(".elec_1").on("click",function(){
 		location.href="TradeBoard1";
+
+
 	});
 	
+
+
+	$(".elec_1").on("click",function(){
+		location.href="TradeBoard";
+	});
+
 	$(".cloth_1").on("click",function(){
+
 		location.href="TradeBoard2";
+
+
+
 	});
 	$(".watch_1").on("click",function(){
+
 		location.href="TradeBoard3";
+
+
+
 	});
 	$(".cosmetic_1").on("click",function(){
+
 		location.href="TradeBoard4";
+
+
 	});
 	$(".travel_1").on("click",function(){
+
 		location.href="TradeBoard5";
+
+	
+
 	});
 	$(".furni_1").on("click",function(){
+
 		location.href="TradeBoard6";
+
+	
+
 	});
 	$(".book_1").on("click",function(){
+
 		location.href="TradeBoard7";
+
+
+
 	});
 	$(".etc_1").on("click",function(){
+
 		location.href="TradeBoard8";
+
+	
+
 	});
 });

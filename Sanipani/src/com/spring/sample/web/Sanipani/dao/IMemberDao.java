@@ -23,6 +23,10 @@ public interface IMemberDao {
 
 	public ArrayList<HashMap<String, String>> getTradeListSell(HashMap<String, String> params) throws Throwable;
 
-	public int getMoney(HashMap<String, String> params) throws Throwable; 
+	public int getMoney(HashMap<String, String> params) throws Throwable;
+
+	public int showAutionBuyPage(HashMap<String, String> params) throws Throwable;
+
+	public ArrayList<HashMap<String, String>> showAutionBuy(HashMap<String, String> params) throws Throwable; 
 
 }

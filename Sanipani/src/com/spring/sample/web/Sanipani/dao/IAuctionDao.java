@@ -33,4 +33,6 @@ public interface IAuctionDao {
 
 	public int updateAuctionLookup(HashMap<String, String> params) throws Throwable;
 
+	public int deleteNotAuctionMember(HashMap<String, String> params) throws Throwable;
+
 }

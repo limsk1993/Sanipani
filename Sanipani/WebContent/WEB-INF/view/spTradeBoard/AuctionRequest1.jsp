@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="resources/script/jquery/jquery-1.11.0.js"></script>
 <script type="text/javascript" src="resources/script/spmain/Mainpage.js"></script>
-<script type="text/javascript" src="resources/script/jquery/jquery.form.js"></script>
+
 <link rel="stylesheet" type="text/css" href="resources/css/spmain/Mainpage.css"/>
 
 <style type="text/css">
@@ -148,16 +148,16 @@
 	height : 50px;
 	background-color: #F000FF;
 }
-.tradeUpdateBtn{	
+.tradeStatusBtn{	
 	margin-top : 10px;
-	margin-left: 550px;
+	margin-left: 300px;
 	display : inline-block;
 	width : 80px;
 	height : 30px;
 	background-color: #FFFFFF;
 }
 
-.tradeDeleteBtn{
+.tradeCencelBtn{
 	margin-top : 10px;
 	margin-left: 20px;
 	display : inline-block;
@@ -174,6 +174,43 @@
 	margin-left: 650px;
 	background-color: #FFFFFF;
 }
+.DeliveryShow{
+	vertical-align: top;
+	margin-top : 10px;
+	margin-left: 180px;
+	display : inline-block;
+	width : 80px;
+	height : 30px;
+	background-color:#FFFFFF;
+}
+.DeliveryAtten{
+	vertical-align: top;
+	margin-top : 10px;
+	margin-left: 20px;
+	display : inline-block;
+	width : 100px;
+	height : 30px;
+	background-color:#FFFFFF;
+}
+.tradeStatusBtn1{
+	vertical-align: top;
+	margin-top : 10px;
+	margin-left: 20px;
+	display : inline-block;
+	width : 80px;
+	height : 30px;
+	background-color:#FFFFFF;
+}
+.tradeComplete{
+	vertical-align: top;
+	margin-top : 10px;
+	margin-left: 20px;
+	display : inline-block;
+	width : 80px;
+	height : 30px;
+	background-color:#FFFFFF;
+}
+
 
 
 
@@ -184,7 +221,7 @@
 	height : 30px;
 	background-color:#FFFFFF;
 	margin-left: 410px;
-	border-radius: 20px;
+		border-radius: 20px;
 
 }
 
@@ -192,44 +229,15 @@
 
 
 
-.WriteBtn{
-	width : 80px;
-	height : 30px;
-	background-color: #FFFFFF;
-	border-radius: 20px;
-	margin-left: 725px;
-}
-.repleContent{
-	width : 100%;
-	height :	100%;
-  word-break:break-all;
-   overflow-y: auto;
-}
-.reportBtn1{
-	width : 70px;
-	height : 30px;
-	background-color: #FFFFFF;
-	border-radius: 20px;
-	margin-left: 80px;
-}
-.repleDelBtn{
-	width : 70px;
-	height : 30px;
-	background-color: #FFFFFF;
-	border-radius: 20px;
-	margin-left: 80px;
-}
-</style>
-<style type="text/css">
-.popupReport{
+.popup{
     display: inline-block;
-    width: 600px;
-    height: 750px;
+    width: 450px;
+    height: 250px;
     background-color:#BBBBBB;
     position: absolute;
     z-index: 200;
-    top: calc(45% - 50px);
-    left: calc(40% - 100px);
+    top: calc(75% - 50px);
+    left: calc(50% - 100px);
     border: 2px solid #000000;
 }
 .popupMain{
@@ -242,57 +250,100 @@
     opacity: 0.4;  
       
 }
-.reportHead{
-	  width: 100%;
+.starBar{
+    margin-left : 50px;	
+    margin-top:40px;		
+    display : inline-block;
+    width:270px;
     height: 50px;
-    background-color:#F12C23;
-
+    background-color:#FFFFFF;
 }
+.star{
 
-.reportContent{
-	
-	width: 100%;
-    height: 460px;
-    background-color:#012C03;
-	
-
+    display : inline-block;
+    width: 200px;
+    height: 46px;
+    background-color:#FFFFFF;
+ 	border: 2px solid #000000;
 }
-
-.reportContent textarea{
-	margin-left: 26px;
-}
-
-.reportSome{
-	width: 100%;
-    height: 180px;
-    background-color:#012123;
-}
-
-.reportBtn1{
+.starListOpen{
+	vertical-align :top;
 	display : inline-block;
-	margin-left : 30px;
-	width: 70px;
-    height: 40px;
-    background-color:#012FF3;
+ 	width: 56px;
+    height: 46px;
+    background-color:#FFFFFF;
+    border: 2px solid #000000;
+}
+.starBtn{
+	vertical-align:top;
+	margin-top:40px;		
+    display : inline-block;
+ 	width: 23%;
+    height: 50px;
+    background-color:#777777;
+}
+.starList{
+	margin-left : 50px;	
+    display : inline-block;
+    width: 200px;
+    height: 250px;
+    background-color:#FFFFFF;
+ 	border: 2px solid #000000;
+}
+.star1{
+
+    display : inline-block;
+    width: 200px;
+    height: 46px;
+    background-color:#FFFFFF;
+
+}
+.star2{
+
+    display : inline-block;
+    width: 200px;
+    height: 46px;
+    background-color:#FFFFFF;
+
+}
+.star3{
+
+    display : inline-block;
+    width: 200px;
+    height: 46px;
+    background-color:#FFFFFF;
+ 
+}
+.star4{
+
+    display : inline-block;
+    width: 200px;
+    height: 46px;
+    background-color:#FFFFFF;
+ 
+}
+.star5{
+
+    display : inline-block;
+    width: 200px;
+    height: 46px;
+    background-color:#FFFFFF;
 
 }
 
-.reportCencelBtn{
-	vertical-align :top ;
-	display : inline-block;
-	margin-left : 400px;
-	width: 70px;
-    height: 40px;
-    background-color:#012FF3;
-
+.starList img{
+	width: 200px;
+    height: 46px;
 }
-
-	
+.star img{
+	width: 200px;
+    height: 46px;
+}
 </style>
-
+	
 <script type="text/javascript">
+
 $(document).ready(function(){	
-	showReple();
 	$(".tradePicture1").on("click",function(){
 		var img = $(".tradePictureMain").children("img").prop("src");
 		var img1 = $(".tradePicture1").children("img").prop("src");
@@ -340,12 +391,16 @@ $(document).ready(function(){
 		
 		
 	});
-	$(".tradeUpdateBtn").on("click",function(){
+	$(".tradeStatusBtn").on("click",function(){
 		
-		$("#actionForm").attr("action", "TradeUpdate");
+		$("#actionForm").attr("action", "TradeStatus");
 		$("#actionForm").submit();
 	});
-	
+	$(".tradeStatusBtn1").on("click",function(){
+		
+		$("#actionForm").attr("action", "AuctionStatus");
+		$("#actionForm").submit();
+	});
 	
 	$(".tradeRequest").on("click",function(){
 		$("#actionForm").attr("action", "TradeEscrow");
@@ -353,49 +408,55 @@ $(document).ready(function(){
 		
 	});
 	
-	$(".tradeDeleteBtn").on("click",function(){
-		if(confirm("삭제하시겠습니까???????")){
+	$(".DeliveryAtten").on("click",function(){
+		$("#actionForm").attr("action", "DeliIntroPage");
+		$("#actionForm").submit();
+		
+	});
+	
+	$(".DeliveryShow").on("click",function(){
+		$("#actionForm").attr("action", "DeliShowPage");
+		$("#actionForm").submit();
+		
+	});
+	
+	$(".tradeComplete").on("click",function(){
+		if(confirm("거래를 완료하시겠습니까???????")){
 			var params = $("#actionForm").serialize();
 			
 			$.ajax({
 				type:"post",
-				url:"deleteTrade",
+				url:"CompleteUpdate",
 				dataType:"json",
 				data : params,
 				success : function(result){
-			
-						location.href="TradeBoard";
+					$(".popupMain").css("display","block");
+					$(".popup").css("display","block");
+					$("input[name='SellNo']").val(result.SellNo);	
 						
 				
 				},
 				error : function(result){
 					alert("ERROR");
+					
 				}
 			});
 		}
 	});
-	$(".repleDelBtn").on("click",function(){
-		
-		
-		alert("qwd");		
 	
-	});
 	
-	$(".WriteBtn").on("click",function(){
-		
-		if(confirm("작성???????")){
-			var params = $("#repleForm").serialize();
+	$(".tradeCencelBtn").on("click",function(){
+		if(confirm("거래를 취소하겠습니다???????")){
+			var params = $("#actionForm").serialize();
 			
 			$.ajax({
 				type:"post",
-				url:"insertReple",
+				url:"TradeCencelDel",
 				dataType:"json",
 				data : params,
 				success : function(result){
-				
-					$("#actionForm").attr("action", "TradeBoardLook");
-					$("#actionForm").submit();
-						
+					alert("취소되었습니다");	
+					location.href="TradeBoard";
 				
 				},
 				error : function(result){
@@ -405,189 +466,151 @@ $(document).ready(function(){
 		}
 	});
 	
-
-	$("#RepleList").on("click", ".RepleDel", function(){
-	      if(confirm("정말삭제할꺼야?")){
-	         $("input[name='repleNo']").val($(this).attr("name"));
-	         console.log($("input[name='repleNo']").val());
-	         var params = $("#repleForm").serialize();
+	
+	$("#star1").on("click",function(){
+		
+		var img1 = $(".star1").children("img").prop("src");
+		$(".star").html("<img alt='1' src='"+img1+"' />");
+		$(".starList").css("display","none");
+		
+	});
+	$("#star2").on("click",function(){
+		var img1 = $(".star2").children("img").prop("src");
+		$(".star").html("<img alt='2' src='"+img1+"'/>");
+		$(".starList").css("display","none");
+		
+	});
+	$("#star3").on("click",function(){
+		var img1 = $(".star3").children("img").prop("src");
+		$(".star").html("<img alt='3' src='"+img1+"' />");
+		$(".starList").css("display","none");
+		
+	});
+	$("#star4").on("click",function(){
+		var img1 = $(".star4").children("img").prop("src");
+		$(".star").html("<img alt='4' src='"+img1+"'/>");
+		$(".starList").css("display","none");
+		
+	});
+	$("#star5").on("click",function(){
+		var img1 = $(".star5").children("img").prop("src");
+		$(".star").html("<img alt='5' src='"+img1+"' />");
+		$(".starList").css("display","none");
+	});
+	
+	$(".starListOpen").on("click",function(){
+		$(".starList").css("display","block");
+	});
+	
+	$(".starBtn").on("click",function(){
+		
+	if(	$(".star").html()!=""){
+		$("input[name='Star']").val($(".star").children("img").prop("alt"));
+		
+		
+		var params = $("#actionForm").serialize();
+		
+		$.ajax({
+			type:"post",
+			url:"updateStar",
+			dataType:"json",
+			data : params,
+			success : function(result){
+		
+			if(result.con6.SATIS*20+result.con6.T_COUNT*100>=200  && result.con6.SATIS*20+result.con6.T_COUNT*100<400){
+				$("input[name='Rank']").val("2");
 				
+				
+				var params = $("#actionForm").serialize();
 				$.ajax({
 					type:"post",
-					url:"updateDelReple",
+					url:"updateRank1",
 					dataType:"json",
 					data : params,
 					success : function(result){
-					
-						$("#actionForm").attr("action", "TradeBoardLook");
+						$(".popupMain").css("display","block");
+						$(".popup").css("display","block");
+						$("#actionForm").attr("action","TradeRequest");
 						$("#actionForm").submit();
-							
-					
 					},
 					error : function(result){
 						alert("ERROR");
 					}
 				});
-	      }
-	      else{
-	         
-	      }
-	   });
-	
-	
-
-	$("#RepleList").on("click", ".repleReport", function(){
-		$(".popupMain").css("display","block");
-		$(".popupReport").css("display","block");
-		$("input[name='fraudUser']").val($(this).attr("name"));
-		 var ar= $("input[name='fraudUser']").val();
-		 var arr = ar.split("_");
-		 $("input[name='fraudUser']").val(arr[1]);
-		 $("input[name='repleNo1']").val(arr[0]);
-		 $("input[name='reportContent1']").val(arr[2]);
-		 $("input[name='reportTitle1']").val("댓글");
-		 
-		
-	   });
-	
-});	
-	
-	
-	
-	
-	function showReple(){
-		var params = $("#actionForm").serialize(); //serialize 정렬해서 보여준다.
-		
-		$.ajax({//비동기화방식
-			type : "post",
-			url : "showReple", 
-			dataType : "json",
-			data : params,
-			success : function(result){
-				var html = "";
-				
-				for(var i = 0 ; i < result.list1.length ; i++){
 					
-					
-					
-					html +="<tr>";
-					html +="<td width='20%''>"+result.list1[i].NICK+"</td>";
-					html +="<td width='20%'>"+result.list1[i].WRITER_DATE+"</td>";
+			}
+			else if(result.con6.SATIS*20+result.con6.T_COUNT*100>=400 && result.con6.SATIS*20+result.con6.T_COUNT*100<600){
+				$("input[name='Rank']").val("3")
 				
-					html +="<td width='40%'></td>";
-					if($("input[name='sNo']").val()!=null){
-						html += "<td class='repleReport' name='" + result.list1[i].T_COMMENT_NO + "_"+result.list1[i].MEMBERNO+"_"+result.list1[i].T_COMMENT_CONTENT +"'>"
-						+ '신고하기' + "</td>";
-				
-						}else{
-							html+="<td></td>";
-						}
-					html +="</tr>";
-				
-					html +="<tr>";	
-					html +="<td colspan='4' height='80px'><div class='repleContent'>"+result.list1[i].T_COMMENT_CONTENT+"</div></td>";					
-					html +="</tr>";
-				   
-					html +="<tr>";	
-					html +="<td colspan='3'></td>";
-					if(result.list1[i].MEMBERNO==$("input[name='sNo']").val()){
-					html += "<td class='RepleDel' name='" + result.list1[i].T_COMMENT_NO + "' value='result.list1[i].T_COMMENT_NO'>" + '삭제' + "</td>";
-			
-					}else{
-						html+="<td></td>";
+				var params = $("#actionForm").serialize();
+				$.ajax({
+					type:"post",
+					url:"updateRank1",
+					dataType:"json",
+					data : params,
+					success : function(result){
+						$(".popupMain").css("display","block");
+						$(".popup").css("display","block");
+						$("#actionForm").attr("action","TradeRequest");
+						$("#actionForm").submit();
+						
+					},
+					error : function(result){
+						alert("ERROR");
 					}
-					html +="<tr/>";
-				}
+				});
 				
-				$("#RepleList").html(html);
 				
-
+			}
+			else if(result.con6.SATIS*20+result.con6.T_COUNT*100>=600){
+				$("input[name='Rank']").val("4")
+				
+				var params = $("#actionForm").serialize();
+				$.ajax({
+					type:"post",
+					url:"updateRank1",
+					dataType:"json",
+					data : params,
+					success : function(result){
+				
+						$(".popupMain").css("display","block");
+						$(".popup").css("display","block");
+						$("#actionForm").attr("action","TradeRequest");
+						$("#actionForm").submit();
+					},
+					error : function(result){
+						alert("ERROR");
+					}
+				});
+				
+			}
+			else {
+				$(".popupMain").css("display","block");
+				$(".popup").css("display","block");
+				$("#actionForm").attr("action","TradeRequest");
+				$("#actionForm").submit();
+				
+			}
+				
 			
-					
-			
- 	
-				
 			},
 			error : function(result){
-				alert("error!!");
+				alert("ERROR");
 			}
 		});
+		
 	}
-
-</script>
-
-
-<script type="text/javascript">
-$(document).ready(function(){
-
-
-	$(".reportBtn").on("click", function(){
-		$(".popupMain").css("display","block");
-		$(".popupReport").css("display","block");
-	});
-	
-	$(".reportCencelBtn").on("click", function(){
-		$(".popupMain").css("display","none");
-		$(".popupReport").css("display","none");
-	});
-	
-	$(".reportBtn1").on("click", function(){
-		var reportForm = $("#reportForm");
-		alert("qwd");
-		reportForm.ajaxForm(uploadResultCallBack); // insertForm을 ajaxForm형태로 바꾸겠다. uploadResultCallBack은 ajax를 호출하고나서 이 함수를 호출하겠다.
-		reportForm.submit();		
-
+	else{
+		alert("별점을 선택하여 주십쇼");
+	}
+		
 	});
 });
 
-function uploadResultCallBack(data, result){ //data:json(아까param가지고 조랄한거.) result : success와 faile ajax결과
-	if(result =="success"){
-		var resData = eval("(" + removePre(data) + ")");  // eval는 자바스크립트의 bean으로 바꿔주는것.
-		
-		$("#textFile").val(resData.fileName[0]); // 이거아까20자리 맥인거 그거가져오는듯
-		$("#textFile1").val(resData.fileName[1]);
-		$("#textFile2").val(resData.fileName[2]);
-		$("#textFile3").val(resData.fileName[3]);
-		$("#textFile4").val(resData.fileName[4]);
-		var params = $("#reportForm").serialize();
-		
-		$.ajax({
-			type : "post",
-			url : "insertTradeReport", // TestController에서 마들기
-			dataType : "json",
-			data : params,
-			success : function(result){
-				if(result.res == "true"){
-					location.href = "TradeBoard";
-				} else{
-					alert("저장 중 문제가 발생했습니다.");
-				}
-			},
-			error : function(result){
-				alert("ERROR!!");
-			}
-		});
-	} else{
-		alert("저장실패");
-	}
-	
-}
-
-
-function removePre(data){
-	if(data.indexOf("<pre>") > -1){ // data의 indexOf(위치찾기) -1은없는경우고  -1보다 크다는건 있다는얘기
-		var st = data.indexOf(">");  //  범위 지정하구있음  pre빼고 짜르겠다는 얘기.
-		var ed = data.indexOf("<", st); // 
-		
-		return data.substring(st + 1, ed); // 값을 되돌려줌 짜른 값 pre를 되도렬줌 <>짜르고.
-	} else {
-		return data;
-	}
-}
 </script>
 </head>
 <body>
-<div class="popupMain" style="display:none"></div>
+<div class="popupMain" style="display: none;"></div>
 <div class="main">
 	<div class="left"></div>
 	<div class="main1">
@@ -755,38 +778,45 @@ function removePre(data){
 				</div>	
 			
 				<div class="tradeIf">
-				<div class="reportBtn">신고하기</div>
+				<div class="reportBtn"> 신고하기 </div>
 				<br/>
 				<br/>
 				<form action="#" id="actionForm" method="post">
 					<input type="hidden" name="page" value="${param.page}"/>
 					<input type="hidden" name="searchText" value="${param.searchText }"/>
 					<input type="hidden" name="testNo" value="${param.testNo}"/>
+					<input type="hidden" name="TradeNo" value="${param.TradeNo}">
+					<input type="hidden" name="Buy" value="${con.BUY_PAY}">
+					<input type="hidden" name="Star" value="">
+					<input type="hidden" name="SellNo" value="">
+					<input type="hidden" name="Rank" value="">
+					
 				</form>
+				
 					<table border="1" width="490px">
 						<tr>
 							<th width="20%">제목</th>
-							<th width="80%">${con.WORD_TITLE}</th>
+							<th width="80%">${con.WORDTITLE}</th>
 						</tr>
 						
 						<tr>
 							<td>물품명</td>
-							<td>${con.TRADE_BOARD}${con1.TRADE_NO}</td>
+							<td>${con.AUCTIONPRODUCTNAME}
+							${con.AUCTIONSTATUS}
+						</td>
 						</tr>
 						
-						<tr>
-							<td>닉네임</td>
-							<td>${con.NICK}</td>
-						</tr>
+						
 						
 						<tr>
 							<td>가격</td>
-							<td>${con.BUY_PAY}</td>
+							<td>${con.BIDPRICE}</td>
 						</tr>
 						
 						<tr>
 							<td>날짜</td>
-							<td>${con.WRITER_DATE}</td>
+							<td>${con.ESCROWWHETHER}</td>
+				
 						</tr>
 					</table>
 				</div>
@@ -794,57 +824,35 @@ function removePre(data){
 			</div>
 			<div class="tradeContent1">
 				<div class="tradeContentTop">
-						${con.WORD_CONTENTS}
-				</div>
-				<div class="tradeContentBottom">
-					
-					<c:choose>
-						<c:when test="${sNo eq con.MEMBERNO}">
-							<div class="tradeUpdateBtn">수정</div>
-							<div class="tradeDeleteBtn">삭제</div>
-						</c:when>
-						<c:when test="${con1.TRADE_NO ne null}">
-						
-						</c:when>
-						<c:otherwise>
-							<div class="tradeRequest">거래요청</div>
-						</c:otherwise>
-					</c:choose>
-				</div>
-			</div>
-			<div class="tradeReple">
-				<form action="#" method="post" id="repleForm" >
-				<input type="text" name="sNo" value="${sNo}">
-				<input type="text" name="testNo" value="${param.testNo}"/>
-				<input type="text" name="repleNo" value=""/>
 				
-				<table border="1" width="820px">
-					<tr>
-						<td>댓글
-						</td>
-					</tr>
-					<tr>
-						<td height="80px">
-						<textarea rows="5" cols="112" name="repleContent" style="resize: none;"></textarea>
-						</td>
-					</tr>
-					<tr>
-						<td>
-						<div class="WriteBtn" >글쓰기</div>
-						</td>
-					</tr>
+						${con.WORDCONTENT}
+				</div>
+				<c:choose>
+					<c:when test="${con.AUCTIONSTATUS eq 8 }">
+						<div class="tradeContentBottom" style="display: none;">
+					</c:when>
+					<c:otherwise>
+						<div class="tradeContentBottom">
+					</c:otherwise>
+				</c:choose>
 					
-				</table>
-				</form>
-				<br/>
-				<table border="1" width="820px">
-					<tbody id="RepleList">
 					
-				
-					</tbody>
 			
-				</table>
+							<div class="tradeStatus2" id="tradeStatus2" >
+						
+								<div class="DeliveryShow">배송 조회</div>
+								<div class="DeliveryAtten">배송유의사항</div>
+								<div class="tradeStatusBtn1">거래 현황</div>
+								<div class="tradeComplete">거래 완료</div>
+							</div>
+							
+					
+				</div>
+				
+			
+				
 			</div>
+		
 		</div>	
 					
 		</div>
@@ -854,50 +862,30 @@ function removePre(data){
 	
 	<div class="ad"></div>
 	</div>
-	
 </div>
 
-<div class="popupReport" style="display:none">
-	<form action="fileUploadAjax" method="post" id="reportForm"  name="reportForm" enctype="multipart/form-data">
-	<div class="reportHead">
-			신고사례 
-				<select name="reportCato">
-						<option value="1">물품상태 불량</option>
-						<option value="2">구성품 누락</option>
-						<option value="3">욕설 및 비매너</option>
-				</select>
-				<input type="text" name="reportTitle"/>
-	</div>
+<div class="popup" style="display: none;">
+
+		<div class="starBar">
+			<div class="star"></div>
+			<div class="starListOpen"></div>
+		</div>
+		<div class="starBtn"> 	</div>
 	
-	<div class="reportContent">
-	<textarea rows="30" cols="75"  style="resize: none;" name="reportContent"></textarea>
-	</div>
-	<div class="reportSome">
-		<input type="hidden" name="reportUser" value="${sNo}"/>
-		<input type="hidden" name="fraudUser" value="${con.MEMBERNO}"/>
-		<input type="hidden" name="testNo" value="${param.testNo}"/>
-		<input type="hidden" name="reportTitle1" value="${con.WORD_TITLE}"/>
-		<input type="hidden" name="reportContent1" value="${con.WORD_CONTENTS}"/>
-		<input type="hidden" name="repleNo1" value=""/>
-					<input type="file" name="att1"> 
-					<input type="hidden" name="textFile" id="textFile"/>
-					<input type="file" name="att2"> 
-					<input type="hidden" name="textFile1" id="textFile1"/>
-					<input type="file" name="att3"> 
-					<input type="hidden" name="textFile2" id="textFile2"/>
-					<input type="file" name="att4"> 
-					<input type="hidden" name="textFile3" id="textFile3"/>
-					<input type="file" name="att5"> 
-					<input type="hidden" name="textFile4" id="textFile4"/>
-	</div>
-	<div class="reportCencelBtn"></div>
-	<div  class="reportBtn1">
-					
-					
+		<div class="starList" style="display:none">
+			<div class="star1" id="star1"><img src="resources/images/TradeStatus1/star1.png"/></div>
+			<div class="star2" id="star2"><img src="resources/images/TradeStatus1/star2.png"/></div>
+			<div class="star3" id="star3"><img src="resources/images/TradeStatus1/star3.png"/></div>
+			<div class="star4" id="star4"><img src="resources/images/TradeStatus1/star4.png"/></div>
+			<div class="star5" id="star5"><img src="resources/images/TradeStatus1/star5.png"/></div>
+			
+		</div>
 	
-	</div>
-	</form>
+	
+
+
 
 </div>
+
 </body>
 </html>

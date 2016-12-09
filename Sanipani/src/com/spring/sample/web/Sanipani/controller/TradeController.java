@@ -387,9 +387,11 @@ public class TradeController {
 	      modelMap.put("buy", buy);
 	      HashMap<String, String> con2 = iTradeService.getTradeStatus1(params);	
 	      modelMap.put("con2", con2);
-	      HashMap<String, String> con3 = iTradeService.getTradeTotal1(params);	
+	      /*HashMap<String, String> con3 = iTradeService.getTradeTotal1(params);	
+	      modelMap.put("con3", con3);*/
+	      int con3 = iTradeService.getTradeTotal1(params);
 	      modelMap.put("con3", con3);
-		   
+	      
 	      HttpHeaders responseHeaders = new HttpHeaders();
 	      responseHeaders.add("Content-Type", "text/json; charset=UTF-8");
 	      
@@ -411,9 +413,10 @@ public class TradeController {
 	      modelMap.put("sell", sell);
 	      HashMap<String, String> con2 = iTradeService.getTradeStatus1(params);	
 	      modelMap.put("con2", con2);
-	      HashMap<String, String> con3 = iTradeService.getTradeTotal1(params);	
+	     /* HashMap<String, String> con3 = iTradeService.getTradeTotal1(params);	*/
+	   /*   modelMap.put("con3", con3);*/
+	      int con3 = iTradeService.getTradeTotal1(params);
 	      modelMap.put("con3", con3);
-	      
 	      HttpHeaders responseHeaders = new HttpHeaders();
 	      responseHeaders.add("Content-Type", "text/json; charset=UTF-8");
 	      
@@ -673,4 +676,81 @@ public class TradeController {
 	      return new ResponseEntity<String>(mapper.writeValueAsString(modelMap),
 	                                responseHeaders, HttpStatus.CREATED);   
 	   }
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+
+	   
+	   
+	   
+	   
+	   
+	   ///////////////////////////////////////////////Aution 
+	   
+	   @RequestMapping(value="/AuctionEscrow")
+	   public ModelAndView AuctionEscrow(HttpServletRequest request,
+			   							HttpSession session,
+			   							ModelAndView modelAndView ){
+		   
+		   modelAndView.setViewName("spTradeBoard/AuctionEscrow");
+		   
+		   return modelAndView;
+	   }
+	   
+	   @RequestMapping(value = "/EscrowUpdateAuction")
+	   public @ResponseBody ResponseEntity<String> EscrowUpdateAuction(
+	         HttpServletRequest request,
+	         @RequestParam HashMap<String, String> params,
+	         ModelAndView modelAndView) throws Throwable {
+	      ObjectMapper mapper = new ObjectMapper();
+	      
+	      Map<String, Object> modelMap = new HashMap<String, Object>();
+	      
+	      iTradeService.EscrowUpdateAuction(params);
+	 
+	      
+	      HttpHeaders responseHeaders = new HttpHeaders();
+	      responseHeaders.add("Content-Type", "text/json; charset=UTF-8");
+	      
+	      return new ResponseEntity<String>(mapper.writeValueAsString(modelMap),
+	                                responseHeaders, HttpStatus.CREATED);   
+	   }
+	   
+	   
+	   
+	  	   @RequestMapping(value="/AuctionRequest1")
+  		   public ModelAndView AuctionRequest1(HttpServletRequest request,
+			   							HttpSession session,
+			   							@RequestParam HashMap<String, String> params,
+			   							ModelAndView modelAndView ) throws Throwable{
+		   HashMap<String, String> con = iTradeService.getStatusAuction(params);
+
+		   modelAndView.addObject("con", con);  
+		   
+		   modelAndView.setViewName("spTradeBoard/AuctionRequest1");
+		   
+		   return modelAndView;
+	   }
+	  	   
+	  	  @RequestMapping(value="/AuctionStatus")
+ 		   public ModelAndView AuctionStatus(HttpServletRequest request,
+			   							HttpSession session,
+			   							@RequestParam HashMap<String, String> params,
+			   							ModelAndView modelAndView ) throws Throwable{
+	  		 HashMap<String, String> con = iTradeService.getStatusBuyer(params);
+			 modelAndView.addObject("con", con);
+			   
+			 HashMap<String, String> con1 = iTradeService.getAuctionSeller(params);
+			 modelAndView.addObject("con1", con1);
+		   
+		   modelAndView.setViewName("spTradeBoard/AuctionStatus");
+		   
+		   return modelAndView;
+	   }
+		     
+		   
 }

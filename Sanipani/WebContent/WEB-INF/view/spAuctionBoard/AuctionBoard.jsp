@@ -86,7 +86,7 @@ function refreshList() {
 					html +=	"<td>" + result.list[i].BIDPRICE + "</td>";
 				}
 				html +=	"<td>" + result.list[i].NICK + "</td>";;
-				html +=	"<td>" + result.list[i].ENDDATE + "</td>";
+				html +=	"<td>" + result.list[i].REALENDDATE + "</td>";
 				html += "</tr>";
 			}
 			

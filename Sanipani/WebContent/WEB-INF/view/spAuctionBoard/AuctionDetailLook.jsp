@@ -306,9 +306,8 @@ $(document).ready(function() {
 			alert("아직 경매가 마감되지 않았습니다.");
 			return false;
 		}
-		
-		if($("input[name='AuctionBoardStatus']").val() == 1 && $("input[name='AuctionStatus']").val() == 1 && 
-				$("input[name='memberNo']").val() == $("input[name='auctionMemberNo']").val()) {
+
+		if($("input[name='AuctionBoardStatus']").val() == 1 && $("input[name='auctionMemNo']").val() == $("input[name='auctionMemberNo']").val()) {
 			$("#actionForm").attr("action", "AuctionRequest");
 			$("#actionForm").submit();
 		} else if ($("input[name='AuctionBoardStatus']").val() == 1) {
@@ -320,11 +319,75 @@ $(document).ready(function() {
 	$(".AuctionPriceRegisterBtn").on("click",function(){
 		var updateForm = $("#updateForm")
 		
-		if($("input[name='AuctionBoardStatus']").val() == 1) {
+ 		if($("input[name='AuctionBoardStatus']").val() == 1) {
 			alert("경매가 마감이 되어 경매가를 등록할 수 없습니다.");
 			return false;
 		}
 		
+		if($("input[name='StartBuyPay']").val() * 1 > $("input[name='AuctionPrice']").val() * 1) {
+			alert("시작경매가보다 가격이 적습니다.");
+			return false;
+		}
+		
+		if($("input[name='RightNowBuyPay']").val() * 1 < $("input[name='AuctionPrice']").val() * 1) {
+			alert("즉시 구매가보다 클 수 없습니다.");
+			return false;
+		}
+		
+		if($("input[name='RightNowBuyPay']").val() * 1 == $("input[name='AuctionPrice']").val() * 1) {
+			var params = $("#updateForm").serialize();
+			
+			$.ajax({
+				type : "post",
+				url : "updateAuctionEnd",
+				dataType : "json",
+				data : params,
+				success : function(result) {
+					if (result.res > 0) {
+						if($("input[name='AuctionBoardStatus']").val() == 1 || $("input[name='AuctionStatus']").val() == 1) {
+							D = 0;
+							H = 0;
+							M = 0;
+							S = 0;
+							
+							$(".countTimeDay").html(D);
+							$(".countTimeHour").html(H);
+							$(".countTimeMinute").html(M);
+							$(".countTimeSecond").html(S);
+							
+							clearInterval(timer);
+							
+							alert("경매가 종료되었습니다.");
+						}
+					} else {
+						alert("경매가 종료되지 않았습니다.");
+					}
+				},
+				error : function(result) {
+					alert("ERROR");
+				}
+			});
+			
+			var params = $("#actionForm").serialize();
+			
+			$.ajax({
+				type : "post",
+				url : "deleteNotAuctionMember",
+				dataType : "json",
+				data : params,
+				success : function(result) {
+					if(result.res > 0) {
+						alert("경매 미참여자는 삭제되었습니다.");
+					} else {
+						alert("경매 미참여자가 삭제되지 않았습니다.");
+					}
+				},
+				error : function(result) {
+					alert("ERROR");
+				}
+			});
+		}
+
 		if(M < 5 && H == 0 && D == 0) {
 			updateForm.ajaxForm(UpdateTime);
 			updateForm.submit();
@@ -346,7 +409,7 @@ $(document).ready(function() {
 	M = $("input[name='AuctionMinute']").val();
 	S = $("input[name='AuctionSecond']").val();
 
-	if($("input[name='AuctionBoardStatus']").val() == 1 && $("input[name='AuctionStatus']").val() == 1) {
+	if($("input[name='AuctionBoardStatus']").val() == 1 || $("input[name='AuctionStatus']").val() == 1) {
 		D = 0;
 		H = 0;
 		M = 0;
@@ -381,6 +444,25 @@ $(document).ready(function() {
 							alert('해당 경매가 종료되었습니다.');
 						} else {
 							alert("경매가 종료되지 않았습니다.");
+						}
+					},
+					error : function(result) {
+						alert("ERROR");
+					}
+				});
+				
+				var params = $("#actionForm").serialize();
+						
+				$.ajax({
+					type : "post",
+					url : "deleteNotAuctionMember",
+					dataType : "json",
+					data : params,
+					success : function(result) {
+						if(result.res > 0) {
+							alert("경매 미참여자는 삭제되었습니다.");
+						} else {
+							alert("경매 미참여자가 삭제되지 않았습니다.");
 						}
 					},
 					error : function(result) {
@@ -685,6 +767,9 @@ function UpdateTime(data, result) {
 					<input type="hidden" name="AuctionBoardStatus" value="${con.AUCTIONBOARDSTATUS}">
 					<input type="hidden" name="AuctionStatus" value="${con.AUCTIONSTATUS}">
 					<input type="hidden" name="BidPrice" value="${con.BIDPRICE}">
+					<input type="hidden" name="RightNowBuyPay" value="${con.RNOWBUYPAY}" />
+					<input type="hidden" name="StartBuyPay" value="${con.STARTBUYPAY}" />
+					<input type="hidden" name="auctionMemNo" value="${sNo}" />
 				</form>
 				<table border="1" width="330" height="250">
 					<tr>
@@ -784,6 +869,7 @@ function UpdateTime(data, result) {
 										<input type="hidden" name="auctionEndDATE" value="${con.ENDDATE}" />
 										<input type="hidden" name="MemberNo" value="${con.MEMBERNO}"/>
 										<input type="hidden" name="BidPrice" value="${con.BIDPRICE}"/>
+										<input type="hidden" name="auctionMemNo" value="${sNo}" />
 									<table width="690px" style="margin-top : 10px">
 										<tr>
 											<td>현재 경매가 :
@@ -809,6 +895,9 @@ function UpdateTime(data, result) {
 						<input type="hidden" name="memberNo" value="${sNo}">
 						<input type="hidden" name="auctionNo" value="${param.auctionNo}" />
 						<input type="hidden" name="auctionMemberNo" value="${con.AUCTIONMEMBERNO}" />
+						<input type="hidden" name="auctionMemberNo" value="${con.AUCTIONMEMBERNO}" />
+						<input type="hidden" name="auctionMemNo" value="${sNo}" />
+						<input type="hidden" name="auctionMeNo" value="${con.MEMBERNO}" />
 							<c:choose>
 								<c:when test="${sNo eq con.MEMBERNO}">
 									<input type="button" value="목록" id="listBtn" class="AuctionListBtn"/>
