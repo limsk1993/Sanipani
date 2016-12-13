@@ -44,24 +44,11 @@
 .content{
    display :  block;
    width:100%;
-<<<<<<< HEAD
-   height : 1200px;
-   background-color: #B2FFD1;
-=======
    height : 1000px;
-<<<<<<< HEAD
-   background-color: #FFFFFF;
-=======
-<<<<<<< HEAD
    /* background-color: #B2FFD1; */
-=======
    background-color: #B2FFD1;
->>>>>>> branch 'master' of https://github.com/limsk1993/Sanipani
->>>>>>> branch 'master' of https://github.com/limsk1993/Sanipani
    border: 1px;
->>>>>>> branch 'master' of https://github.com/limsk1993/Sanipani
 }
-<<<<<<< HEAD
 .content2{
    display :  block;
    width:100%;
@@ -76,8 +63,6 @@
    /* background-color: #B2FFD1; */
    border: 1px;
 }
-=======
->>>>>>> branch 'master' of https://github.com/limsk1993/Sanipani
 
 .loginNull{
    display:inline-block;
@@ -262,27 +247,11 @@
 
 
 .auctionBoard{
-<<<<<<< HEAD
 	bottom : 0px;
   	display: inline-block;
   	width:19%;
   	height: 100px;
   	background-color: #333333;
-=======
-<<<<<<< HEAD
-   bottom : 0px;
-     display: inline-block;
-     width:19%;
-     height: 100px;
-     background-color: #333333;
-=======
-	bottom : 0px;
-  	display: inline-block;
-  	width:19%;
-  	height: 100px;
-  	background-color: #333333;
->>>>>>> branch 'master' of https://github.com/limsk1993/Sanipani
->>>>>>> branch 'master' of https://github.com/limsk1993/Sanipani
 }
 .auctionBoard_1{
    vertical-align : top;
@@ -468,15 +437,7 @@
    display :block;
    width: 150px;
    height: 550px;
-<<<<<<< HEAD
    background-color: #B2FFD1;
-=======
-<<<<<<< HEAD
-   background-color: #FFFFFF;
-=======
-   background-color: #B2FFD1;
->>>>>>> branch 'master' of https://github.com/limsk1993/Sanipani
->>>>>>> branch 'master' of https://github.com/limsk1993/Sanipani
 }
 
 .reporttitle{ /* 신고게시판 타이틀  */
