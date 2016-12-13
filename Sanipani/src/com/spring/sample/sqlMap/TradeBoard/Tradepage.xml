@@ -10,9 +10,39 @@
 				FROM TRADEBOARD
 				
 				WHERE 1 = 1
+				<isNotEqual  property="sRank" compareValue="0">
+    				AND TRADE_DEL = 1
+    			</isNotEqual>
 				<isNotEmpty property="searchText">
 				AND WORD_TITLE LIKE '%' || #searchText# || '%'
 				</isNotEmpty>
+				<isEqual property="catogery" compareValue="1">
+				AND CATEGORY_NO = 1
+				</isEqual>
+    			<isEqual  property="catogery" compareValue="2" >
+    			AND CATEGORY_NO = 2
+    			</isEqual>
+    			<isEqual  property="catogery" compareValue="3" >
+    			AND CATEGORY_NO = 3 
+    			</isEqual>
+    			<isEqual  property="catogery" compareValue="4" >
+    			AND CATEGORY_NO = 4 
+    			</isEqual>
+    			<isEqual  property="catogery" compareValue="5" >
+    			AND CATEGORY_NO = 5 
+    			</isEqual>
+    			<isEqual  property="catogery" compareValue="6" >
+    			AND CATEGORY_NO = 6 
+    			</isEqual>
+    			<isEqual  property="catogery" compareValue="7" >
+    			AND CATEGORY_NO = 7 
+    			</isEqual>
+    			<isEqual  property="catogery" compareValue="8" >
+    			AND CATEGORY_NO = 8 
+    			</isEqual>
+    			<isEqual  property="catogery" compareValue="9" >
+    			AND CATEGORY_NO = 9 
+    			</isEqual>
     	</select>
     	
     	<select id="getTradeBoard"
@@ -31,9 +61,10 @@
     			<isNotEmpty property="searchText">
     			AND T.WORD_TITLE LIKE '%' || #searchText# || '%'
     			</isNotEmpty>
-    			<isEqual  property="catogery" compareValue="1" >
-    			AND CATEGORY_NO = 1 
-    			</isEqual>
+    		
+    			<isEqual property="catogery" compareValue="1">
+				AND CATEGORY_NO = 1
+				</isEqual>
     			<isEqual  property="catogery" compareValue="2" >
     			AND CATEGORY_NO = 2
     			</isEqual>
@@ -61,7 +92,15 @@
     			
     			
     			) A	
-    			WHERE A.NO BETWEEN #start# AND #end# AND A.TRADE_DEL = 1
+    			
+    			WHERE A.NO BETWEEN #start# AND #end# 
+    			<isNotEqual  property="sRank" compareValue="0">
+    				AND A.TRADE_DEL = 1
+    			</isNotEqual>
+    		
+    			<isEqual property="search" compareValue="2">
+    			 ORDER BY BUY_PAY 
+    			</isEqual>
     	</select>
     	
     	<insert id="insertTrade" parameterClass="java.util.HashMap">
@@ -149,7 +188,7 @@
     	parameterClass="java.util.HashMap"
     	resultClass="java.util.HashMap">
     
-		SELECT M.NAME,M.PHONE,M.ADDR,M.DETAILADDR,M.EMAIL1,M.EMAIL2,T.TRADE_STATUS_NO
+		SELECT M.NAME,M.PHONE,M.ADDR,M.DETAILADDR,M.EMAIL1,M.EMAIL2,T.TRADE_STATUS_NO,T.MEMBERNO 
 			FROM TRADE T LEFT OUTER JOIN MEMBERINFO M ON T.MEMBERNO = M.MEMBERNO
             			 
 			WHERE T.TRADE_NO=#TradeNo#
@@ -161,9 +200,11 @@
     		<select id="getTradeUser2"
     	parameterClass="java.util.HashMap"
     	resultClass="java.util.HashMap">
-    	SELECT M.NAME,M.PHONE,M.ADDR,M.DETAILADDR,M.EMAIL1,M.EMAIL2,T.BUY_PAY
+    	SELECT M.NAME,M.PHONE,M.ADDR,M.DETAILADDR,M.EMAIL1,M.EMAIL2,T.BUY_PAY,T.MEMBERNO 
 		FROM TRADEBOARD T LEFT OUTER JOIN MEMBERINFO M ON T.MEMBERNO = M.MEMBERNO
-		WHERE T.TRADE_WORD_NO=#testNo#
+		WHERE T.TRADE_WORD_NO=(SELECT TRADE_WORD_NO
+								FROM TRADE
+							   WHERE TRADE_NO =#TradeNo#)
     	</select>
     	
     	<update id="updateStatus"
@@ -184,7 +225,7 @@
     	<select id="getStatus"
     	parameterClass="java.util.HashMap"
     	resultClass="java.util.HashMap">
-  		  SELECT  T.TRADE_WORD_NO,T.TRADE_BOARD,T.WORD_TITLE,T.WORD_CONTENTS,T.BUY_PAY,T1.TRADE_STATUS_NO,T1.TRADE_STATUS_NO1,
+  		  SELECT  T.TRADE_WORD_NO,T.TRADE_BOARD,T.WORD_TITLE,T.WORD_CONTENTS,T.BUY_PAY,T1.TRADE_STATUS_NO,T1.TRADE_STATUS_NO1,ESCROW_WHETHER,T.MEMBERNO,
            		  TO_CHAR(T.WRITER_DATE,'YYYY-MM-DD'||' '||'HH:MI:SS') AS WRITER_DATE ,P.PICTURENAME,P.PICTURENAME1,P.PICTURENAME2,P.PICTURENAME3,P.PICTURENAME4,
             	  SUBSTR(P.PICTURENAME,INSTR(P.PICTURENAME, '.', -1) +1) AS FILE_EXT,I.NICK,I.MEMBERNO
  				 
@@ -217,8 +258,8 @@
     	
     	<insert id="insertBuyerMoney"
     	parameterClass="java.util.HashMap">
-    	INSERT INTO SANIPANIMONEY(SA_PA_MO_NO,MEMBERNO,EXCHANGE_PRICE,EXCHANGE_DATE)
-		VALUES(SA_PA_MONEY.NEXTVAL,#sNo#,#Pay#,SYSDATE)
+    	INSERT INTO SANIPANIMONEY(SA_PA_MO_NO,MEMBERNO,EXCHANGE_PRICE,EXCHANGE_DATE,MONEY_STATUS)
+		VALUES(SA_PA_MONEY.NEXTVAL,#sNo#,#Pay#,SYSDATE,#TradeStatus#)
     	
     	</insert>
     	
@@ -289,18 +330,18 @@
     	
     	<insert id="MoneyUpdate"
     	 parameterClass="java.util.HashMap">
-    	INSERT INTO SANIPANIMONEY(SA_PA_MO_NO,MEMBERNO,CHARGE_PRICE,CHARGE_DATE)
-    	VALUES(SA_PA_MONEY.NEXTVAL,#SellNo#,#Buy#,SYSDATE)
+    	INSERT INTO SANIPANIMONEY(SA_PA_MO_NO,MEMBERNO,CHARGE_PRICE,CHARGE_DATE,MONEY_STATUS)
+    	    	VALUES(SA_PA_MONEY.NEXTVAL,#SellNo#,#Buy#,SYSDATE,#TradeStatus#)
     	</insert>
     	
     	<select id="getTradeCon1"
     	parameterClass="java.util.HashMap"
-    	resultClass="java.util.HashMap"
+    	resultClass="Integer"
     	>
     	
-       SELECT TRADE_NO
-       FROM TRADE
-       WHERE MEMBERNO =#sNo# AND TRADE_WORD_NO=#testNo#
+        SELECT TRADE_NO
+        FROM TRADE
+        WHERE MEMBERNO =#sNo# AND TRADE_WORD_NO=#testNo#
     	</select>
     	
     	<update id="updateStar"
@@ -315,14 +356,22 @@
     	parameterClass="java.util.HashMap"
     	resultClass="java.util.HashMap"
     	>
-    	SELECT M.SATIS,T.T_COUNT
-		FROM   MEMBERINFO M INNER JOIN (SELECT COUNT(TRADE_NO) AS T_COUNT,MEMBERNO
-                                FROM TRADE
-                                WHERE MEMBERNO =#SellNo#   AND
-                                      TRADE_STATUS_NO=4
-                                GROUP BY MEMBERNO) T
-                                ON M.MEMBERNO = T.MEMBERNO
-		WHERE  M.MEMBERNO=#SellNo#  
+    	SELECT SATIS,T_COUNT
+		  FROM (SELECT M.SATIS,(NVL(T_COUNT,0)+NVL(A_COUNT,0)) AS T_COUNT 
+		          FROM MEMBERINFO M LEFT OUTER JOIN (SELECT COUNT(TRADE_NO) AS T_COUNT,MEMBERNO
+                       					          FROM TRADE
+                             				     WHERE MEMBERNO =#SellNo#   AND
+                                      				   TRADE_STATUS_NO=4
+                              				  GROUP BY MEMBERNO) T
+                                    ON M.MEMBERNO = T.MEMBERNO
+                      
+                      		        LEFT OUTER JOIN (SELECT COUNT(AUCTIONNO) AS A_COUNT,MEMBERNO
+                                			      FROM AUCTION
+                             				     WHERE MEMBERNO =#SellNo#   AND
+                                     			 	   TRADESTATUSNO=9
+                                		      GROUP BY MEMBERNO) A
+                               		ON M.MEMBERNO = A.MEMBERNO
+				  WHERE  M.MEMBERNO=#SellNo# )
     	
     	
     	</select>
@@ -384,11 +433,21 @@
 		parameterClass="java.util.HashMap"
 		>
 			INSERT INTO REPORTBOARD(REPORTWORDNO,REPORTCATEGORYNO,WORDTITLE,WORDCONTENT,REPORTTARGET,MEMBERNO,WRITERDATE,
-									REPORT_TITLE,REPORT_CONTENT)
-      	    VALUES (REPORT_SEQ.NEXTVAL,#reportCato#,#reportTitle#,#reportContent#,#fraudUser#,#reportUser#,SYSDATE,#reportTitle1#,#reportContent1#)
+									REPORT_TITLE,REPORT_CONTENT,TRADE_WORD_NO)
+      	    VALUES (REPORT_SEQ.NEXTVAL,#reportCato#,#reportTitle#,#reportContent#,#fraudUser#,#reportUser#,SYSDATE,#reportTitle1#,#reportContent1#,#testNo#)
 	
 	
 	</insert>
+	
+	<update id="TradeDelUpdate"
+	 parameterClass="java.util.HashMap"
+	>
+		UPDATE TRADEBOARD
+ 	  	   SET TRADE_DEL = 0
+	     WHERE TRADE_WORD_NO =  (SELECT TRADE_WORD_NO
+                                   FROM TRADE
+                                  WHERE TRADE_NO= #TradeNo#)
+	</update>
     <!--Auction  -->
     <update id="EscrowUpdateAuction"
      parameterClass="java.util.HashMap"
@@ -405,27 +464,69 @@
      parameterClass="java.util.HashMap"
      resultClass="java.util.HashMap"
     >
-    SELECT BIDPRICE,AUCTIONPRODUCTNAME,WORDCONTENT,WORDTITLE,AUCTIONSTATUS,ESCROWWHETHER,
+     SELECT BIDPRICE,AUCTIONPRODUCTNAME,WORDCONTENT,WORDTITLE,TRADESTATUSNO,ESCROWWHETHER,AUCTIONNO,ID,MEMBERNO,
        		PICTURENAME,PICTURENAME1,PICTURENAME2,PICTURENAME3,PICTURENAME4 
-	FROM AUCTION A INNER JOIN AUCTIONBOARD B ON A.AUCTIONWORDNO = B.AUCTIONWORDNO
-               INNER JOIN AUCTIONPICTURE P ON A.AUCTIONWORDNO = P.AUCTIONWORDNO 
-	WHERE AUCTIONNO= 177
+	FROM AUCTIONBOARD B INNER JOIN AUCTION A ON  A.AUCTIONWORDNO = B.AUCTIONWORDNO
+               INNER JOIN AUCTIONPICTURE P ON B.AUCTIONWORDNO = P.AUCTIONWORDNO 
+               INNER JOIN MEMBERINFO I ON B.MEMBERNO = I.MEMBERNO
+	WHERE AUCTIONWORDNO= (SELECT  AUCTIONWORDNO
+                          FROM AUCTION
+                        WHERE  AUCTIONNO=#auctionNo#)
+                        AND AUCTIONNO = #auctionNo#
     </select>
     
      <select id="getStatusBuyer"
      parameterClass="java.util.HashMap"
      resultClass="java.util.HashMap"
     >
-  	SELECT NAME,PHONE,ADDR,DETAILADDR,EMAIL1,I.EMAIL2
+ 	SELECT NAME,PHONE,ADDR,DETAILADDR,EMAIL1,I.EMAIL2,DELIVERY_NAME,DELIVERY_NO
 	FROM AUCTION A INNER JOIN MEMBERINFO I ON A.MEMBERNO = I.MEMBERNO
-	WHERE A.MEMBERNO=1
+                   LEFT OUTER JOIN DELIVERYCENTER D ON A.DELIVERY_CENTER_NO = D.DELIVERY_CENTER_NO
+	WHERE A.AUCTIONNO=#auctionNo#
     </select>
     
      <select id="getAuctionSeller"
      parameterClass="java.util.HashMap"
      resultClass="java.util.HashMap"
     >
- 	
+ 	SELECT NAME,PHONE,ADDR,DETAILADDR,EMAIL1,I.EMAIL2,B.MEMBERNO
+	FROM AUCTIONBOARD B INNER JOIN MEMBERINFO I ON B.MEMBERNO = I.MEMBERNO
+	WHERE B.AUCTIONWORDNO =(SELECT AUCTIONWORDNO
+                            FROM AUCTION
+                           WHERE AUCTIONNO=#auctionNo#)
     </select>
     
+    <update id="DeliveryUpdateAuction"
+    parameterClass="java.util.HashMap"
+    >
+    
+    UPDATE AUCTION 
+ 	  SET  TRADESTATUSNO=8,
+   	       DELIVERY_NO=#deliveryNo#,
+           DELIVERY_CENTER_NO =#selectDelivery#,
+           DELIVERY_DATE=SYSDATE
+    WHERE  AUCTIONNO=#auctionNo#
+    
+    
+    </update>
+    
+    
+    <select id="getTradeUserNo1"
+    	parameterClass="java.util.HashMap"
+    	resultClass="java.lang.Long"
+    	>
+    	SELECT MEMBERNO
+		  FROM AUCTIONBOARD
+		 WHERE AUCTIONWORDNO = (SELECT AUCTIONWORDNO
+                                  FROM AUCTION
+                                 WHERE AUCTIONNO =#auctionNo#)
+    </select>
+    
+    <update id="CompleteUpdateAuction"
+    parameterClass="java.util.HashMap">
+    
+    UPDATE AUCTION SET TRADESTATUSNO=9
+	WHERE AUCTIONNO = #auctionNo#
+    
+    </update>
     </sqlMap>

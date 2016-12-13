@@ -43,6 +43,9 @@
 	height: 90%;
 	background-color: #123FAC;
 }
+input[type='text']{
+	width : 300px;
+}
 </style>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -303,13 +306,13 @@ function removePre(data){
 			<form action="fileUploadAjax" id="insertForm" method="post" enctype="multipart/form-data">
 			<table border="1">
 				<tr>
-					<td width="20%">물품명 </td>
-					<td width="80%"> <input type="text" name="TradeProductName"></</td>
+					<td width="20%" >물품명 </td>
+					<td width="80%"> <input type="text" maxlength="30" name="TradeProductName"></</td>
 				</tr>
 				
 				<tr>
 					<td>제목 </td>
-					<td><input type="text"  name="TradeTitle"> </td>
+					<td><input type="text" maxlength="30" name="TradeTitle"> </td>
 				</tr>
 				
 				<tr>
@@ -321,14 +324,14 @@ function removePre(data){
 					 													</td>
 				</tr>
 				
-				<tr>
 					<td>거래 가격: </td>
-					<td> <input type="text" name="TradePrice"></td>
+					<td> <input type="text" maxlength="10" name="TradePrice" placeholder="숫자만 입력하시요"></td>
 				</tr>
 				
 				<tr height="500px">
 					<td>내용 </td>
-					<td><textarea name="TradeContent" cols="90" rows="40" style="resize: none;"></textarea></td>
+					<td><pre><textarea name="TradeContent" cols="90" rows="40" style="resize: none;">
+					</textarea></pre></td>
 				</tr>
 				
 				
@@ -336,15 +339,15 @@ function removePre(data){
 				<tr>
 					<td>물품 사진 등록:</td>
 					<td><input type="file" name="att1"> 
-					<input type="text" name="textFile" id="textFile"/>
+					<input type="hidden" name="textFile" id="textFile"/>
 					<input type="file" name="att2"> 
-					<input type="text" name="textFile1" id="textFile1"/>
+					<input type="hidden" name="textFile1" id="textFile1"/>
 					<input type="file" name="att3"> 
-					<input type="text" name="textFile2" id="textFile2"/>
+					<input type="hidden" name="textFile2" id="textFile2"/>
 					<input type="file" name="att4"> 
-					<input type="text" name="textFile3" id="textFile3"/>
+					<input type="hidden" name="textFile3" id="textFile3"/>
 					<input type="file" name="att5"> 
-					<input type="text" name="textFile4" id="textFile4"/>
+					<input type="hidden" name="textFile4" id="textFile4"/>
 					
 					</td>
 					

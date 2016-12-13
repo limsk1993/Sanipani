@@ -72,8 +72,13 @@ public class AdminController {
 		   public ModelAndView AdminMoney(HttpServletRequest request,
 		                      ModelAndView modelAndView,
 		                      HttpSession session){
+			  if(session.getAttribute("sGrade")=="0"){
 		      modelAndView.setViewName("spAdmin/AdminMoney");
-		      return modelAndView;
+		    }
+			  else{
+				   modelAndView.setViewName("redirect:Mainpage");
+			   }
+			   return modelAndView;
 		      
 		   }
 		 

@@ -291,16 +291,21 @@ img{
 				</tr>	
 				<tr>
 					<td></td>
-					<td>
-					<select name="selectDelivery">
-						<option value="1">우체국택배</option>
-						<option value="2">CJ택배</option>
-						<option value="3">한진택배</option>
-						<option value="4">현대택배</option>
-						<option value="5">로젠택배</option>
-					</select>
-					<input type="text" name="deliveryNo" placeholder ="운송장번호를 입력하세요" ></td>
-					<td><input type="button" id="deliveryOkBtn" value="배송완료"></td>
+					<c:choose>
+						<c:when test="${con1.MEMBERNO eq sNo}">
+							<td>
+								<select name="selectDelivery">
+									<option value="1">우체국택배</option>
+									<option value="2">CJ택배</option>
+									<option value="3">한진택배</option>
+									<option value="4">현대택배</option>
+									<option value="5">로젠택배</option>
+								</select>
+								<input type="text" name="deliveryNo" placeholder ="운송장번호를 입력하세요" ></td>
+								<td><input type="button" id="deliveryOkBtn" value="배송완료"></td>
+						</c:when>
+						<c:otherwise></c:otherwise>
+					</c:choose>
 				</tr>
 				
 				

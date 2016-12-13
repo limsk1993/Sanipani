@@ -29,6 +29,10 @@ public interface IMemberService {
 
 	public ArrayList<HashMap<String, String>> showAutionBuy(HashMap<String, String> params) throws Throwable;
 
+	public int showAutionTradePage(HashMap<String, String> params) throws Throwable;
+
+	public ArrayList<HashMap<String, String>> showAutionTrade(HashMap<String, String> params) throws Throwable;
+
 	
 
 }

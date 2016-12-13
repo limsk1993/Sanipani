@@ -18,19 +18,15 @@ $(document).ready(function(){
 			
 			$.ajax({
 				type : "post",
-				url : "DeliveryUpdate", // TestController에서 마들기
+				url : "DeliveryUpdateAuction", // TestController에서 마들기
 				dataType : "json",
 				data : params,
 				success : function(result){
-					if(result.res == "true"){
-				
-						$('input[name="deliveryName"]').val(result.con.DELIVERY_NAME);	
-						$('input[name="deliveryNo1"]').val(result.con.DELIVERY_NO);	
+			
+					$("#actionForm").attr("action", "AuctionStatus");
+					$("#actionForm").submit();	
 						
-					} 
-						else{
-						alert("저장 중 문제가 발생했습니다.");
-					}
+				
 				},
 				error : function(result){
 					alert("ERROR!!");
@@ -44,7 +40,7 @@ $(document).ready(function(){
 		
 		
 	$(".backBtn1").on("click",function(){
-		$("#actionForm").attr("action","TradeRequest");
+		$("#actionForm").attr("action","AuctionRequest1");
 		$("#actionForm").submit();
 	});	
 		
@@ -240,9 +236,8 @@ img{
 			<input type="text" name="page" value="${param.page}"/>
 			<input type="text" name="sNo" value="${sNo}"/>
 			<input type="text" name="searchText" value="${param.searchText }"/>
-			<input type="text" name="testNo" value="${param.testNo}"/>
-			<input type="text" name="TradeNo" value="${param.TradeNo}">
-			<input type="text" name="Pay" value="">
+			<input type="hidden" name="auctionNo" value="${param.auctionNo}">
+		
 					<table border="1" width="600px">
 				<tr>
 					<td width="15%">판매자</td>
@@ -277,20 +272,21 @@ img{
 				</tr>
 						<tr>
 					<td>배송여부</td>
-					<td><c:if test="${con2.TRADE_STATUS_NO eq 3 }">
-						${con2.TRADE_STATUS}
-					</c:if></td>
+					<td>
+					</td>
 					<td></td>
 				</tr>
 				<tr>
 					<td>운송장번호</td>
 					<td>
-					<div class="Dname"><input type="text" name="deliveryName" readonly="readonly" value="${con2.DELIVERY_NAME}"></div>
-					<div class="Dno"><input type="text" name="deliveryNo1" readonly="readonly" value="${con2.DELIVERY_NO}"></div></td>
+					<div class="Dname"><input type="text" name="deliveryName" readonly="readonly" value="${con.DELIVERY_NAME}"></div>
+					<div class="Dno"><input type="text" name="deliveryNo1" readonly="readonly" value="${con.DELIVERY_NO}"></div></td>
 					<td></td>
 				</tr>	
 				<tr>
 					<td></td>
+					<c:choose>
+					<c:when test="${con1.MEMBERNO eq sNo}">
 					<td>
 					<select name="selectDelivery">
 						<option value="1">우체국택배</option>
@@ -301,6 +297,13 @@ img{
 					</select>
 					<input type="text" name="deliveryNo" placeholder ="운송장번호를 입력하세요" ></td>
 					<td><input type="button" id="deliveryOkBtn" value="배송완료"></td>
+					</c:when>
+					<c:otherwise>
+					<td></td>
+					<td></td>
+					
+					</c:otherwise>
+					</c:choose>
 				</tr>
 				
 				
