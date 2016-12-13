@@ -29,7 +29,6 @@ public class AdminDao implements IAdminDao{
 	}
 
 
-<<<<<<< HEAD
 	@SuppressWarnings("unchecked")
 	@Override
 	public HashMap<String, String> getMemberInfoCon(HashMap<String, String> params) throws Throwable {
@@ -45,8 +44,6 @@ public class AdminDao implements IAdminDao{
 	}
 
 
-=======
->>>>>>> branch 'master' of https://github.com/limsk1993/Sanipani
 	@Override
 	public int getAdminMoneyPage(HashMap<String, String> params) throws Throwable {
 		// TODO Auto-generated method stub

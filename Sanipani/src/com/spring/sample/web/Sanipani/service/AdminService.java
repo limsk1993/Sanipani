@@ -29,8 +29,6 @@ public class AdminService implements IAdminService{
 		return iMainDao.getMemberInfo(params);
 	}
 
-<<<<<<< HEAD
-	
 	@Override
 	public HashMap<String, String> getMemberInfoCon(HashMap<String, String> params) throws Throwable {
 		// TODO Auto-generated method stub
@@ -43,9 +41,6 @@ public class AdminService implements IAdminService{
 		// TODO Auto-generated method stub
 		return iMainDao.MemberGradeNum(params);
 	}
-
-=======
->>>>>>> branch 'master' of https://github.com/limsk1993/Sanipani
 
 	@Override
 	public int getAdminMoneyPage(HashMap<String, String> params) throws Throwable {

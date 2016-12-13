@@ -66,7 +66,6 @@ public class AdminController {
 	                                responseHeaders, HttpStatus.CREATED);   
 	   }
 	   
-<<<<<<< HEAD
 		 @RequestMapping(value="/AdminMemberInfo") //글상세보기
 		   public ModelAndView AdminMemberInfo(HttpServletRequest request,
 					@RequestParam HashMap<String, String> params,
@@ -100,9 +99,6 @@ public class AdminController {
 		      return new ResponseEntity<String>(mapper.writeValueAsString(modelMap),
 		                                responseHeaders, HttpStatus.CREATED);   
 		   }
-	   
-=======
->>>>>>> branch 'master' of https://github.com/limsk1993/Sanipani
 	   
 		
 		 @RequestMapping(value="/AdminMoney") //자유게시판목록 jsp 연결

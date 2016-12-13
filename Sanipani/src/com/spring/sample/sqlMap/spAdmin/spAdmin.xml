@@ -37,7 +37,6 @@
 		</isNotEmpty>
 	</select>
 	
-<<<<<<< HEAD
 	<!-- 해당멤머 정보가져오기 쿼리문  -->
 	<select id="MemberInfoLook" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
 	SELECT A.RNUM, A.MEMBERNO, A.NAME, A.ID, A.NICK, A.PHONE, A.EMAIL1, A.GRADE_NO
@@ -54,8 +53,6 @@
 	WHERE MEMBERNO = #testNo#
 	</update>
 	
-=======
->>>>>>> branch 'master' of https://github.com/limsk1993/Sanipani
 	
 	<select id="getAdminMoney"
 	 parameterClass="java.util.HashMap"
