@@ -147,4 +147,26 @@ public class AuctionDao implements IAuctionDao {
 	public int deleteNotAuctionMember(HashMap<String, String> params) throws Throwable {
 		return sqlMapClient.delete("AuctionBoard.deleteNotAuctionMember", params);
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<HashMap<String, String>> getshowReply(HashMap<String, String> params) throws Throwable {
+		return (ArrayList<HashMap<String, String>>) sqlMapClient.queryForList("AuctionBoard.getshowReply", params);
+	}
+
+	@Override
+	public void insertAuctionReply(HashMap<String, String> params) throws Throwable {
+		sqlMapClient.insert("AuctionBoard.insertAuctionReply", params);
+	}
+
+	@Override
+	public int deleteAuctionReply(HashMap<String, String> params) throws Throwable {
+		return sqlMapClient.update("AuctionBoard.deleteAuctionReply", params);
+	}
+
+	@Override
+	public void reportAuctionReply(HashMap<String, String> params) throws Throwable {
+		sqlMapClient.insert("AuctionBoard.reportAuctionReply", params);
+		
+	}
 }

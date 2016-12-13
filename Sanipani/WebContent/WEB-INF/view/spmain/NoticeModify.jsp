@@ -8,87 +8,114 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="resources/script/jquery/jquery-1.11.0.js"></script>
 <script type="text/javascript" src="resources/script/spmain/Mainpage.js"></script>
-<script type="text/javascript" src="resources/script/jquery/jquery.form.js"></script>
 <link rel="stylesheet" type="text/css" href="resources/css/spmain/Mainpage.css"/>
 <style type="text/css">
-.AuctionWrite {
-	vertical-align :top;
+.sample {
 	display : inline-block;
-	padding : 20px;
-	width: 690px;
-	height: 90%;
-	background-color: #F1232F;
-}
-.AuctionCategory {
-	display : inline-block;
+	background-color: #FFFFFF;
+	vertical-align : top;
 	width: 200px;
-	height: 90%;
-	background-color: #123FAC;
+	height: 220px;
+	margin: 1em;
+	font-size: 12px;
 }
+
+.AuctionProductPicture {
+	display : inline-block;
+	margin-top : 5px;
+	margin-left: 5px;
+	width : 149px;
+	height: 150px;
+}
+
+.AuctionProductName {
+	display : inline-block;
+	vertical-align : top;
+	margin-top : 3px;
+	margin-left: 5px;
+}
+
+.AuctionNowPrice {
+	display : inline-block;
+	vertical-align : top;
+	margin-top : 3px;
+	margin-left: 5px;
+}
+
+.AuctionRemainTime {
+	display : inline-block;
+	vertical-align : top;
+	margin-top : 3px;
+	margin-left: 5px;
+}
+
+.AuctionProductPicture img {
+	width : 190px;
+	height: 150px;
+}
+
 </style>
 <script type="text/javascript">
 $(document).ready(function() {
-	$("#listBtn").on("click", function() {
-		$("#actionForm").attr("action", "AuctionBoard");
-		$("#actionForm").submit();
-	});
-	
-	$("#saveBtn").on("click", function() {
-		var insertForm = $("#insertForm")
+	/* <input type="button" value="저장" id="NoticeSaveBtn" />
+		<input type="button" value="취소" id="NoticeCancelBtn" /> */
+/* 		<input type="button" value="수정" name="NoticeUpdate" />
+		<input type="button" value="삭제" name="NoticeDelete" />
+		<input type="button" value="뒤로가기" name="NoticeHome" /> */
+	$("#NoticeSaveBtn").on("click", function() {
+		/* var updateForm = $("#updateForm")
 		
-		insertForm.ajaxForm(uploadResultCallBack);
-		insertForm.submit();
-	});
-});
-
-function uploadResultCallBack(data, result) {
-	if(result == "success") {
-		var resData = eval("(" + removePre(data) + ")");
-		
-		$("#auctionFile1").val(resData.fileName[0]);
-		$("#auctionFile2").val(resData.fileName[1]);
-		$("#auctionFile3").val(resData.fileName[2]);
-		$("#auctionFile4").val(resData.fileName[3]);
-		$("#auctionFile5").val(resData.fileName[4]);
-		
-		var params = $("#insertForm").serialize();
+		updateForm.ajaxForm(uploadResultCallBack);
+		updateForm.submit(); */
+		var params = $("#updateForm").serialize();
 		
 		$.ajax({
 			type : "post",
-			url : "insertAuction",
+			url : "updateNotice",
 			dataType : "json",
 			data : params,
 			success : function(result) {
-				if(result.res == "true") {
-					if("${param.catogery}"==1){
-						location.href = "AuctionBoard";
-						}
-						else if("${param.catogery}"==2){
-							location.href = "AuctionBoard1";
-						}
-						else if("${param.catogery}"==3){
-							location.href = "AuctionBoard2";
-						}
-						else if("${param.catogery}"==4){
-							location.href = "AuctionBoard3";
-						}
-						else if("${param.catogery}"==5){
-							location.href = "AuctionBoard4";
-						}
-						else if("${param.catogery}"==6){
-							location.href = "AuctionBoard5";
-						}
-						else if("${param.catogery}"==7){
-							location.href = "AuctionBoard6";
-						}
-						else if("${param.catogery}"==8){
-							location.href = "AuctionBoard7";
-						}
-						else if("${param.catogery}"==9){
-							location.href = "AuctionBoard8";
-						}
+				if(result.res > 0) {
+					$("#NoticeForm").attr("action", "MainNoticeDetailLook");
+					$("#NoticeForm").submit();
 				} else {
-					alert("저장 중 문제가 발생했습니다.");
+					alert("수정 중 문제가 발생했습니다.");
+				}
+			},
+			error : function(result) {
+				alert("ERROR!!");
+			}
+		});
+	});
+		
+	$("#NoticeCancelBtn").on("click", function() {
+		$("#NoticeForm").attr("action", "MainNoticeDetailLook");
+		$("#NoticeForm").submit();
+	});
+		
+});
+
+function uploadResultCallBack(result) { 
+	if(result == "success") {
+		/* var resData = eval("(" + removePre(data) + ")");
+		
+		if(resData.fileName[0] != null) {
+			$("#auctionFile").val(resData.fileName[0]);
+		} */
+		
+		var params = $("#updateForm").serialize();
+		
+		$.ajax({
+			type : "post",
+			url : "updateNotice",
+			dataType : "json",
+			data : params,
+			success : function(result) {
+				if(result.res > 0) {
+					$("#NoticeForm").attr("action", "MainNoticeDetailLook");
+					$("#NoticeForm").submit();
+				} else {
+					alert("수정 중 문제가 발생했습니다.");
 				}
 			},
 			error : function(result) {
@@ -96,13 +123,13 @@ function uploadResultCallBack(data, result) {
 			}
 		});
 	} else {
-		alert("저장 실패");
+		alert("수정 실패");
 	}
 }
 
 function removePre(data) {
-	if(data.indexOf("<pre>") > -1) { // pre가 있으면 pre를 없애고 안에 내용만 가져옴
-		var st = data.indexOf(">"); // start지점 <pre>
+	if(data.indexOf("<pre>") > -1) { 
+		var st = data.indexOf(">");
 		var ed = data.indexOf("<", st); 
 		
 		return data.substring(st + 1, ed);
@@ -111,8 +138,6 @@ function removePre(data) {
 	}
 }
 </script>
-<link rel="stylesheet" type="text/css" href="resources/css/spmain/Mainpage.css"/>
-
 </head>
 <body>
 <div class="main">
@@ -258,47 +283,24 @@ function removePre(data) {
 		</div>
 		
 		<div class="content">
-		<div class="AuctionCategory">
-			<div class="home">가정제품</div>
-			<div class="elec">전자기기</div>
-			<div class="cloth">의류,신발</div>
-			<div class="watch">시계</div>
-			<div class="cosmetic">화장품</div>
-			<div class="travel">여행용품</div>
-			<div class="furni">가구</div>
-			<div class="book">도서</div>
-			<div class="etc">기타</div>
-		</div>
 			<div class="AuctionWrite">
-			<h2>경매게시판 글쓰기 </h2>
-			<form action="#" id="actionForm" method="post">
-				<input type="hidden" name="page" value="${param.page}" />
-				<input type="hidden" name="searchText" value="${param.searchText}" />
-				<input type="hidden" name="AuctionCategory" value="${param.catogery}" />
+			<h2>공지사항 글수정 </h2>
+			<form action="#" id="NoticeForm" method="get">
+				<input type="hidden" name="NoticeNo" value="${con.NOTICENO}" />
 			</form>
 			<form action="fileUploadAjax" 
-				  id="insertForm"
+				  id="updateForm"
 				  method="post"
 				  enctype="multipart/form-data">
 				  <input type="hidden" name="UserNo" value="${sNo}"/>
-				  <input type="hidden" name="AuctionCategory" value="${param.catogery}" />
+				  <input type="hidden" name="NoticeNo" value="${con.NOTICENO}" />
 				  <table border="1">
-				  
-				  	<tr>
-				  		<td>
-				  			물품명
-				  		</td>
-				  		<td>
-				  			<input type="text" name="AuctionproductName" style="margin: 0px; width: 580px; height: 15px;"/>
-				  		</td>
-				  	</tr>
-				  	
 				  	<tr>
 				  		<td>
 				  			제목
 				  		</td>
 				  		<td>
-				  			<input type="text" name="Auctiontitle" style="margin: 0px; width: 580px; height: 15px;"/>
+				  			<input type="text" name="Noticetitle" style="margin: 0px; width: 580px; height: 15px;" value="${con.NOTICETITLE}"/>
 				  		</td>
 				  	</tr>
 				  	
@@ -307,29 +309,11 @@ function removePre(data) {
 				  			내용
 				  		</td>
 				  		<td>
-				  			<textarea rows="10" cols="80" name="AuctionContents"" style="margin: 0px; width: 580px; height: 195px;"></textarea>
+				  			<textarea rows="10" cols="80" name="NoticeContents" style="margin: 0px; width: 580px; height: 195px;">${con.NOTICECONTENT}</textarea>
 				  		</td>
 				  	</tr>
 				  	
-				  	<tr>
-				  		<td>
-				  			시작경매가
-				  		</td>
-				  		<td>
-				  			<input type="text" name="StartAuctionPrice" style="margin: 0px; width: 150px; height: 15px;"/>
-				  		</td>
-				  	</tr>
-				  	
-				  	<tr>
-				  		<td>
-				  			즉시구매가
-				  		</td>
-				  		<td>
-				  			<input type="text" name="NowAuctionPrice" style="margin: 0px; width: 150px; height: 15px;"/>
-				  		</td>
-				  	</tr>
-				  	
-				  	<tr>
+				  	<!-- <tr>
 				  		<td>
 				  			물품사진
 				  		</td>
@@ -349,12 +333,12 @@ function removePre(data) {
 				  			<input type="file" name="att5" />
 				  			<input type="hidden" name="auctionFile5" id="auctionFile5" />
 				  		</td>
-				  	</tr>
+				  	</tr> -->
 				  	
 				  </table>
 			</form>
-			<input type="button" value="저장" id="saveBtn" />
-			<input type="button" value="목록" id="listBtn" />
+			<input type="button" value="저장" id="NoticeSaveBtn" />
+			<input type="button" value="취소" id="NoticeCancelBtn" />
 			</div>
 		</div>
 	

@@ -15,7 +15,7 @@
 	background-color: #FFFFFF;
 	vertical-align : top;
 	width: 200px;
-	height: 220px;
+	height: 230px;
 	margin: 1em;
 	font-size: 12px;
 }
@@ -59,6 +59,8 @@
 $(document).ready(function() {
 	refreshList();
 	NoticeList();
+	refreshTradeList();
+	refreshFreeBoard();
 	
 	$(".sampleMain").on("click", ".sample", function() {
 		$("input[name='auctionNo']").val($(this).attr("name"));
@@ -66,6 +68,30 @@ $(document).ready(function() {
 		$("#actionForm").submit();
 	});
 	
+	$("#NoticeCon").on("click", "tr", function() {
+		$("input[name='NoticeNo']").val($(this).attr("name"));
+		console.log($("input[name='NoticeNo']").val());
+		$("#NoticeForm").attr("action", "MainNoticeDetailLook");
+		$("#NoticeForm").submit();
+	});
+	
+	$("#NoticeWrite").on("click", function() {
+		$("#NoticeForm").attr("action", "NoticeWrite");
+		$("#NoticeForm").submit();
+	});
+	
+	$("#tradeList").on("click", "tr", function(){
+		$("input[name='testNo']").val($(this).attr("name"));
+	
+		$("#TradeForm").attr("action", "TradeBoardLook"); // 밑의 form에 action의 값이#인데 거 에다가 test5를 넣겠다는 소리.
+		$("#TradeForm").submit();
+	});
+	
+	$("#FreeList").on("click", "tr", function(){
+		$("input[name='testNo']").val($(this).attr("name"));
+		$("#FreeForm").attr("action", "FreeBoardDetail"); // 밑의 form에 action의 값이#인데 거 에다가 test5를 넣겠다는 소리.
+		$("#FreeForm").submit();
+	});
 });
 
 function refreshList() {
@@ -138,34 +164,82 @@ function NoticeList() {
 			
 			
 			html = "";
-			
-			html += "<span name='1'>처음</span>";
-			
-			if($("input[name='page']").val() == 1) {
-				html += "<span name='1'>이전</span>";
-			} else {
-				html += "<span name = '" + ($("input[name='page']").val() - 1) + "'>이전</span>";
-			}
-			
-			for(var i = result.pb.startPcount ; i <= result.pb.endPcount ; i++) {
-				if (i == $("input[name='page']").val()) {
-					html += "<span name = '" + i + "'><b>" + i + "</b></span>";
-				} else {
-					html += "<span name = '" + i + "'>" + i + "</span>";
-				}
-			}
-			
-			if($("input[name='page']").val() == result.pb.maxPcount) {
-				html += "<span name = '" + result.pb.maxPcount + "'>다음</span>";
-			} else {
-				html += "<span name = '" + ($("input[name='page']").val() * 1 + 1) + "'>다음</span>";
-			}
-			
-			html += "<span name='" + result.pb.maxPcount + "'>마지막</span>";
-			
-			$("#pagingArea").html(html);
 		},
 		error : function(result) {
+			alert("error!!");
+		}
+	});
+}
+
+function refreshTradeList() {
+	var params = $("#TradeForm").serialize(); //serialize 정렬해서 보여준다.
+	
+	$.ajax({//비동기화방식
+		type : "post",
+		url : "refreshTest1", 
+		dataType : "json",
+		data : params,
+		success : function(result){
+			var html = "";
+			
+			for(var i = 0 ; i < result.list.length ; i++){
+				html += "<tr name='" + result.list[i].TRADE_WORD_NO + "'>";
+				html += "<td>" + result.list[i].NO + "</td>";
+				if(result.list[i].PICTURENAME==null){
+				html += "<td></td>";
+				}else{
+					html += "<td>"+"<img src=\"resources/upload/"+result.list[i].PICTURENAME+"\"/></td>";
+				}
+				html += "<td>" + result.list[i].TRADE_BOARD + "</td>";
+				html += "<td>" + result.list[i].WORD_TITLE + "</td>";
+				html += "<td>" + result.list[i].BUY_PAY + "</td>";
+				html += "<td></td>";
+				html += "<td>" + result.list[i].NICK + "</td>";
+				html += "<td>" + result.list[i].WRITER_DATE + "</td>";
+				html += "<td>" + result.list[i].LOOKUP + "</td>";
+				
+				html += "</tr>";
+			}
+			
+			$("#tradeList").html(html);
+			
+			html = "";
+		},
+		error : function(result){
+			alert("error!!");
+		}
+	});
+}
+
+function refreshFreeBoard(){
+	
+	var params = $("#FreeForm").serialize();
+	$.ajax({
+		type : "post",
+		url : "refreshFreeBoard", 
+		dataType : "json",
+		data : params,
+		success : function(result){
+			var html = "";
+			
+			
+			for(var i = 0 ; i < 5 ; i++){
+				html += "<tr name='" + result.list[i].FREE_NUM + "'>";
+				html += "<td>" + result.list[i].FREE_NUM + "</td>";
+				html += "<td>" + result.list[i].FREE_TITLE + "</td>";
+				html += "<td>" + result.list[i].MEM_NO + "</td>";
+				html += "<td>" + result.list[i].FREE_DATE + "</td>";
+				html += "<td>" + result.list[i].FREE_LOOKUP + "</td>";
+				
+				/* html += "<td>" + result.list[i].FREE_PICTURE + "</td>"; */
+				html += "</tr>";
+			}
+			
+			$("#FreeList").html(html);
+			
+			html = "";
+		},
+		error : function(result){
 			alert("error!!");
 		}
 	});
@@ -196,25 +270,25 @@ function NoticeList() {
 			
 				<div class="login1">
 					<div class="id">
-						id:<input type="text" name="Id" id="Id" maxlength="15">
+						<b>ID:</b><input type="text" name="Id" id="Id" maxlength="15" border="1">
 					</div>
 				</div>
 			
 				<div class="login2">
 					<div class="pw">
-						pw:<input type="password" name="Pw" id="Pw"  maxlength="15">
+						<b>PW:</b><input type="password" name="Pw" id="Pw"  maxlength="15" border="1">
 					</div>	
 				</div>
 			</form>	
 				<div class="login3">
 					<div class="loginBtn">
-					로그인
+						<img alt="LoginBtn" src="resources/images/MainPageImage/Login.bmp">
 					</div>
 				</div>
 				
 				<div class="login4">
 					<div class="memberLogiBtn">
-					회원가입
+						<img alt="RegisterBtn" src="resources/images/MainPageImage/RegisterImg.bmp">
 					</div>
 				</div>
 			
@@ -235,25 +309,25 @@ function NoticeList() {
 		</c:choose>	
 				<div class="login1_1">
 					<div class="memberInfo">
-						<span id="memNick">${sNick}</span>님 환영합니다
+						<b><span id="memNick">${sNick}</span>님 환영합니다</b>
 					</div>
 				</div>
 				
 				<div class="login2_1">
 					<div class="logout">
-						logout
+						<img alt="LogoutBtn" src="resources/images/MainPageImage/Logout.bmp">
 					</div>		
 				</div>
 				
 				<div class="login3_1">
 					<div class="mypage">
-						mypage
+						<img alt="MypageBtn" src="resources/images/MainPageImage/Mypage.bmp">
 					</div>
 				</div>
 				
 				<div class="login4_1">
 					<div class="basket">
-						basket
+						<img alt="BasketBtn" src="resources/images/MainPageImage/Basket.bmp">
 					</div>
 				</div>
 				
@@ -265,52 +339,27 @@ function NoticeList() {
 	
 		
 		
-		<div class="menubar">
-			<div class="logo">
-				logo
+		<div class="menubar" height="150px">
+			<div class="logo" height="150px">
+				<img alt="logo" src="resources/images/MainPageImage/SaniPaniLogo.png" width="226.44px" height="150px" border="2">
 			</div>
-			
-			<div class="menuall">
-				<div class="auctionBoard" id="auctionBoard">
-					auction
-				</div>
-				<div class="auctionBoard_1" id="auctionBoard_1" style="display:none;">
-					auction1
-					<div class="home">가정제품</div>
-					<div class="elec">전자기기</div>
-					<div class="cloth">의류,신발</div>
-					<div class="watch">시계</div>
-					<div class="cosmetic">화장품</div>
-					<div class="travel">여행용품</div>
-					<div class="furni">가구</div>
-					<div class="book">도서</div>
-					<div class="etc">기타</div>
+			<div class="menuall" height="150px">
+			<div height="30px"></div>
+			<br/>
+				<div class="auctionBoard" id="auctionBoard" height="120px">
+					<img alt="AuctionImg" src="resources/images/MainPageImage/AuctionImg.bmp">
 				</div>
 				<div class="tradeBoard" id="tradeBoard">
-					trade
-				</div>
-				<div class="tradeBoard_1" id="tradeBoard_1" style="display:none;">
-					trade1
-					<div class="home_1">가정제품</div>
-					<div class="elec_1">전자기기</div>
-					<div class="cloth_1">의류,신발</div>
-					<div class="watch_1">시계</div>
-					<div class="cosmetic_1">화장품</div>
-					<div class="travel_1">여행용품</div>
-					<div class="furni_1">가구</div>
-					<div class="book_1">도서</div>
-					<div class="etc_1">기타</div>
+					<img alt="TradeImg" src="resources/images/MainPageImage/TradeImg.bmp">
 				</div>
 				<div class="reportBoard">
-					report
+					<img alt="ReportImg" src="resources/images/MainPageImage/ReportImg.bmp">
 				</div>
-				
 				<div class="customerBoard">
-					customer
+					<img alt="CustomerImg" src="resources/images/MainPageImage/CustomerImg.bmp">
 				</div>
-				
 				<div class="freeBoard">
-					free
+					<img alt="FreeImg" src="resources/images/MainPageImage/FreeImg.bmp">
 				</div>
 			</div>
 		</div>
@@ -330,6 +379,7 @@ function NoticeList() {
 					</c:choose>
 					<input type="hidden" name="searchText" value="${param.searchText}" />
 					<input type="hidden" name="auctionNo" />
+					<input type="hidden" name="FreeNo" />
 				</form>
 			<div class="sampleMain">
 			</div>
@@ -346,9 +396,9 @@ function NoticeList() {
 						</c:otherwise>
 					</c:choose>
 					<input type="hidden" name="searchText" value="${param.searchText}" />
-					<input type="hidden" name="NoticeNo" />
+					<input type="hidden" name="NoticeNo" value="" />
 				</form>
-				<table border="1">
+				<table border="1" background="#FFFFFF">
 					<thead>
 						<tr>
 							<th>글번호</th>
@@ -361,12 +411,75 @@ function NoticeList() {
 					</tbody>
 				</table>
 			<br/>
-			<div id="pagingArea"></div>
-			</div>
-			</div>
-			
+			<input type="button" id="NoticeWrite" value="공지사항 글쓰기" />
 			<div class="RecentWordLook">
 				<h2>최신 글보기</h2>
+				<h3>거래</h3>
+				<form action="#" id="TradeForm" method="post">
+					<c:choose>
+						<c:when test="${empty param.page}"> <!-- empty 는 비어있으면. -->
+							<input type="hidden" name="page" value="1" />
+						</c:when>
+				
+						<c:otherwise>
+							<input type="hidden" name="page" value="${param.page}"/>
+						</c:otherwise>
+					</c:choose>
+					<input type="hidden" name="catogery" value="1" />
+					<input type="hidden" name="page" value="1" />
+					<input type="hidden" name="searchText" value="${param.searchText}"/>
+					<input type="hidden" name="testNo" />
+					<input type="hidden" name="sNo" value="${sNo}"/>
+				</form>
+
+				<table border="1">
+					<thead>
+						<tr>
+							<th>No</th>
+							<th>물품사진</th>
+							<th>물품명</th>
+							<th>내용</th>
+							<th>가격</th>
+							<th>거래상태</th>
+							<th>작성자</th>
+							<th>작성일</th>
+							<th>조회수</th>
+						</tr>
+					</thead>
+				
+				<tbody id="tradeList">
+				
+				
+				</tbody>
+			
+				</table>
+				<h3>자유</h3>
+				<form action="#" id="FreeForm" method="post">
+					<c:choose>
+						<c:when test="${empty param.page}">
+							<input type="hidden" name="page" value="1" />
+						</c:when>
+						<c:otherwise>
+							<input type="hidden" name="page" value="${param.page}" />
+						</c:otherwise>
+					</c:choose>
+					<input type="hidden" name="searchText" value="${param.searchText}" />
+					<input type="hidden" name="testNo" />
+				</form>
+					<table border="1">
+					<thead>
+						<tr>
+							<th>글번호</th>
+							<th width="300" height="50">제목</th>
+							<th>작성자</th>
+							<th>등록날짜</th>
+							<th>조회수</th>
+						</tr>
+					</thead>
+					<tbody id="FreeList">
+					</tbody>
+				</table>
+			</div>
 			</div>
 		</div>
 	</div>

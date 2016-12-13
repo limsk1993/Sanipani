@@ -242,7 +242,7 @@ function removePre(data){
 </script>
 </head>
 <body>
-<form action="#" id="actionForm" method="post">
+<form action="#" id="actionForm" method="get">
 	<input type="hidden" name="testNo" value="${param.testNo}"/>
 	<input type="hidden" name="testNo1" />
 </form>

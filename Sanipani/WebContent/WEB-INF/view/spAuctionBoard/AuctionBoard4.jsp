@@ -346,7 +346,7 @@ function refreshList() {
 						<input type="hidden" name="page" value="${param.page}" />
 					</c:otherwise>
 				</c:choose>
-				<input type="hidden" name="catogery" value="1" />
+				<input type="hidden" name="catogery" value="5" />
 				<input type="hidden" name="searchText" value="${param.searchText}" />
 				<input type="hidden" name="auctionNo" />
 			</form>
@@ -368,7 +368,6 @@ function refreshList() {
 			<br/>
 			<input type="hidden" name="memberNo" value="${params.MEMBERNO}" />
 			<input type="text" id="searchText" value="${param.searchText}" />
-			<input type="hidden" name="AuctionCategory" value="${param.category}" />
 			<input type="button" value="검색" id="searchBtn" />
 			<input type="button" value="글쓰기" id="insertBtn" />
 			<br/>

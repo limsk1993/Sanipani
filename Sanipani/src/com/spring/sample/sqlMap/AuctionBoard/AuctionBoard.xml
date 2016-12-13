@@ -11,22 +11,49 @@
       				   TO_NUMBER (SUBSTR (NUMTODSINTERVAL(ENDDATE-SYSDATE, 'DAY'), 2, 9)) || '일 ' || 
 		          	   TO_NUMBER (SUBSTR (NUMTODSINTERVAL(ENDDATE-SYSDATE, 'DAY'), 12, 2)) || '시간 ' || 
 		           	   TO_NUMBER (SUBSTR (NUMTODSINTERVAL(ENDDATE-SYSDATE, 'DAY'), 15, 2)) || '분 '|| 
-		               TO_NUMBER (SUBSTR (NUMTODSINTERVAL(ENDDATE-SYSDATE, 'DAY'), 18, 2)) || '초 ' REMAINTIME
+		               TO_NUMBER (SUBSTR (NUMTODSINTERVAL(ENDDATE-SYSDATE, 'DAY'), 18, 2)) || '초 ' REMAINTIME, AUCTIONCATEGORY
 				FROM (SELECT ROW_NUMBER() OVER(ORDER BY AB.AUCTIONWORDNO DESC) AS RNUM, 
 							 AB.AUCTIONWORDNO, AB.AUCTIONPRODUCTNAME, AB.WORDTITLE, AB.WORDCONTENT,
 							 AB.RNOWBUYPAY, AC.BIDPRICE, AB.STARTBUYPAY, to_char(AB.WRITERDATE, 'YYYY-MM-DD') AS WRITERDATE,
-							 AB.ENDDATE AS ENDDATE, AB.LOOKUP, AP.PICTURENAME, MI.NICK, AC.AUCTIONNO, AB.MEMBERNO
+							 AB.ENDDATE AS ENDDATE, AB.LOOKUP, AP.PICTURENAME, MI.NICK, AC.AUCTIONNO, AB.MEMBERNO, AB.AUCTIONCATEGORY
 				      FROM AUCTIONBOARD AB LEFT OUTER JOIN AUCTIONPICTURE AP ON AB.AUCTIONWORDNO = AP.AUCTIONWORDNO
 				                           LEFT OUTER JOIN MEMBERINFO MI ON AB.MEMBERNO = MI.MEMBERNO
 				                           LEFT OUTER JOIN AUCTION AC ON AB.AUCTIONWORDNO = AC.AUCTIONWORDNO
 				      WHERE 1 = 1
 				      AND AUCTIONDEL = 1 
-					  <isNotEmpty property="searchText">
-						 AND AUCTIONPRODUCTNAME LIKE '%' || #searchText# || '%'
-					  </isNotEmpty>
-				      ) A
+					    <isNotEmpty property="searchText">
+						AND AUCTIONPRODUCTNAME LIKE '%' || #searchText# || '%'
+					    </isNotEmpty>
+		    			<isEqual  property="catogery" compareValue="1" >
+		    			AND AUCTIONCATEGORY = 1 
+		    			</isEqual>
+		    			<isEqual  property="catogery" compareValue="2" >
+		    			AND AUCTIONCATEGORY = 2
+		    			</isEqual>
+		    			<isEqual  property="catogery" compareValue="3" >
+		    			AND AUCTIONCATEGORY = 3 
+		    			</isEqual>
+		    			<isEqual  property="catogery" compareValue="4" >
+		    			AND AUCTIONCATEGORY = 4 
+		    			</isEqual>
+		    			<isEqual  property="catogery" compareValue="5" >
+		    			AND AUCTIONCATEGORY = 5 
+		    			</isEqual>
+		    			<isEqual  property="catogery" compareValue="6" >
+		    			AND AUCTIONCATEGORY = 6 
+		    			</isEqual>
+		    			<isEqual  property="catogery" compareValue="7" >
+		    			AND AUCTIONCATEGORY = 7 
+		    			</isEqual>
+		    			<isEqual  property="catogery" compareValue="8" >
+		    			AND AUCTIONCATEGORY = 8 
+		    			</isEqual>
+		    			<isEqual  property="catogery" compareValue="9" >
+		    			AND AUCTIONCATEGORY = 9 
+		    			</isEqual>
+						) A
 				WHERE A.RNUM BETWEEN #start# AND #end#
-				GROUP BY A.AUCTIONWORDNO, A.AUCTIONPRODUCTNAME, WORDTITLE, WORDCONTENT, RNOWBUYPAY, STARTBUYPAY, WRITERDATE, ENDDATE, LOOKUP, PICTURENAME, A.NICK, A.MEMBERNO
+				GROUP BY A.AUCTIONWORDNO, A.AUCTIONPRODUCTNAME, WORDTITLE, WORDCONTENT, RNOWBUYPAY, STARTBUYPAY, WRITERDATE, ENDDATE, LOOKUP, PICTURENAME, A.NICK, A.MEMBERNO, A.AUCTIONCATEGORY
 				ORDER BY A.AUCTIONWORDNO DESC
 		</select>
 		
@@ -43,8 +70,8 @@
 		
 		<insert id="insertAuction"
 				parameterClass="java.util.HashMap"> 
-			INSERT INTO AUCTIONBOARD(AUCTIONWORDNO, AUCTIONPRODUCTNAME, WORDTITLE, WORDCONTENT, RNOWBUYPAY, NOWBUYPAY, STARTBUYPAY, WRITERDATE, ENDDATE, LOOKUP, MEMBERNO, AUCTIONDEL, AUCTIONBOARDSTATUS)
-			VALUES(AUCTIONBOARD_SEQ.NEXTVAL, #AuctionproductName#, #Auctiontitle#, #AuctionContents#, #NowAuctionPrice#, #StartAuctionPrice#, #StartAuctionPrice#, SYSDATE, SYSDATE + 5, '0', #UserNo#, '1', 0)
+			INSERT INTO AUCTIONBOARD(AUCTIONWORDNO, AUCTIONPRODUCTNAME, WORDTITLE, WORDCONTENT, RNOWBUYPAY, NOWBUYPAY, STARTBUYPAY, WRITERDATE, ENDDATE, LOOKUP, MEMBERNO, AUCTIONDEL, AUCTIONBOARDSTATUS, AUCTIONCATEGORY)
+			VALUES(AUCTIONBOARD_SEQ.NEXTVAL, #AuctionproductName#, #Auctiontitle#, #AuctionContents#, #NowAuctionPrice#, #StartAuctionPrice#, #StartAuctionPrice#, SYSDATE, SYSDATE + 5, '0', #UserNo#, '1', 0, #AuctionCategory#)
 		</insert>
 		
 		<update id="deleteAuction"
@@ -139,7 +166,7 @@
 			UPDATE AUCTION
 			SET AUCTIONSTATUS = 1, TRADESTATUSNO = 6
 			WHERE AUCTIONWORDNO = #auctionNo#
-			AND BIDPRICE = #BidPrice#
+			AND MEMBERNO = #auctionMemNo#
 		</update>
 		
 		<insert id="updateAuctionPriceRegist"
@@ -167,5 +194,37 @@
 			WHERE AUCTIONWORDNO = #auctionNo#
 			AND TRADESTATUSNO != 6
 		</delete>
+		
+		<select id="getshowReply"
+				parameterClass="java.util.HashMap"
+				resultClass="java.util.HashMap">
+			SELECT A.A_COMMENT_NO, A.AUCTIONWORDNO, A.MEMBERNO, A.AUCTIONREPLYDATE, A.A_COMMENT_CONTENT, A.NICK
+				FROM (SELECT ROW_NUMBER() OVER(ORDER BY A_COMMENT_NO DESC) AS RNUM, AC.A_COMMENT_NO, AC.AUCTIONWORDNO, AC.MEMBERNO, to_char(AC.AUCTIONREPLYDATE, 'YYYY-MM-DD') AS AUCTIONREPLYDATE, AC.A_COMMENT_CONTENT, MI.NICK
+				      FROM AUCTION_COMMENT AC LEFT OUTER JOIN AUCTIONBOARD AB ON AC.AUCTIONWORDNO = AB.AUCTIONWORDNO
+                                      LEFT OUTER JOIN MEMBERINFO MI ON AC.MEMBERNO = MI.MEMBERNO
+				      WHERE 1 = 1
+				      AND A_COMMENT_DEL = 1 
+				      ) A
+		</select>
+		
+		<insert id="insertAuctionReply"
+				parameterClass="java.util.HashMap">
+			INSERT INTO AUCTION_COMMENT(A_COMMENT_NO, AUCTIONWORDNO, MEMBERNO, AUCTIONREPLYDATE, A_COMMENT_CONTENT, A_COMMENT_DEL)
+            VALUES(AUCTION_COMMENT_SEQ.NEXTVAL, #AuctionWordNumber#, #auctionMemNo#, SYSDATE, #replyContent#, 1)
+		</insert>
+		
+		<update id="deleteAuctionReply">
+			UPDATE AUCTION_COMMENT
+			SET A_COMMENT_DEL = 0
+			WHERE A_COMMENT_NO = #replyNo#
+		</update>
+		
+		<insert id="reportAuctionReply"
+				parameterClass="java.util.HashMap">
+			INSERT INTO REPORTBOARD(REPORTWORDNO, WORDTITLE, WORDCONTENT, REPORTTARGET, WRITERDATE, LOOKUP, REPORTCATEGORYNO, MEMBERNO, 
+									REPORTDELETE, PICTURE, PICTURE1, PICTURE2, PICTURE3, PICTURE4, REPORT_CONTENT, AUCTIONWORDNO, A_COMMENT_NO)
+            VALUES(REPORT_SEQ.NEXTVAL, #reportTitle#, #reportContent#, #fraudUser#, SYSDATE, '0', #reportCato#, #memberNo#, 1, #textFile#, 
+                   #textFile1#, #textFile2#, #textFile3#, #textFile4#, #replyContent#, #auctionNo#, #replyNo1#)
+		</insert>
 		
    </sqlMap>
