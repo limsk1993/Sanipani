@@ -21,31 +21,31 @@
 	margin-top : 40px;
 	width: 900px;
 	height: 400px;
-	background-color: #CCCCCC;	
+	
 }
 .TradeProgress{
 	margin-top : 40px;
 	width: 900px;
 	height: 400px;
-	background-color: #CCCCCC;
+
 }
 .TradeRequest{
 	margin-top : 40px;
 	width: 900px;
 	height: 400px;
-	background-color: #CCCCCC;
+
 }
 .AcutionComple{
 	margin-top : 40px;
 	width: 900px;
 	height: 400px;
-	background-color: #CCCCCC;
+
 }
 .AcutionTrade{
 	margin-top : 40px;
 	width: 900px;
 	height: 400px;
-	background-color: #CCCCCC;
+
 }
 .AuctionBasket{
 	width: 1000px;
@@ -56,7 +56,7 @@
 	margin-top : 20px;
 	width: 70px;
 	height: 40px;
-	background-color: #CCCCCC;
+		background-color: #CCCCCC;
 }
 .TradeBasketBtn{
 	display : inline-block;
@@ -64,7 +64,31 @@
 	margin-top : 20px;
 	width: 70px;
 	height:40px;
-	background-color: #CCCCCC;
+		background-color: #CCCCCC;
+}
+
+
+td{
+	text-overflow: ellipsis;
+	height: 10px;
+
+}
+table{
+	text-overflow: ellipsis;
+	width:900px;
+	border-bottom: 1px;
+}
+select{
+	
+	margin-left: 820px;
+}
+
+th {
+	background-color: #6DD66D;
+	
+}
+tr:hover{
+	background-color: #EEEEEE;
 }
 </style>
 
@@ -747,7 +771,8 @@ function showAutionTrade(){
 			<div class="AuctionBasketBtn">경매</div>
 			<div class="TradeBasket">
 			<div class="TradeProgress">
-				<table border="1">
+				<h3>거래 관리</h3>
+				<table >
 					<thead>
 						<tr>
 							<th>No</th>
@@ -779,7 +804,8 @@ function showAutionTrade(){
 				
 					
 			<div class="TradeRequest">
-			<table border="1">
+			<h3>내가 쓴글 거래요청 관리</h3>
+			<table >
 				<thead>
 					<tr>
 						<th>No</th>
@@ -812,7 +838,8 @@ function showAutionTrade(){
 				
 				<div class="AuctionBasket"  style="display:none" >
 				<div class="Auction">
-					<table border="1">
+				<h3>내가한 경매</h3>
+					<table >
 						<thead>
 							<tr>
 								<th>No</th>
@@ -840,7 +867,8 @@ function showAutionTrade(){
 				</div>
 				
 				<div class="AcutionComple">
-					<table border="1">
+				<h3>낙찰된 경매 내역</h3>
+					<table >
 						<thead>
 							<tr>
 								<th>No</th>
@@ -866,7 +894,8 @@ function showAutionTrade(){
 				</div>
 				
 				<div class="AcutionTrade">
-					<table border="1">
+				<h3>거래중인 경매내역</h3>
+					<table >
 						<thead>
 							<tr>
 								<th>No</th>

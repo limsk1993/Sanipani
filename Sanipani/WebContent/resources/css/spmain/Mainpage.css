@@ -283,62 +283,76 @@
 }
 
 
-
+.AuctionBoardCategory {
+	display: block;
+    margin-top: 5px;
+    margin-left : 5px;
+    height:40px;
+    background-color: #B2FFD1;
+}
                
 .home{
-
    display: block;
-   margin-top: 5px;
+   margin-top: 15px;
+   margin-left : 15px;
    height:40px;
-   background-color: #409991;
+   background-color: #B2FFD1;
 }
 .elec{
    display: block;
    margin-top: 5px;
+   margin-left : 15px;
    height:40px;
-   background-color: #409991;
+   background-color: #B2FFD1;
 }
 .cloth{
    display: block;
    margin-top: 5px;
+   margin-left : 15px;
    height:40px;
-   background-color: #409991;
+   background-color: #B2FFD1;
 }
 .watch{
    display: block;
    margin-top: 5px;
+   margin-left : 15px;
    height:40px;
-   background-color: #409991;
+   background-color: #B2FFD1;
 }
 .cosmetic{
    display: block;
    margin-top: 5px;
+   margin-left : 15px;
    height:40px;
-   background-color: #409991;
+   background-color: #B2FFD1;
 }
 .travel{
    display: block;
    margin-top: 5px;
+   margin-left : 15px;
    height:40px;
-   background-color: #409991;
+   background-color: #B2FFD1;
 }
 .furni{
    display: block;
    margin-top: 5px;
+   margin-left : 15px;
    height:40px;
-   background-color: #409991;
+   background-color: #B2FFD1;
 }
 .book{
    display: block;
    margin-top: 5px;
+   margin-left : 15px;
    height:40px;
-   background-color: #409991;
+   background-color: #B2FFD1;
 }
 .etc{
    display: block;
    margin-top: 5px;
+   margin-left : 15px;
    height:40px;
-   background-color: #409991;
+   background-color: #B2FFD1;
 }
 
 

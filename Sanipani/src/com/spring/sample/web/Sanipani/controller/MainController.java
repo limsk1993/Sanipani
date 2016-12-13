@@ -113,4 +113,94 @@ public class MainController {
 				
 				return new ResponseEntity<String>(mapper.writeValueAsString(modelMap), responseHeaders, HttpStatus.CREATED);
 		}
+	   
+	   @RequestMapping(value="/MainNoticeDetailLook")
+	   public ModelAndView MainNoticeDetailLook(HttpServletRequest request,
+							  					HttpSession session,
+						   						@RequestParam HashMap<String, String> params,
+						   						ModelAndView modelAndView) throws Throwable{
+		 HashMap<String, String> con = iMainService.getNoticeCon(params);
+			
+		 modelAndView.addObject("con", con);
+		 
+		 modelAndView.setViewName("spmain/MainNoticeDetailLook");
+	     
+	     return modelAndView;
+	   }
+	   
+	   @RequestMapping(value="/deleteNotice")
+		public @ResponseBody ResponseEntity<String> deleteNotice(
+				HttpServletRequest request,
+				@RequestParam HashMap<String, String> params, 
+				ModelAndView modelAndView) throws Throwable {
+			ObjectMapper mapper = new ObjectMapper();
+			Map<String, Object> modelMap = new HashMap<String, Object>();
+			
+			int res = iMainService.deleteNotice(params);
+			
+			modelMap.put("res", res);
+			
+			HttpHeaders responseHeaders = new HttpHeaders();
+			responseHeaders.add("Content-Type", "text/json; charset=UTF-8");
+			
+			return new ResponseEntity<String>(mapper.writeValueAsString(modelMap), responseHeaders, HttpStatus.CREATED);
+		}
+	   
+	   @RequestMapping(value="/NoticeModify")
+		public ModelAndView NoticeModify(HttpServletRequest request,
+											  HttpSession session,
+											  @RequestParam HashMap<String, String> params,
+											  ModelAndView modelAndView) throws Throwable {
+			HashMap<String, String> con = iMainService.getNoticeCon(params);
+			
+			modelAndView.addObject("con", con);
+			
+			modelAndView.setViewName("spmain/NoticeModify");
+			
+			return modelAndView;
+		}
+	   
+	   @RequestMapping(value="/NoticeWrite")
+		public ModelAndView NoticeWrite(HttpServletRequest request,
+										 HttpSession session,
+										 ModelAndView modelAndView){
+			modelAndView.setViewName("spmain/NoticeWrite");
+			return modelAndView;
+		}
+	   
+	   @RequestMapping(value="/updateNotice")
+		public @ResponseBody ResponseEntity<String> updateNotice(
+				HttpServletRequest request,
+				@RequestParam HashMap<String, String> params, 
+				ModelAndView modelAndView) throws Throwable {
+			ObjectMapper mapper = new ObjectMapper();
+			Map<String, Object> modelMap = new HashMap<String, Object>();
+			
+			int res = iMainService.updateNotice(params);
+			
+			modelMap.put("res", res);
+			
+			HttpHeaders responseHeaders = new HttpHeaders();
+			responseHeaders.add("Content-Type", "text/json; charset=UTF-8");
+			
+			return new ResponseEntity<String>(mapper.writeValueAsString(modelMap), responseHeaders, HttpStatus.CREATED);
+		}
+	   
+	   @RequestMapping(value="/insertNotice")
+		public @ResponseBody ResponseEntity<String> insertNotice(
+				HttpServletRequest request,
+				@RequestParam HashMap<String, String> params, 
+				ModelAndView modelAndView) throws Throwable {
+			ObjectMapper mapper = new ObjectMapper();
+			Map<String, Object> modelMap = new HashMap<String, Object>();
+			
+			String res = iMainService.insertNotice(params);
+			
+			modelMap.put("res", res);
+			
+			HttpHeaders responseHeaders = new HttpHeaders();
+			responseHeaders.add("Content-Type", "text/json; charset=UTF-8");
+			
+			return new ResponseEntity<String>(mapper.writeValueAsString(modelMap), responseHeaders, HttpStatus.CREATED);
+		}
 }

@@ -169,7 +169,7 @@
 	display : inline-block;
 	width : 80px;
 	height : 30px;
-	background-color: #B2FFD1;
+	background-color: #00C73C;
 
 }
 .tradeRequest{
@@ -179,7 +179,7 @@
 	width : 80px;
 	height : 30px;
 	margin-left: 650px;
-	background-color: #B2FFD1;
+	background-color: #00C73C;
 	
 
 }
@@ -194,7 +194,7 @@
 	background-color : #228B22;
 	margin-left: 410px;
 	border-radius: 20px;
-	background-color: #B2FFD1;
+	background-color: #00C73C;
 
 }
 
@@ -218,14 +218,14 @@
 .reportBtn1{
 	width : 70px;
 	height : 30px;
-	background-color: #B2FFD1;
+	background-color: 00C73C;
 	border-radius: 20px;
 	margin-left: 80px;
 }
 .repleDelBtn{
 	width : 70px;
 	height : 30px;
-
+	
 	border-radius: 20px;
 	margin-left: 80px;
 }
