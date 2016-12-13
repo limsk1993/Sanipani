@@ -146,7 +146,7 @@ function refreshList() {
 				html += "<tr name='" + result.list[i].AUCTIONWORDNO + "'>";
 				html +=	"<td>" + result.list[i].AUCTIONWORDNO + "</td>";
 				if(result.list[i].PICTURENAME == null) {
-		            html += "<td>등록된 사진이 없습니다</td>";
+					html += "<td width='100px'><img src=\"resources/images/TradeStatus1/no_image.png\"/></td>";
 		        } else {
 		            html += "<td>" + "<img src=\"resources/upload/" + result.list[i].PICTURENAME + "\"/></td>";
 		        }
