@@ -95,12 +95,13 @@ $(document).ready(function(){
 						var html = "";
 						
 						for (var i = 0; i < result.list.length; i++) {
-							html += "<tr name='" + result.list[i].BNO + "'>";
+							html += "<tr name='" + result.list[i].REPORTWORDNO + "'>";
 							html += "<td>" + result.list[i].BLACKLISTRNO + "</td>";//블랙리스트번호													
+							html += "<td>" + result.list[i].ID + "</td>"//블랙리스트닉네임
 							html += "<td>" + result.list[i].NICK + "</td>"//블랙리스트닉네임
 							html += "<td>" + result.list[i].BDATE + "</td>";//날짜					
 							html += "<td>" + result.list[i].REPORTCATEGORYNAME + "</td>";//신고유형				
-							html += "<td>" + result.list[i].REPORTWORDNO + "</td>";//거래글번호. 임시로 신고글번호 가져옴
+							/* html += "<td>" + result.list[i].REPORTWORDNO + "</td>";//거래글번호. 임시로 신고글번호 가져옴 */
 							/* html += "<td>" + result.list[i].LOOKUP + "</td>";//조회 */
 								
 							html += "</tr>";
@@ -297,17 +298,17 @@ $(document).ready(function(){
 					</c:otherwise>
 				</c:choose>
 				<input type="hidden" name="searchText" value="${param.searchText}" />
-				<input type="hidden" name="ReportNo" />
+				<input type="hidden" name="ReportNo" value="${param.ReportNo}"/>
 			</form>
 
 			<table border="1">
 				<thead>
 					<tr>
 						<th width="100px">번호</th>
+						<th width="100px">아이디</th>
 						<th width="100px">닉네임</th>
 						<th width="122px">날짜</th>
-						<th width="122px">신고유형</th>
-						<th width="122px">거래글번호</th>												
+						<th width="122px">신고유형</th>											
 					</tr>
 				</thead>
 				<tbody id="tb1">
@@ -317,7 +318,6 @@ $(document).ready(function(){
 		
 		<input type="text" id="searchText" value="${param.searchText}" />
 		<input type="button" value="검색" id="searchBtn" />
-		<input type="button" value="신고" id="insertBtn" />
 
 		
 		<div id="pagingArea"></div>

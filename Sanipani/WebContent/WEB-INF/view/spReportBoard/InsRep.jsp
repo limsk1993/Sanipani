@@ -239,7 +239,10 @@
 			<input type="hidden" name="searchText" value="${param.searchText}" />
 		</form>
 		
-		<form action="fileUploadAjax" id="insertRepForm" method="post" enctype="multipart/form-data" text-align="center">
+		<form action="fileUploadAjax" 
+		id="insertRepForm" 
+		method="post" 
+		enctype="multipart/form-data">
 			<input type="hidden" name="MEMNO" value="${sNo }"/>
 			제목<input type="text" class="ReportTitle" name="ReportTitle"/> <br/>
 			피해사례<select name="ReportCategory">
@@ -255,7 +258,7 @@
 			내용 <textarea rows="10" cols="80" name="Reportcontent" style="margin: 0px; width: 619px; height: 195px;"></textarea>
 			<br/>
 			 파일 <input type="file" name="RepPic" />
-			 <input type="hidden" name="textFile" id="textFile"/>
+			 <input type="text" name="textFile" id="textFile"/>
 			
 		</form>
 		<input type="button" value="목록" id="listBtn" />

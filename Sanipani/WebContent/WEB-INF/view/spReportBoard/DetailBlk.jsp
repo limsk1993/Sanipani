@@ -48,23 +48,18 @@
 			$("#actionForm").submit();
 		});
 
-		$("#updateBtn").on("click", function() {//수정
-			$("#actionForm").attr("action", "UptBlk");
-			$("#actionForm").submit();
-		});
-
 		$("#deleteBtn").on("click", function() {//삭제
 			if (confirm("삭제하시겠습니까?")) {
 				var params = $("#actionForm").serialize();
 
 				$.ajax({
 					type : "post",
-					url : "deleteBlk",
+					url : "deleteBlackList",
 					datatype : "json",
 					data : params,
 					success : function(result) {
 						if (result.res > 0) {
-							location.href = "ReportBoard";
+							location.href = "BlackList";
 						} else {
 							alert("삭제를 실패");
 						}
@@ -216,9 +211,11 @@
 		<div class="RepContent">
 
 			<form action="#" id="actionForm" method="post">
-				<input type="hidden" name="page" value="${param.page}" /> <input
-					type="hidden" name="searchText" value="${param.searchText}" /> <input
-					type="hidden" name="ReportNo" value="${param.ReportNo}" />
+				<input type="hidden" name="page" value="${param.page}" /> 
+				<input type="hidden" name="searchText" value="${param.searchText}" /> 
+				<input type="hidden" name="ReportNo" value="${param.ReportNo}" />
+				<input type="hidden" name="BLACKLISTNO" value="${con.BLACKLISTNO}" />
+				<input type="hidden" name="MEMBERNO" value="${con.MEMBERNO}" />
 			</form>
 
 
@@ -237,9 +234,15 @@
 					<td>${con.REPORTCATEGORYNAME}</td>
 				</tr>
 			</table>
-			<input type="button" value="목록" id="listBtn" /> 
-			<input type="button" value="삭제" id="deleteBtn" /> 
-			<input type="button" value="수정" id="updateBtn" /> 
+			<c:choose>
+				<c:when test="${sGrade eq 0}">
+					<input type="button" value="목록" id="listBtn" /> 
+					<input type="button" value="삭제" id="deleteBtn" /> 
+				</c:when>
+				<c:otherwise>
+					<input type="button" value="목록" id="listBtn">
+				</c:otherwise>
+			</c:choose>
 		</div>
 	</div>
 
