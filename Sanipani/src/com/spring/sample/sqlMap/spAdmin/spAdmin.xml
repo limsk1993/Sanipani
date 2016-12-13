@@ -10,6 +10,15 @@
 	FROM (
 	SELECT ROW_NUMBER() OVER(ORDER BY MEMBERNO ASC) AS RNUM, MEMBERNO, NAME,ID,NICK,PHONE,EMAIL1,GRADE_NO
 	FROM MEMBERINFO
+	WHERE 1=1
+		<isNotEmpty property="SearchContent">
+			<isEqual  property="search" compareValue="Id" >
+				AND ID LIKE '%' || #SearchContent# || '%'
+			</isEqual>
+			<isEqual  property="search" compareValue="Nick">
+				AND NICK LIKE '%' || #SearchContent# || '%'
+			</isEqual>
+		</isNotEmpty>
 	)A
 	WHERE A.RNUM BETWEEN #start# AND #end#
 	</select>
@@ -18,8 +27,31 @@
 	SELECT COUNT(*) AS CNT
 	FROM MEMBERINFO
 	WHERE 1 = 1
-
+		<isNotEmpty property="SearchContent">
+			<isEqual  property="search" compareValue="Id" >
+				AND ID LIKE '%' || #SearchContent# || '%'
+			</isEqual>
+			<isEqual  property="search" compareValue="Nick">
+				AND NICK LIKE '%' || #SearchContent# || '%'
+			</isEqual>
+		</isNotEmpty>
 	</select>
+	
+	<!-- 해당멤머 정보가져오기 쿼리문  -->
+	<select id="MemberInfoLook" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+	SELECT A.RNUM, A.MEMBERNO, A.NAME, A.ID, A.NICK, A.PHONE, A.EMAIL1, A.GRADE_NO
+	FROM (
+	SELECT ROW_NUMBER() OVER(ORDER BY MEMBERNO ASC) AS RNUM, MEMBERNO, NAME,ID,NICK,PHONE,EMAIL1,GRADE_NO
+	FROM MEMBERINFO		
+	)A
+	WHERE A.MEMBERNO = #testNo#
+	</select>
+	
+	<!-- 글수정쿼리문  -->		
+	<update id="MemberInfoFix" parameterClass="java.util.HashMap">
+	UPDATE MEMBERINFO SET GRADE_NO = #MemberGradeNum#
+	WHERE MEMBERNO = #testNo#
+	</update>
 	
 	
 	<select id="getAdminMoney"

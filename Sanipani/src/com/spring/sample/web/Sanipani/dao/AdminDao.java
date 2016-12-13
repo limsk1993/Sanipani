@@ -29,6 +29,21 @@ public class AdminDao implements IAdminDao{
 	}
 
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public HashMap<String, String> getMemberInfoCon(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return (HashMap<String, String>) sqlMapClient.queryForObject("spAdmin.MemberInfoLook",params);
+	}
+
+
+	@Override
+	public int MemberGradeNum(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return sqlMapClient.update("spAdmin.MemberInfoFix", params);
+	}
+
+
 	@Override
 	public int getAdminMoneyPage(HashMap<String, String> params) throws Throwable {
 		// TODO Auto-generated method stub

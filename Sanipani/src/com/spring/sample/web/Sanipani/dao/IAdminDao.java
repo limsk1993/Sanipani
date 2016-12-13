@@ -9,6 +9,10 @@ public interface IAdminDao {
 
 	public ArrayList<HashMap<String, String>> getMemberInfo(HashMap<String, String> params) throws Throwable;
 
+	public HashMap<String, String> getMemberInfoCon(HashMap<String, String> params) throws Throwable;
+
+	public int MemberGradeNum(HashMap<String, String> params) throws Throwable;
+
 	public int getAdminMoneyPage(HashMap<String, String> params) throws Throwable;
 	
 	public ArrayList<HashMap<String, String>> getAdminMoney(HashMap<String, String> params) throws Throwable;
