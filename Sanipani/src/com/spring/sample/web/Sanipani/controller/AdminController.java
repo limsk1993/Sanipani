@@ -32,7 +32,7 @@ public class AdminController {
 	   public IPagingService iPagingService;
 		
 	 @RequestMapping(value="/AdminMember") //자유게시판목록 jsp 연결
-	   public ModelAndView FreeBoard(HttpServletRequest request,
+	   public ModelAndView AdminMember(HttpServletRequest request,
 	                      ModelAndView modelAndView,
 	                      HttpSession session){
 	      modelAndView.setViewName("spAdmin/AdminMember");
@@ -65,4 +65,38 @@ public class AdminController {
 	      return new ResponseEntity<String>(mapper.writeValueAsString(modelMap),
 	                                responseHeaders, HttpStatus.CREATED);   
 	   }
+	   
+		 @RequestMapping(value="/AdminMemberInfo") //글상세보기
+		   public ModelAndView AdminMemberInfo(HttpServletRequest request,
+					@RequestParam HashMap<String, String> params,
+					ModelAndView modelAndView, HttpSession session) throws Throwable{ //db에 붙을때 throws Throwable사용
+
+			  HashMap<String, String> con = iAdminService.getMemberInfoCon(params);
+				
+			  modelAndView.addObject("con", con);
+				
+		      modelAndView.setViewName("spAdmin/AdminMemberInfo");
+		      
+		      return  modelAndView;
+		      
+		  }
+		 
+		   @RequestMapping(value = "/MemberGradeNum")
+		   public @ResponseBody ResponseEntity<String> MemberGradeNum(
+		         HttpServletRequest request,
+		         @RequestParam HashMap<String, String> params,
+		         ModelAndView modelAndView) throws Throwable {
+		      ObjectMapper mapper = new ObjectMapper();
+		      Map<String, Object> modelMap = new HashMap<String, Object>();
+		      
+		      int res = iAdminService.MemberGradeNum(params);
+		      
+		      modelMap.put("res", res);
+		      
+		      HttpHeaders responseHeaders = new HttpHeaders();
+		      responseHeaders.add("Content-Type", "text/json; charset=UTF-8");
+		      
+		      return new ResponseEntity<String>(mapper.writeValueAsString(modelMap),
+		                                responseHeaders, HttpStatus.CREATED);   
+		   }
 }

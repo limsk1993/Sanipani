@@ -9,4 +9,8 @@ public interface IAdminService {
 
 	public ArrayList<HashMap<String, String>> getMemberInfo(HashMap<String, String> params) throws Throwable;
 
+	public HashMap<String, String> getMemberInfoCon(HashMap<String, String> params) throws Throwable;
+
+	public int MemberGradeNum(HashMap<String, String> params) throws Throwable;
+
 }

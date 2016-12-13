@@ -27,4 +27,19 @@ public class AdminDao implements IAdminDao{
 		return (ArrayList<HashMap<String, String>>) sqlMapClient.queryForList("spAdmin.MemberInfo", params);
 	}
 
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public HashMap<String, String> getMemberInfoCon(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return (HashMap<String, String>) sqlMapClient.queryForObject("spAdmin.MemberInfoLook",params);
+	}
+
+
+	@Override
+	public int MemberGradeNum(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return sqlMapClient.update("spAdmin.MemberInfoFix", params);
+	}
+
 }

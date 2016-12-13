@@ -244,6 +244,7 @@ function removePre(data){
 <body>
 <form action="#" id="actionForm" method="post">
 	<input type="hidden" name="testNo" value="${param.testNo}"/>
+	<input type="hidden" name="page" value="${param.page}"/>
 	<input type="hidden" name="testNo1" />
 </form>
 
@@ -398,24 +399,33 @@ function removePre(data){
 
 		<div class="content">
 			<div class="freeboardContent">
-				<div class="freeboardContent_1">
-				자유게시판 보기
-				</div>
 				<div>
+					
+						<h2>
+						&nbsp&nbsp${con.FREE_TITLE}  
+						</h2>
+						<h3>
+							&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp${con.MEM_NO} &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+							&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+							&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+							&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp${con.FREE_DATE }
+						</h3>
+						
+						
+					
+				</div>
+				<%-- <div>
 					<div class="freeboardContent_2">
-					제목:${con.FREE_TITLE}
+						<h3>
+							${con.FREE_DATE }
+						</h3>
 					</div>
-				</div>
-				<div>
-					<div class="freeboardContent_2">
-					작성자:${con.MEM_NO}
-					</div>
-				</div>
-				<div>
+				</div> --%>
+			<%-- 	<div>
 					<div class="freeboardContent_2">
 					작성일:${con.FREE_DATE }
 					</div>
-				</div>
+				</div> --%>
 				<div>
 					<div class="freeboardContent_3" id="freeboardContent_3" >
 					${con.FREE_CONTENT }
@@ -437,7 +447,7 @@ function removePre(data){
 					
 				<div class="freeboardContent_4">
 					<form action="fileUploadAjax" id="AddRepleForm" method="post" enctype="multipart/form-data">
-									<input type="hidden" name="page" value="1" />
+									<input type="hidden" name="page" value="${param.page}" />
 									<input type="hidden" name="searchText" value="${param.searchText}"/>
 									<textarea cols="30" rows="3" style="resize: none;" name="FreeRepleContent" ></textarea>
 									<input type="hidden" name="sId" value="${sId}" />
