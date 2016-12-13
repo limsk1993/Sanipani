@@ -37,6 +37,71 @@ public class AuctionController {
 			modelAndView.setViewName("spAuctionBoard/AuctionBoard");
 			return modelAndView;
 	}
+	
+	@RequestMapping(value = "/AuctionBoard1")
+	public ModelAndView AuctionBoard1(HttpServletRequest request,
+				HttpSession session,
+				ModelAndView modelAndView) {
+				modelAndView.setViewName("spAuctionBoard/AuctionBoard1");
+				System.out.println("session no : " + session.getAttribute("sNo"));
+				return modelAndView;
+	}
+	@RequestMapping(value = "/AuctionBoard2")
+	public ModelAndView AuctionBoard2(HttpServletRequest request,
+			HttpSession session,
+			ModelAndView modelAndView) {
+			modelAndView.setViewName("spAuctionBoard/AuctionBoard2");
+			System.out.println("session no : " + session.getAttribute("sNo"));
+			return modelAndView;
+	}
+	@RequestMapping(value = "/AuctionBoard3")
+	public ModelAndView AuctionBoard3(HttpServletRequest request,
+			HttpSession session,
+			ModelAndView modelAndView) {
+			modelAndView.setViewName("spAuctionBoard/AuctionBoard3");
+			System.out.println("session no : " + session.getAttribute("sNo"));
+			return modelAndView;
+	}
+	@RequestMapping(value = "/AuctionBoard4")
+	public ModelAndView AuctionBoard4(HttpServletRequest request,
+			HttpSession session,
+			ModelAndView modelAndView) {
+			modelAndView.setViewName("spAuctionBoard/AuctionBoard4");
+			System.out.println("session no : " + session.getAttribute("sNo"));
+			return modelAndView;
+	}
+	@RequestMapping(value = "/AuctionBoard5")
+	public ModelAndView AuctionBoard5(HttpServletRequest request,
+			HttpSession session,
+			ModelAndView modelAndView) {
+			modelAndView.setViewName("spAuctionBoard/AuctionBoard5");
+			System.out.println("session no : " + session.getAttribute("sNo"));
+			return modelAndView;
+	}
+	@RequestMapping(value = "/AuctionBoard6")
+	public ModelAndView AuctionBoard6(HttpServletRequest request,
+			HttpSession session,
+			ModelAndView modelAndView) {
+			modelAndView.setViewName("spAuctionBoard/AuctionBoard6");
+			System.out.println("session no : " + session.getAttribute("sNo"));
+			return modelAndView;
+	}
+	@RequestMapping(value = "/AuctionBoard7")
+	public ModelAndView AuctionBoard7(HttpServletRequest request,
+			HttpSession session,
+			ModelAndView modelAndView) {
+			modelAndView.setViewName("spAuctionBoard/AuctionBoard7");
+			System.out.println("session no : " + session.getAttribute("sNo"));
+			return modelAndView;
+	}
+	@RequestMapping(value = "/AuctionBoard8")
+	public ModelAndView AuctionBoard8(HttpServletRequest request,
+			HttpSession session,
+			ModelAndView modelAndView) {
+			modelAndView.setViewName("spAuctionBoard/AuctionBoard8");
+			System.out.println("session no : " + session.getAttribute("sNo"));
+			return modelAndView;
+	}
 	 
 	@RequestMapping(value="/refreshAuction")
 	public @ResponseBody ResponseEntity<String> refreshAuction(
@@ -257,4 +322,100 @@ public class AuctionController {
 		modelAndView.setViewName("spAuctionBoard/AuctionRequest");
 		return modelAndView;
 	}
+	
+	@RequestMapping(value="/deleteNotAuctionMember")
+	public @ResponseBody ResponseEntity<String> deleteNotAuctionMember(
+			HttpServletRequest request,
+			@RequestParam HashMap<String, String> params, 
+			ModelAndView modelAndView) throws Throwable {
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> modelMap = new HashMap<String, Object>();
+		
+		int res = iAuctionService.deleteNotAuctionMember(params);
+		
+		modelMap.put("res", res);
+		
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Content-Type", "text/json; charset=UTF-8");
+		
+		return new ResponseEntity<String>(mapper.writeValueAsString(modelMap), responseHeaders, HttpStatus.CREATED);
+	}
+	
+	@RequestMapping(value = "/AuctionReplyShow")
+	   public @ResponseBody ResponseEntity<String> AuctionReplyShow(
+	         HttpServletRequest request,
+	         @RequestParam HashMap<String, String> params,/*여러개의 값을 한번에 넣어 한번에 받아옴.*/
+	         ModelAndView modelAndView) throws Throwable {
+	      
+	      ObjectMapper mapper = new ObjectMapper();
+	      Map<String, Object> modelMap = new HashMap<String, Object>();
+	      
+	 
+	      ArrayList<HashMap<String, String>> list1 = iAuctionService.getshowReply(params);
+	           
+	      modelMap.put("list1", list1);
+	    
+	            
+	      HttpHeaders responseHeaders = new HttpHeaders();
+	      responseHeaders.add("Content-Type", "text/json; charset=UTF-8");
+	      
+	      return new ResponseEntity<String>(mapper.writeValueAsString(modelMap),
+	                                responseHeaders, HttpStatus.CREATED);   
+	   }
+	
+	@RequestMapping(value = "/insertAuctionReply")
+	   public @ResponseBody ResponseEntity<String> insertAuctionReply(
+	         HttpServletRequest request,
+	         @RequestParam HashMap<String, String> params,
+	         ModelAndView modelAndView) throws Throwable {
+	      ObjectMapper mapper = new ObjectMapper();
+	      
+	      Map<String, Object> modelMap = new HashMap<String, Object>();
+	      
+	      iAuctionService.insertAuctionReply(params);
+	     
+	      
+	      HttpHeaders responseHeaders = new HttpHeaders();
+	      responseHeaders.add("Content-Type", "text/json; charset=UTF-8");
+	      
+	      return new ResponseEntity<String>(mapper.writeValueAsString(modelMap),
+	                                responseHeaders, HttpStatus.CREATED);   
+	   }
+	
+	@RequestMapping(value="/deleteAuctionReply")
+	public @ResponseBody ResponseEntity<String> deleteAuctionReply(
+			HttpServletRequest request,
+			@RequestParam HashMap<String, String> params, 
+			ModelAndView modelAndView) throws Throwable {
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> modelMap = new HashMap<String, Object>();
+		
+		int res = iAuctionService.deleteAuctionReply(params);
+		
+		modelMap.put("res", res);
+		
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Content-Type", "text/json; charset=UTF-8");
+		
+		return new ResponseEntity<String>(mapper.writeValueAsString(modelMap), responseHeaders, HttpStatus.CREATED);
+	}
+	
+	@RequestMapping(value = "/reportAuctionReply")
+	   public @ResponseBody ResponseEntity<String> reportAuctionReply(
+	         HttpServletRequest request,
+	         @RequestParam HashMap<String, String> params,
+	         ModelAndView modelAndView) throws Throwable {
+	      ObjectMapper mapper = new ObjectMapper();
+	      
+	      Map<String, Object> modelMap = new HashMap<String, Object>();
+	      
+	      iAuctionService.reportAuctionReply(params);
+	     
+	      
+	      HttpHeaders responseHeaders = new HttpHeaders();
+	      responseHeaders.add("Content-Type", "text/json; charset=UTF-8");
+	      
+	      return new ResponseEntity<String>(mapper.writeValueAsString(modelMap),
+	                                responseHeaders, HttpStatus.CREATED);   
+	   }
 }

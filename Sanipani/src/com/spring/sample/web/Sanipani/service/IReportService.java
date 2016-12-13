@@ -29,5 +29,14 @@ public interface IReportService {
 
 	public int updateWarning(HashMap<String, String> params) throws Throwable;
 
+	public int updateBlacklist(HashMap<String, String> params) throws Throwable;
+
+	public String insertBlacklist(HashMap<String, String> params) throws Throwable;
+
+	public int deleteBlackList(HashMap<String, String> params) throws Throwable;
+
+	public int deleteBlacklist2(HashMap<String, String> params) throws Throwable;
+
+	public int deleteBlacklist3(HashMap<String, String> params) throws Throwable;
 
 }

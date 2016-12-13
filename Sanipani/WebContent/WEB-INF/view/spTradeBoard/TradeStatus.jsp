@@ -22,10 +22,10 @@ $(document).ready(function(){
 			data : params,
 			success : function(result){
 					
-				if(result.buy == "true"){
-					alert("거래를 신청하엿습니다");
 			
-					if(result.con2.BUY_PAY<=result.con3.TOTAL){
+					alert("거래를 신청하엿습니다");
+					alert(result.con3);
+					if(result.con2.BUY_PAY<=result.con3){
 						var params = $("#actionForm").serialize();
 						
 						$.ajax({
@@ -78,11 +78,7 @@ $(document).ready(function(){
 					else {
 						alert("돈없어");
 					}
-				} 
-				
-				else{
-					alert("저장 중 문제가 발생했습니다.");
-				}
+			
 					
 			
 			},
@@ -326,6 +322,7 @@ $(document).ready(function(){
 			<input type="text" name="testNo" value="${param.testNo}"/>
 			<input type="text" name="TradeNo" value="${param.TradeNo}">
 			<input type="text" name="Pay" value="${con1.BUY_PAY}">
+			<input type="text" name="TradeStatus" value="${param.TradeNo}거래입금">
 		
 		
 			<table border="1" width="500px">
@@ -365,7 +362,15 @@ $(document).ready(function(){
 					</td>
 					</c:when>
 					<c:otherwise>
-						<td><input type="button" id="buyUser" value="거래동의"></td><td></td>
+					<c:choose>
+							<c:when test="${con.MEMBERNO eq sNo}">
+								<td><input type="button" id="buyUser" value="거래동의"></td><td></td>
+							</c:when>
+							<c:otherwise>
+								<td></td><td></td>
+							</c:otherwise>	
+						</c:choose>	
+						
 					</c:otherwise>
 					</c:choose>
 					
@@ -416,7 +421,14 @@ $(document).ready(function(){
 					</td>
 					</c:when>
 					<c:otherwise>
-						<td><input type="button" id="sellUser" value="거래동의"></td><td></td>
+						<c:choose>
+							<c:when test="${con1.MEMBERNO eq sNo}">
+								<td><input type="button" id="sellUser" value="거래동의"></td><td></td>
+							</c:when>
+							<c:otherwise>
+								<td></td><td></td>
+							</c:otherwise>	
+						</c:choose>	
 					</c:otherwise>
 					</c:choose>
 				</tr>		

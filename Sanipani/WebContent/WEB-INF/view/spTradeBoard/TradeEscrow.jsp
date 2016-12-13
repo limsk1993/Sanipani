@@ -49,13 +49,11 @@ $(document).ready(function(){
 				dataType : "json",
 				data : params,
 				success : function(result){
-					if(result.res == "true"){
+			
 						$('input[type="hidden"][name="TradeNo"]').val(result.no);
-						$("#actionForm").attr("action", "TradeRequest");
-						$("#actionForm").submit();
-					} else{
-						alert("저장 중 문제가 발생했습니다.");
-					}
+						$("#EscrowInsert").attr("action", "TradeRequest");
+						$("#EscrowInsert").submit();
+					
 				},
 				error : function(result){
 					alert("ERROR!!");

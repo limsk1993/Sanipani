@@ -12,13 +12,14 @@
 <link rel="stylesheet" type="text/css" href="resources/css/spmain/Mainpage.css"/>
 
 <style type="text/css">
+
  .tradeTable{
 	vertical-align :top;
 	display : inline-block;
 	padding : 20px;
 	width: 850px;
 	height: 90%;
-	background-color: #F1232F;
+	
 	
 
 }
@@ -26,7 +27,10 @@
 	display : inline-block;
 	width: 200px;
 	height: 90%;
-	background-color: #123FAC;
+	 background-color: #B2FFD1;
+	 border-radius: 20px;
+	 overflow: hidden;
+	 margin-top:20px; 
 }
 </style>
 
@@ -35,32 +39,34 @@
 
 	width : 100%;
 	height : 390px;
-	background-color: #F123FF;
+	  background-color: #B2FFD1;
+	  border-radius: 15px;
 }
 .tradeContent1{
 	width : 100%;
 	height : 500px;
-	background-color: #000131;
+
 }
 .tradeReple{
 	width : 100%;
 	height : 500px;
-	background-color: #F1240F;
+	
 
 }
 .tradePicture{
+	padding-top : 5px;
 	vertical-align :top;
 	display : inline-block;
 	width : 40%;
 	height : 390px;
-	background-color: #FFFFFF;
+	 
 }
 .tradePictureMain{
 	
 	margin-left : 20px;
 	width : 300px;
 	height : 300px;
-	background-color: #444444;
+	
 	
 }
 .tradePictureMain img{
@@ -68,7 +74,7 @@
 
 	width : 300px;
 	height : 300px;
-	background-color: #444444;
+	
 	
 }
 .tradePicture1{
@@ -77,7 +83,7 @@
 	display : inline-block;
 	width : 70px;
 	height : 70px;
-	background-color: #444444;
+
 	
 }
 .tradePicture1 img{
@@ -89,7 +95,7 @@
 	display : inline-block;
 	width : 70px;
 	height : 70px;
-	background-color: #444444;
+
 	
 }
 
@@ -103,8 +109,7 @@
 	display : inline-block;
 	width : 70px;
 	height : 70px;
-	background-color: #444444;
-	
+
 }
 .tradePicture3 img{
 	width : 70px;
@@ -115,7 +120,7 @@
 	display : inline-block;
 	width : 70px;
 	height : 70px;
-	background-color: #444444;
+
 	
 }
 .tradePicture4 img{
@@ -127,16 +132,16 @@
 	display : inline-block;
 	width : 56%;
 	height : 390px;
-	background-color: #F123FF;
+	
 }
 	
 .tradeContentTop{
 
 	display : block;
-	width : 90%;
+	width : 100%;
 	height : 85%;
-	background-color: #FFFFFF;
-	margin-left: 40px;
+
+
 	margin-top: 20px;
 }
 
@@ -146,7 +151,7 @@
 	display : block;
 	width : 90%;
 	height : 50px;
-	background-color: #F000FF;
+
 }
 .tradeUpdateBtn{	
 	margin-top : 10px;
@@ -154,7 +159,8 @@
 	display : inline-block;
 	width : 80px;
 	height : 30px;
-	background-color: #FFFFFF;
+	background-color: #B2FFD1;
+
 }
 
 .tradeDeleteBtn{
@@ -163,7 +169,8 @@
 	display : inline-block;
 	width : 80px;
 	height : 30px;
-	background-color:#FFFFFF;
+	background-color: #00C73C;
+
 }
 .tradeRequest{
 	margin-top: 20px;
@@ -172,7 +179,9 @@
 	width : 80px;
 	height : 30px;
 	margin-left: 650px;
-	background-color: #FFFFFF;
+	background-color: #00C73C;
+	
+
 }
 
 
@@ -182,9 +191,10 @@
 	vertical-align:top;
 	width : 80px;
 	height : 30px;
-	background-color:#FFFFFF;
+	background-color : #228B22;
 	margin-left: 410px;
 	border-radius: 20px;
+	background-color: #00C73C;
 
 }
 
@@ -195,7 +205,7 @@
 .WriteBtn{
 	width : 80px;
 	height : 30px;
-	background-color: #FFFFFF;
+	background-color: #B2FFD1;
 	border-radius: 20px;
 	margin-left: 725px;
 }
@@ -208,14 +218,14 @@
 .reportBtn1{
 	width : 70px;
 	height : 30px;
-	background-color: #FFFFFF;
+	background-color: 00C73C;
 	border-radius: 20px;
 	margin-left: 80px;
 }
 .repleDelBtn{
 	width : 70px;
 	height : 30px;
-	background-color: #FFFFFF;
+	
 	border-radius: 20px;
 	margin-left: 80px;
 }
@@ -348,12 +358,38 @@ $(document).ready(function(){
 	
 	
 	$(".tradeRequest").on("click",function(){
-		$("#actionForm").attr("action", "TradeEscrow");
-		$("#actionForm").submit();
+		
+		if($("input[name='sNo']").val()>0){
+			
+	var params = $("#actionForm").serialize();
+			
+			$.ajax({
+				type:"post",
+				url:"getTradeCheck",
+				dataType:"json",
+				data : params,
+				success : function(result){
+			
+					$("#actionForm").attr("action", "TradeEscrow");
+					$("#actionForm").submit();
+						
+				
+				},
+				error : function(result){
+					alert("이미 거래요청을 하셨습니다 장바구니에서 확인하세요");
+				}
+			});
+		
+		}
+		else{
+			
+			alert("로그인을 해주십셔");
+		}
 		
 	});
 	
 	$(".tradeDeleteBtn").on("click",function(){
+		
 		if(confirm("삭제하시겠습니까???????")){
 			var params = $("#actionForm").serialize();
 			
@@ -382,7 +418,7 @@ $(document).ready(function(){
 	});
 	
 	$(".WriteBtn").on("click",function(){
-		
+		if($("input[name='sNo']").val()>0){
 		if(confirm("작성???????")){
 			var params = $("#repleForm").serialize();
 			
@@ -403,7 +439,12 @@ $(document).ready(function(){
 				}
 			});
 		}
+		}
+		else {
+			alert("로그인을 해주세요");
+		}
 	});
+	
 	
 
 	$("#RepleList").on("click", ".RepleDel", function(){
@@ -443,7 +484,11 @@ $(document).ready(function(){
 		 var ar= $("input[name='fraudUser']").val();
 		 var arr = ar.split("_");
 		 $("input[name='fraudUser']").val(arr[1]);
-		 $("input[name='repleNo120   ']").val(arr[0]);
+		 $("input[name='repleNo1']").val(arr[0]);
+		 $("input[name='reportContent1']").val(arr[2]);
+		 $("input[name='reportTitle1']").val("댓글");
+		 
+		
 	   });
 	
 });	
@@ -472,7 +517,8 @@ $(document).ready(function(){
 				
 					html +="<td width='40%'></td>";
 					if($("input[name='sNo']").val()!=null){
-						html += "<td class='repleReport' name='" + result.list1[i].T_COMMENT_NO + "_"+result.list1[i].MEMBERNO+"'>" + '신고하기' + "</td>";
+						html += "<td class='repleReport' name='" + result.list1[i].T_COMMENT_NO + "_"+result.list1[i].MEMBERNO+"_"+result.list1[i].T_COMMENT_CONTENT +"'>"
+						+ '신고하기' + "</td>";
 				
 						}else{
 							html+="<td></td>";
@@ -517,8 +563,12 @@ $(document).ready(function(){
 
 
 	$(".reportBtn").on("click", function(){
+		if($("input[name='sNo']").val()>0){
 		$(".popupMain").css("display","block");
 		$(".popupReport").css("display","block");
+	}else{
+		alert("로그인이 필요합니다");
+	}
 	});
 	
 	$(".reportCencelBtn").on("click", function(){
@@ -728,25 +778,73 @@ function removePre(data){
 		<div class="content">
 		
 		<div class="tradeCategory">
-			<div class="home">가정제품</div>
-			<div class="elec">전자기기</div>
-			<div class="cloth">의류,신발</div>
-			<div class="watch">시계</div>
-			<div class="cosmetic">화장품</div>
-			<div class="travel">여행용품</div>
-			<div class="furni">가구</div>
-			<div class="book">도서</div>
-			<div class="etc">기타</div>
+			<div class="home_1">가정제품</div>
+					<div class="elec_1">전자기기</div>
+					<div class="cloth_1">의류,신발</div>
+					<div class="watch_1">시계</div>
+					<div class="cosmetic_1">화장품</div>
+					<div class="travel_1">여행용품</div>
+					<div class="furni_1">가구</div>
+					<div class="book_1">도서</div>
+					<div class="etc_1">기타</div>
 		</div>
 		
 		<div class="tradeTable">
 			<div class="tradePictureIf">
 				<div class="tradePicture">
-					<div class="tradePictureMain">	<img alt="${con.TEST_FILE}" src="resources/upload/${con.PICTURENAME}"/></div>
-					<div class="tradePicture1"> <img alt="${con.TEST_FILE}" src="resources/upload/${con.PICTURENAME1}"/></div>
-					<div class="tradePicture2"> <img alt="${con.TEST_FILE}" src="resources/upload/${con.PICTURENAME2}"/></div>
-					<div class="tradePicture3"> <img alt="${con.TEST_FILE}" src="resources/upload/${con.PICTURENAME3}"/></div>
-					<div class="tradePicture4"> <img alt="${con.TEST_FILE}" src="resources/upload/${con.PICTURENAME4}"/></div>
+					<div class="tradePictureMain">
+						<c:choose>
+							<c:when test="${con.PICTURENAME eq null}">
+								<img alt="${con.TEST_FILE}" src="resources/images/TradeStatus1/no_image.png"/>
+							</c:when>
+							<c:otherwise>
+								<img alt="${con.TEST_FILE}" src="resources/upload/${con.PICTURENAME}"/>
+							</c:otherwise>
+						</c:choose>
+					</div>
+					
+					<div class="tradePicture1">
+						 <c:choose>
+							<c:when test="${con.PICTURENAME1 eq null}">
+								<img alt="${con.TEST_FILE}" src="resources/images/TradeStatus1/no_image.png"/>
+							</c:when>
+							<c:otherwise>
+								<img alt="${con.TEST_FILE}" src="resources/upload/${con.PICTURENAME1}"/>
+							</c:otherwise>
+						</c:choose>
+					</div>
+					
+					<div class="tradePicture2"> 
+						<c:choose>
+							<c:when test="${con.PICTURENAME2 eq null}">
+								<img alt="${con.TEST_FILE}" src="resources/images/TradeStatus1/no_image.png"/>
+							</c:when>
+							<c:otherwise>
+								<img alt="${con.TEST_FILE}" src="resources/upload/${con.PICTURENAME2}"/>
+							</c:otherwise>
+						</c:choose>
+					</div>
+					<div class="tradePicture3"> 
+						<c:choose>
+							<c:when test="${con.PICTURENAME3 eq null}">
+								<img alt="${con.TEST_FILE}" src="resources/images/TradeStatus1/no_image.png"/>
+							</c:when>
+							<c:otherwise>
+								<img alt="${con.TEST_FILE}" src="resources/upload/${con.PICTURENAME3}"/>
+							</c:otherwise>
+						</c:choose>
+					</div>
+					
+					<div class="tradePicture4"> 
+						<c:choose>
+							<c:when test="${con.PICTURENAME4 eq null}">
+								<img alt="${con.TEST_FILE}" src="resources/images/TradeStatus1/no_image.png"/>
+							</c:when>
+							<c:otherwise>
+								<img alt="${con.TEST_FILE}" src="resources/upload/${con.PICTURENAME4}"/>
+							</c:otherwise>
+						</c:choose>
+					</div>
 				</div>	
 			
 				<div class="tradeIf">
@@ -757,30 +855,32 @@ function removePre(data){
 					<input type="hidden" name="page" value="${param.page}"/>
 					<input type="hidden" name="searchText" value="${param.searchText }"/>
 					<input type="hidden" name="testNo" value="${param.testNo}"/>
+					<input type="hidden" name="sNo" value="${sNo}"/>
+					
 				</form>
-					<table border="1" width="490px">
+					<table  width="490px">
 						<tr>
-							<th width="20%">제목</th>
-							<th width="80%">${con.WORD_TITLE}</th>
+							<td width="20%"><b>제목</b></td>
+							<td width="80%">${con.WORD_TITLE}</td>
 						</tr>
 						
 						<tr>
-							<td>물품명</td>
+							<td><B>물품명</B></td>
 							<td>${con.TRADE_BOARD}${con1.TRADE_NO}</td>
 						</tr>
 						
 						<tr>
-							<td>닉네임</td>
+							<td><b>닉네임</b></td>
 							<td>${con.NICK}</td>
 						</tr>
 						
 						<tr>
-							<td>가격</td>
+							<td><b>가격</b></td>
 							<td>${con.BUY_PAY}</td>
 						</tr>
 						
 						<tr>
-							<td>날짜</td>
+							<td><b>날짜</b></td>
 							<td>${con.WRITER_DATE}</td>
 						</tr>
 					</table>
@@ -789,7 +889,7 @@ function removePre(data){
 			</div>
 			<div class="tradeContent1">
 				<div class="tradeContentTop">
-						${con.WORD_CONTENTS}
+						<pre>${con.WORD_CONTENTS}</pre>
 				</div>
 				<div class="tradeContentBottom">
 					
@@ -871,6 +971,8 @@ function removePre(data){
 		<input type="hidden" name="reportUser" value="${sNo}"/>
 		<input type="hidden" name="fraudUser" value="${con.MEMBERNO}"/>
 		<input type="hidden" name="testNo" value="${param.testNo}"/>
+		<input type="hidden" name="reportTitle1" value="${con.WORD_TITLE}"/>
+		<input type="hidden" name="reportContent1" value="${con.WORD_CONTENTS}"/>
 		<input type="hidden" name="repleNo1" value=""/>
 					<input type="file" name="att1"> 
 					<input type="hidden" name="textFile" id="textFile"/>

@@ -76,6 +76,32 @@ public class ReportService implements IReportService {
 		return iReportDao.updateWarning(params);
 	}
 
+	@Override
+	public int updateBlacklist(HashMap<String, String> params) throws Throwable {
+		return iReportDao.updateBlacklist(params);
+	}
+
+	@Override
+	public String insertBlacklist(HashMap<String, String> params) throws Throwable {
+		return iReportDao.insertBlacklist(params);
+	}
+
+	@Override
+	public int deleteBlackList(HashMap<String, String> params) throws Throwable {
+		return iReportDao.deleteBlackList(params);
+
+	}
+
+	@Override
+	public int deleteBlacklist2(HashMap<String, String> params) throws Throwable {
+		return iReportDao.deleteBlackList2(params);
+	}
+
+	@Override
+	public int deleteBlacklist3(HashMap<String, String> params) throws Throwable {
+		return iReportDao.deleteBlackList3(params);
+	}
+
 	
 
 

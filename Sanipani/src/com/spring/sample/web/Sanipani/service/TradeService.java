@@ -136,7 +136,7 @@ public class TradeService implements ITradeService{
 	}
 
 	@Override
-	public HashMap<String, String> getTradeTotal1(HashMap<String, String> params) throws Throwable {
+	public int getTradeTotal1(HashMap<String, String> params) throws Throwable {
 		// TODO Auto-generated method stub
 		return iTradeDao.getTradeTotal1(params);
 	}
@@ -172,7 +172,7 @@ public class TradeService implements ITradeService{
 	}
 
 	@Override
-	public HashMap<String, String> getTradeCon1(HashMap<String, String> params) throws Throwable {
+	public int getTradeCon1(HashMap<String, String> params) throws Throwable {
 		// TODO Auto-generated method stub
 		return iTradeDao.getTradeCon1(params);
 	}
@@ -236,6 +236,59 @@ public class TradeService implements ITradeService{
 		// TODO Auto-generated method stub
 		return iTradeDao.insertReport(params);
 	}
+	
+	@Override
+	public void TradeDelUpdate(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		iTradeDao.TradeDelUpdate(params);
+	}
+	
+/////////////////////////////Auction
+	@Override
+	public void EscrowUpdateAuction(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		iTradeDao.EscrowUpdateAuction(params);
+	}
+
+	@Override
+	public HashMap<String, String> getStatusAuction(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return iTradeDao.getStatusAuction(params);
+	}
+
+	@Override
+	public HashMap<String, String> getStatusBuyer(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return iTradeDao.getStatusBuyer(params);
+	}
+
+	@Override
+	public HashMap<String, String> getAuctionSeller(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return iTradeDao.getAuctionSeller(params);
+	}
+
+	@Override
+	public void DeliveryUpdateAuction(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		iTradeDao.DeliveryUpdateAuction(params);
+	}
+
+	@Override
+	public Long getTradeUserNo1(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return iTradeDao.getTradeUserNo1(params);
+	}
+
+	@Override
+	public void CompleteUpdateAuction(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		iTradeDao.CompleteUpdateAuction(params);
+	}
+
+
+
+
 
 	
 
