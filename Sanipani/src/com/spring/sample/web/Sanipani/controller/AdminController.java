@@ -32,7 +32,7 @@ public class AdminController {
 	   public IPagingService iPagingService;
 		
 	 @RequestMapping(value="/AdminMember") //자유게시판목록 jsp 연결
-	   public ModelAndView FreeBoard(HttpServletRequest request,
+	   public ModelAndView AdminMember(HttpServletRequest request,
 	                      ModelAndView modelAndView,
 	                      HttpSession session){
 	      modelAndView.setViewName("spAdmin/AdminMember");
@@ -65,4 +65,60 @@ public class AdminController {
 	      return new ResponseEntity<String>(mapper.writeValueAsString(modelMap),
 	                                responseHeaders, HttpStatus.CREATED);   
 	   }
+	   
+	   
+		
+		 @RequestMapping(value="/AdminMoney") //자유게시판목록 jsp 연결
+		   public ModelAndView AdminMoney(HttpServletRequest request,
+		                      ModelAndView modelAndView,
+		                      HttpSession session){
+		      modelAndView.setViewName("spAdmin/AdminMoney");
+		      return modelAndView;
+		      
+		   }
+		 
+		   @RequestMapping(value = "/getAdminMoney") //게시판내용가져오기
+		   public @ResponseBody ResponseEntity<String> getAdminMoney(
+		         HttpServletRequest request,
+		         @RequestParam HashMap<String, String> params,
+		         ModelAndView modelAndView) throws Throwable {
+		      
+		      ObjectMapper mapper = new ObjectMapper();
+		      Map<String, Object> modelMap = new HashMap<String, Object>();
+		      
+		      PagingBean pb = iPagingService.getPageingBean(Integer.parseInt(params.get("page")), iAdminService.getAdminMoneyPage(params));
+		      
+		      params.put("start", Integer.toString(pb.getStartCount()));
+		      params.put("end", Integer.toString(pb.getEndCount()));
+		      
+		      ArrayList<HashMap<String, String>> list = iAdminService.getAdminMoney(params);
+		           
+		      modelMap.put("list", list);
+		      modelMap.put("pb", pb);
+		            
+		      HttpHeaders responseHeaders = new HttpHeaders();
+		      responseHeaders.add("Content-Type", "text/json; charset=UTF-8");
+		      
+		      return new ResponseEntity<String>(mapper.writeValueAsString(modelMap),
+		                                responseHeaders, HttpStatus.CREATED);   
+		   }
+		   
+		   
+		   @RequestMapping(value = "/insertMoneyRefund") //게시판내용가져오기
+		   public @ResponseBody ResponseEntity<String> insertMoneyRefund(
+		         HttpServletRequest request,
+		         @RequestParam HashMap<String, String> params,
+		         ModelAndView modelAndView) throws Throwable {
+		      
+		      ObjectMapper mapper = new ObjectMapper();
+		      Map<String, Object> modelMap = new HashMap<String, Object>();
+		      
+		      iAdminService.insertMoneyRefund(params);
+		            
+		      HttpHeaders responseHeaders = new HttpHeaders();
+		      responseHeaders.add("Content-Type", "text/json; charset=UTF-8");
+		      
+		      return new ResponseEntity<String>(mapper.writeValueAsString(modelMap),
+		                                responseHeaders, HttpStatus.CREATED);   
+		   }
 }

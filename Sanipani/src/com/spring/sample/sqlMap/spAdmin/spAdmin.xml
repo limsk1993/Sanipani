@@ -21,4 +21,47 @@
 
 	</select>
 	
+	
+	<select id="getAdminMoney"
+	 parameterClass="java.util.HashMap"
+	 resultClass="java.util.HashMap"
+	>
+	
+	SELECT NO,ID,SA_PA_MO_NO,MEMBERNO,CHARGE_PRICE,TO_CHAR(CHARGE_DATE,'YYYY-MM-DD'||' '||'HH:MI:SS') AS CHARGE_DATE,EXCHANGE_PRICE,
+			TO_CHAR(EXCHANGE_DATE,'YYYY-MM-DD'||' '||'HH:MI:SS') AS EXCHANGE_DATE
+	FROM (SELECT  ROW_NUMBER() OVER (ORDER BY SA_PA_MO_NO DESC) AS NO,I.ID,
+        SA_PA_MO_NO,I.MEMBERNO,CHARGE_PRICE,CHARGE_DATE,EXCHANGE_PRICE,EXCHANGE_DATE
+	FROM SANIPANIMONEY M INNER JOIN MEMBERINFO I ON M.MEMBERNO = I.MEMBERNO
+	WHERE 1=1 
+	<isNotEmpty property="searchText">
+    	AND I.ID = #searchText# 
+    </isNotEmpty>
+    <isNotEmpty property="searchDate">
+    	AND CHARGE_DATE LIKE TO_DATE(#searchDate#)
+    </isNotEmpty>
+    <isNotEmpty property="searchUseDate">
+    	AND EXCHANGE_DATE LIKE TO_DATE(#searchUseDate#)
+    </isNotEmpty>
+	
+	) A	
+	
+    WHERE A.NO BETWEEN #start# AND #end# 
+	</select>
+	
+	<select id="getAdminMoneyPage" parameterClass="java.util.HashMap" resultClass="Integer">
+	SELECT COUNT(SA_PA_MO_NO) AS CNT
+	FROM SANIPANIMONEY M INNER JOIN MEMBERINFO I ON M.MEMBERNO = I.MEMBERNO
+	WHERE 1 = 1
+	<isNotEmpty property="searchText">
+    	AND I.ID = #searchText# 
+    </isNotEmpty>
+	</select>
+	
+	<insert id="insertMoneyRefund"
+	parameterClass="java.util.HashMap"
+	>
+	INSERT INTO SANIPANIMONEY(SA_PA_MO_NO,MEMBERNO,CHARGE_PRICE,CHARGE_DATE)
+	VALUES(SA_PA_MONEY.NEXTVAL,#UserNo#,#moneyRefund#,SYSDATE)
+	
+	</insert>
 </sqlMap>

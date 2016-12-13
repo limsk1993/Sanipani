@@ -1,5 +1,6 @@
 package com.spring.sample.web.Sanipani.dao;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -25,6 +26,28 @@ public class AdminDao implements IAdminDao{
 	public ArrayList<HashMap<String, String>> getMemberInfo(HashMap<String, String> params) throws Throwable {
 		// TODO Auto-generated method stub
 		return (ArrayList<HashMap<String, String>>) sqlMapClient.queryForList("spAdmin.MemberInfo", params);
+	}
+
+
+	@Override
+	public int getAdminMoneyPage(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return (int) sqlMapClient.queryForObject("spAdmin.getAdminMoneyPage",params);
+	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<HashMap<String, String>> getAdminMoney(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return (ArrayList<HashMap<String, String>>) sqlMapClient.queryForList("spAdmin.getAdminMoney",params);
+	}
+
+
+	@Override
+	public void insertMoneyRefund(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		sqlMapClient.insert("spAdmin.insertMoneyRefund",params);
 	}
 
 }

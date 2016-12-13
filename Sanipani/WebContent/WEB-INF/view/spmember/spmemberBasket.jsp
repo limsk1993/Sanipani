@@ -17,12 +17,39 @@
 	height: 1000px;
 	background-color: #FFFFFF;	
 }
+.Auction{
+	margin-top : 40px;
+	width: 900px;
+	height: 400px;
+	background-color: #CCCCCC;	
+}
+.TradeProgress{
+	margin-top : 40px;
+	width: 900px;
+	height: 400px;
+	background-color: #CCCCCC;
+}
+.TradeRequest{
+	margin-top : 40px;
+	width: 900px;
+	height: 400px;
+	background-color: #CCCCCC;
+}
+.AcutionComple{
+	margin-top : 40px;
+	width: 900px;
+	height: 400px;
+	background-color: #CCCCCC;
+}
+.aucti
 </style>
 
 <script type="text/javascript">
 $(document).ready(function(){
 	showTrade();
 	showTradeSell();
+	showAutionBuy();
+	showAutionComple();
 	$("#searchBtn").on("click",function(){
 		$("input[name='searchText']").val($("#searchText").val()); //searchText의 value에 serchTextval의 값을 넣는다.
 		$("input[name='page']").val("1");
@@ -69,6 +96,32 @@ $(document).ready(function(){
 		 $("#actionForm").attr("action", "TradeRequest"); // 밑의 form에 action의 값이#인데 거 에다가 test5를 넣겠다는 소리.
 		$("#actionForm").submit();
 	});
+	
+	
+	
+	
+	$("#tradePageNo2").on("click", "span", function(){
+		$("input[name='page']").val($(this).attr("name"));
+		
+		showTradeSell();
+	});
+	
+	$("#tradeList2").on("click", "tr", function(){
+		
+		$("input[name='auctionNo']").val($(this).attr("name"));
+		
+		$("#actionFormAuction").attr("action", "AuctionDetailLook");
+		$("#actionFormAuction").submit();
+	});
+	
+	$("#tradeList3").on("click", "tr", function(){
+		
+		$("input[name='auctionNo']").val($(this).attr("name"));
+		
+		$("#actionFormAuction").attr("action", "AuctionEscrow");
+		$("#actionFormAuction").submit();
+	});
+
 });		
 		
 		
@@ -200,6 +253,141 @@ function showTradeSell(){
 		html += "<span name='" + result.pb.maxPcount+"'>마지막</span>";
 		
 		$("#tradePageNo1").html(html);
+			
+		},
+		error : function(result){
+			alert("error!!");
+		}
+	});
+}
+
+
+function showAutionBuy(){
+	var params = $("#actionForm").serialize(); //serialize 정렬해서 보여준다.
+	
+	$.ajax({//비동기화방식
+		type : "post",
+		url : "showAutionBuy", 
+		dataType : "json",
+		data : params,
+		success : function(result){
+			var html = "";
+			
+			for(var i = 0 ; i < result.list.length ; i++){
+				html += "<tr name='" + result.list[i].AUCTIONWORDNO + "'>";
+				html += "<td>" + result.list[i].NO + "</td>";
+				html += "<td>" + result.list[i].ID + "</td>";
+				html += "<td>" + result.list[i].WORDCONTENT + "</td>";
+				html += "<td>" + result.list[i].STARTBUYPAY + "</td>";						
+				html += "<td>" + result.list[i].BIDPRICE + "</td>";
+				html += "<td>" + result.list[i].ENDDATE + "</td>";			
+				html += "</tr>";
+			}
+			
+			$("#tradeList2").html(html);
+			
+		html = "";
+		html += "<span name='1'>처음</span>";
+		
+/* 		if($("input[name='page']").val() == 1){
+			html += "<span name='1'>이전</span>";
+		} else{
+			html += "<span name='" + ($("input[name='page']").val - 1) + "'>이전</span>";
+		} */
+		if($("input[name='page']").val() == 1) {
+            html += "<span name='1'>이전</span>";
+         } else {
+            html += "<span name = '" + ($("input[name='page']").val() - 1) + "'>이전</span>";
+         }
+		
+		for(var i = result.pb.startPcount ; i <= result.pb.endPcount ; i++){
+			if(i == $("input[name='page']").val()){
+				html += "<span name='" + i + "'><b>" + i + "</b></span>";
+			} else{
+				html += "<span name='" + i + "'>" + i + "</b></span>";
+			}
+		}
+		
+		if($("input[name='page']").val() == result.pb.maxPcount){
+			html += "<span name='" + result.pb.maxPcount + "'>다음</span>";
+		} else{
+			html += "<span name='" + ($("input[name='page']").val() * 1 + 1) + "'>다음</span>";
+		}
+		
+		
+		html += "<span name='" + result.pb.maxPcount+"'>마지막</span>";
+		
+		$("#tradePageNo2").html(html);
+			
+		},
+		error : function(result){
+			alert("error!!");
+		}
+	});
+}
+
+
+
+function showAutionComple(){
+
+	var params = $("#acutionForm").serialize(); //serialize 정렬해서 보여준다.
+	
+
+	
+	
+	$.ajax({//비동기화방식
+		type : "post",
+		url : "showAutionBuy", 
+		dataType : "json",
+		data : params,
+		success : function(result){
+			var html = "";
+			
+			for(var i = 0 ; i < result.list.length ; i++){
+				html += "<tr name='" + result.list[i].AUCTIONNO + "'>";
+				html += "<td>" + result.list[i].NO + "</td>";
+				html += "<td>" + result.list[i].ID + "</td>";
+				html += "<td>" + result.list[i].WORDCONTENT + "</td>";
+				html += "<td>" + result.list[i].STARTBUYPAY + "</td>";						
+				html += "<td>" + result.list[i].BIDPRICE + "</td>";
+				html += "<td>" + result.list[i].ENDDATE + "</td>";			
+				html += "</tr>";
+			}
+			
+			$("#tradeList3").html(html);
+			
+		html = "";
+		html += "<span name='1'>처음</span>";
+		
+/* 		if($("input[name='page']").val() == 1){
+			html += "<span name='1'>이전</span>";
+		} else{
+			html += "<span name='" + ($("input[name='page']").val - 1) + "'>이전</span>";
+		} */
+		if($("input[name='page']").val() == 1) {
+            html += "<span name='1'>이전</span>";
+         } else {
+            html += "<span name = '" + ($("input[name='page']").val() - 1) + "'>이전</span>";
+         }
+		
+		for(var i = result.pb.startPcount ; i <= result.pb.endPcount ; i++){
+			if(i == $("input[name='page']").val()){
+				html += "<span name='" + i + "'><b>" + i + "</b></span>";
+			} else{
+				html += "<span name='" + i + "'>" + i + "</b></span>";
+			}
+		}
+		
+		if($("input[name='page']").val() == result.pb.maxPcount){
+			html += "<span name='" + result.pb.maxPcount + "'>다음</span>";
+		} else{
+			html += "<span name='" + ($("input[name='page']").val() * 1 + 1) + "'>다음</span>";
+		}
+		
+		
+		html += "<span name='" + result.pb.maxPcount+"'>마지막</span>";
+		
+		$("#tradePageNo3").html(html);
 			
 		},
 		error : function(result){
@@ -354,6 +542,27 @@ function showTradeSell(){
 		
 		<div class="content">
 			<div class="showTradeBoard">
+			
+			
+			<form action="#" id="actionFormAuction" method="post">
+				<input type="hidden" name="auctionNo" value="" />
+			</form>
+			
+			<form action="#" id="acutionForm" method="post">
+					<c:choose>
+					<c:when test="${empty param.page}"> <!-- empty 는 비어있으면. -->
+						<input type="hidden" name="page" value="1" />
+					</c:when>
+			
+					<c:otherwise>
+						<input type="hidden" name="page" value="${param.page}"/>
+					</c:otherwise>
+				</c:choose>
+					
+					<input type="hidden" name="sNo" value="${sNo}"/>
+					<input type="hidden" name="comple" value="1"/>
+			</form>
+			
 			<form action="#" id="actionForm" method="post">
 				<c:choose>
 					<c:when test="${empty param.page}"> <!-- empty 는 비어있으면. -->
@@ -365,33 +574,34 @@ function showTradeSell(){
 					</c:otherwise>
 				</c:choose>
 				
-				<input type="hidden" name="page" value="1" />
+			
 				<input type="hidden" name="searchText" value="${param.searchText}"/>
 				<input type="hidden" name="testNo" />
 				<input type="hidden" name="TradeNo" />
 				<input type="hidden" name="sNo" value="${sNo}"/>
+			
+				
+				
 			</form>
-
-			<table border="1">
-				<thead>
-					<tr>
-						<th>No</th>
-						<th>아이디</th>
-						<th>물품정보</th>
-					
-					
-						<th>가격</th>
-						<th>거래상태</th>
+			
+			
+			<div class="TradeProgress">
+				<table border="1">
+					<thead>
+						<tr>
+							<th>No</th>
+							<th>아이디</th>
+							<th>물품정보</th>
+							<th>가격</th>
+							<th>거래상태</th>	
+							<th>작성일</th>
+							<th>중매여부</th>
+						</tr>
+					</thead>
 				
-						<th>작성일</th>
-						<th>중매여부</th>
-					</tr>
-				</thead>
+					<tbody id="tradeList">
 				
-				<tbody id="tradeList">
-				
-				
-				</tbody>
+					</tbody>
 				</table>
 				<br/>
 				<input type="text" id="searchText" value="${param.searchText}"/>
@@ -400,26 +610,14 @@ function showTradeSell(){
 				<br/>
 				
 				<div id="tradePageNo"></div>
+			</div>
 				
 				
-					<form action="#" id="actionForm" method="post">
-					<c:choose>
-					<c:when test="${empty param.page}"> <!-- empty 는 비어있으면. -->
-						<input type="hidden" name="page" value="1" />
-					</c:when>
-			
-					<c:otherwise>
-						<input type="hidden" name="page" value="${param.page}"/>
-					</c:otherwise>
-				</c:choose>
 				
-				<input type="hidden" name="page" value="1" />
-				<input type="hidden" name="searchText1" value="${param.searchText}"/>
-				<input type="hidden" name="testNo" />
-				<input type="hidden" name="TradeNo" />
-				<input type="hidden" name="sNo" value="${sNo}"/>
-			</form>
-
+				
+				
+					
+			<div class="TradeRequest">
 			<table border="1">
 				<thead>
 					<tr>
@@ -448,10 +646,65 @@ function showTradeSell(){
 				<br/>
 				
 				<div id="tradePageNo1"></div>
+			</div>	
+				
+				
+				<div class="Auction">
+					<table border="1">
+						<thead>
+							<tr>
+								<th>No</th>
+								<th>아이디</th>
+								<th>물품정보</th>					
+								<th>시작경매가</th>
+								<th>현재경매가</th>
+								<th>종료시간</th>
+							</tr>
+						</thead>
+				
+						<tbody id="tradeList2">
+				
+				
+						</tbody>
+					</table>
+					<br/>
+					<input type="text" id="searchText2" value=""/>
+					<input type="button" value="검색" id="searchBtn2"/>	
+					<br/>
+				
+					<div id="tradePageNo2"></div>
 				
 				</div>
+				
+				<div class="AcutionComple">
+					<table border="1">
+						<thead>
+							<tr>
+								<th>No</th>
+								<th>아이디</th>
+								<th>물품정보</th>
+								<th>시작경매가</th>
+								<th>현재경매가</th>
+								<th>종료시간</th>
+							</tr>
+						</thead>
+
+						<tbody id="tradeList3">
+					
+						</tbody>
+					</table>
+					<br/>
+					<input type="text" id="searchText2" value=""/>
+					<input type="button" value="검색" id="searchBtn2"/>
+					<br/>
+				
+					<div id="tradePageNo3"></div>
+				</div>
+				
+				
+				</div>
+		
 		</div>
-	
 	</div>
 	<div class="right">
 	

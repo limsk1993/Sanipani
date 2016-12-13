@@ -96,7 +96,7 @@ $(document).ready(function(){
 		location.href="AuctionBoard";
 	});
 	$(".basket").on("click",function(){
-		location.href="AuctionBoard";
+		location.href="sp";
 	});
 	
 	
