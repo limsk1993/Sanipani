@@ -17,7 +17,6 @@
 	width: 690px;
 	height: 90%;
 	background-color: #B2FFD1;
-	margin-left: 80px;
 }
 .AuctionCategory {
 	display : inline-block;
@@ -96,6 +95,29 @@
    margin-left:100px;
    width:80%;
 }
+table img{
+	width : 100px;
+	height: 100px;
+}
+td{
+	text-overflow: ellipsis;
+	height: 50px;
+}
+table{
+	text-overflow: ellipsis;
+	width:900px;
+	border-bottom: 1px;
+}
+select{
+	margin-left: 820px;
+}
+
+th {
+	background-color: #6DD66D;
+}
+tr:hover{
+	background-color: #EEEEEE;
+}
 </style>
 <script type="text/javascript">
 $(document).ready(function() {
@@ -146,7 +168,7 @@ function refreshList() {
 				html += "<tr name='" + result.list[i].AUCTIONWORDNO + "'>";
 				html +=	"<td>" + result.list[i].AUCTIONWORDNO + "</td>";
 				if(result.list[i].PICTURENAME == null) {
-		            html += "<td>등록된 사진이 없습니다</td>";
+					html += "<td width='100px'><img src=\"resources/images/TradeStatus1/no_image.png\"/></td>";
 		        } else {
 		            html += "<td>" + "<img src=\"resources/upload/" + result.list[i].PICTURENAME + "\"/></td>";
 		        }
