@@ -34,10 +34,5 @@
 			<type>2</type>
 			<locationURI>PARENT-3-PROJECT_LOC/Desktop/Sanipani/WebContent/resources/css/freeBoard</locationURI>
 		</link>
-		<link>
-			<name>src/com/spring/sample/sqlMap/spMypage</name>
-			<type>2</type>
-			<locationURI>PARENT-3-PROJECT_LOC/Desktop/spMypage</locationURI>
-		</link>
 	</linkedResources>
 </projectDescription>

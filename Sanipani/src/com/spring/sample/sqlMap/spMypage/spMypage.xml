@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="spMypage">
+
+
+		<select id="userInfo"
+		 parameterClass="java.util.HashMap"
+		 resultClass="java.util.HashMap">
+		 SELECT NVL(SUM(SM.CHARGE_PRICE),0) AS TOTAL_M, 
+         NVL(SUM(SM.EXCHANGE_PRICE),0) AS TOTAL_B, 
+         NVL(SUM(SM.CHARGE_PRICE),0) - NVL(SUM(SM.EXCHANGE_PRICE),0) AS TOTAL,
+         MI.MEMBERNO, MI.NAME, MI.ID, MI.NAME, MI.ADDR, MI.EMAIL1, MI.PHONE
+		 FROM MEMBERINFO MI LEFT OUTER JOIN SANIPANIMONEY SM
+		                                ON MI.MEMBERNO = SM.MEMBERNO
+	     WHERE MI.MEMBERNO = #sNo#
+		 GROUP BY MI.MEMBERNO, MI.NAME, MI.ID, MI.NAME, MI.ADDR, MI.EMAIL1, MI.PHONE
+         
+		</select>
+		
+		
+<!-- 				<select id="userInfo"
+		 parameterClass="java.util.HashMap"
+		 resultClass="java.util.HashMap">
+		 SELECT ID,NAME,ADDR,EMAIL1
+		 FROM MEMBERINFO
+		 WHERE MEMBERNO = #sNo#
+		</select> -->
+		<select id="userChange"
+		parameterClass="java.util.HashMap"
+		 resultClass="java.util.HashMap">
+		 SELECT PHONE,ADDR,EMAIL1
+		 FROM MEMBERINFO
+		 WHERE MEMBERNO=#sNo# 
+		</select>
+		
+		<update id="ChangeMemberInfo" parameterClass="java.util.HashMap">
+		UPDATE MEMBERINFO SET PHONE = #Phone#, 
+			   ADDR = #Address#,
+			   EMAIL1 = #Email1#
+		WHERE MEMBERNO = #sNo#
+		</update>
+		
+		<delete id="member" parameterClass="java.util.HashMap">
+			DELETE FROM MEMBERINFO
+			WHERE TO_CHAR(BIRTH,'YYMMDD') = #Birthday#
+			AND PW = #Pass#
+		</delete>
+		
+		<select id="userPw"
+       parameterClass="java.util.HashMap"
+       resultClass="java.util.HashMap">
+       SELECT PW
+       FROM MEMBERINFO
+       WHERE MEMBERNO = #sNo#
+      </select>
+      
+       <select id="userByeCheck"
+       parameterClass="java.util.HashMap"
+       resultClass="java.util.HashMap">
+       SELECT PW,TO_CHAR(BIRTH,'YYMMDD') AS BIRTH
+       FROM MEMBERINFO
+       WHERE MEMBERNO = #sNo#
+      </select>
+      
+      <update id="getPwUpdate" parameterClass="java.util.HashMap">
+      UPDATE MEMBERINFO SET PW = #pw2#
+      WHERE MEMBERNO = #sNo#
+      </update>
+		
+		
+	
+         
+</sqlMap>
