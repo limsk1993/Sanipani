@@ -13,4 +13,12 @@ public interface IAdminService {
 
 	public int MemberGradeNum(HashMap<String, String> params) throws Throwable;
 
+	public int getAdminMoneyPage(HashMap<String, String> params) throws Throwable;
+
+	public ArrayList<HashMap<String, String>> getAdminMoney(HashMap<String, String> params) throws Throwable;
+
+	public void insertMoneyRefund(HashMap<String, String> params)  throws Throwable;
+
+	
+
 }
