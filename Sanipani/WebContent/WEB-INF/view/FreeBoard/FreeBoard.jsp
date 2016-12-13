@@ -28,7 +28,6 @@ $(document).ready(function(){
 		$("#actionForm").attr("action", "FreeBoardAdd");  
 		$("#actionForm").submit();
 		}
-	
 	});
 	
 	$("#pagingArea").on("click", "span", function(){
@@ -41,7 +40,6 @@ $(document).ready(function(){
 		$("#actionForm").submit();
 		FreeBoardLookUp();
 /* 		FreeBoardLookUp(); */
-			
 	});
 	$("#SearchBoard").on("click", function(){
 		$("input[name='SearchContent']").val($("#SearchContent").val()); //searchText의 value에 serchTextval의 값을 넣는다.
@@ -90,11 +88,11 @@ $(document).ready(function(){
 				
 				for(var i = 0 ; i < result.list.length ; i++){
 					html += "<tr name='" + result.list[i].FREE_NUM + "'>";
-					html += "<td>" + result.list[i].FREE_NUM + "</td>";
+					html += "<td height='35' align='center'>" + result.list[i].FREE_NUM + "</td>";
 					html += "<td>" + result.list[i].FREE_TITLE + "</td>";
-					html += "<td>" + result.list[i].MEM_NO + "</td>";
-					html += "<td>" + result.list[i].FREE_DATE + "</td>";
-					html += "<td>" + result.list[i].FREE_LOOKUP + "</td>";
+					html += "<td align='center'>" + result.list[i].MEM_NO + "</td>";
+					html += "<td align='center'>" + result.list[i].FREE_DATE + "</td>";
+					html += "<td align='center'>" + result.list[i].FREE_LOOKUP + "</td>";
 					
 					/* html += "<td>" + result.list[i].FREE_PICTURE + "</td>"; */
 					html += "</tr>";
@@ -103,7 +101,7 @@ $(document).ready(function(){
 				$("#tb").html(html);
 				
 				html = "";
-				html += "<span name='1'>처음</span>";
+				html += "<span name='1'>처음&nbsp</span>";
 				
 		/* 		if($("input[name='page']").val() == 1){
 					html += "<span name='1'>이전</span>";
@@ -111,23 +109,23 @@ $(document).ready(function(){
 					html += "<span name='" + ($("input[name='page']").val - 1) + "'>이전</span>";
 				} */
 				if($("input[name='page']").val() == 1) {
-		            html += "<span name='1'>이전</span>";
+		            html += "<span name='1'>이전&nbsp</span>";
 		         } else {
-		            html += "<span name = '" + ($("input[name='page']").val() - 1) + "'>이전</span>";
+		            html += "<span name = '" + ($("input[name='page']").val() - 1) + "'>이전&nbsp</span>";
 		         }
 				
 				for(var i = result.pb.startPcount ; i <= result.pb.endPcount ; i++){
 					if(i == $("input[name='page']").val()){
-						html += "<span name='" + i + "'><b>" + i + "</b></span>";
+						html += "<span name='" + i + "'><b>" + i + "&nbsp</b></span>";
 					} else{
-						html += "<span name='" + i + "'>" + i + "</b></span>";
+						html += "<span name='" + i + "'>" + i + "&nbsp</b></span>";
 					}
 				}
 				
 				if($("input[name='page']").val() == result.pb.maxPcount){
-					html += "<span name='" + result.pb.maxPcount + "'>다음</span>";
+					html += "<span name='" + result.pb.maxPcount + "'>다음&nbsp</span>";
 				} else{
-					html += "<span name='" + ($("input[name='page']").val() * 1 + 1) + "'>다음</span>";
+					html += "<span name='" + ($("input[name='page']").val() * 1 + 1) + "'>다음&nbsp</span>";
 				}
 				
 				
@@ -147,7 +145,7 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-<form action="#" id="actionForm" method="post">
+<form action="#" id="actionForm" method="get">
 	<c:choose>
 		<c:when test="${empty param.page}"> <!-- empty 는 비어있으면. -->
 			<input type="hidden" name="page" value="1" />
@@ -309,7 +307,7 @@ $(document).ready(function(){
 		<input type="hidden" name="idCheck" value="${sNo}">
 			<div class="freetitle">
 				<div class="freetitle_1">
-				자유게시판
+					· 자유게시판
 				</div>
 				<div class="freetitle_2">
 					 <form action="#" name="list2" method="post">
@@ -321,14 +319,14 @@ $(document).ready(function(){
 				</div>
 			</div>
 			<div class="freecontent">
-			<table border="1">
+			<table>  <!-- border="1" -->
 				<thead>
 					<tr>
-						<th>글번호</th>
-						<th  width="300" height="50">제목</th>
-						<th>작성자</th>
-						<th>등록날짜</th>
-						<th>조회수</th>
+						<th width='80' height='70' align='center'>글번호</th>
+						<th width="540" height="40">제목</th>
+						<th width='120' height='40' align='center'>작성자</th>
+						<th width='220' height='40'>등록날짜</th>
+						<th width='80' height='40' align='center'>조회수</th>
 						
 					<!-- 	<th>첨부자료</th> -->
 					</tr>
@@ -353,11 +351,10 @@ $(document).ready(function(){
 							<option value="content">내용</option>
 							<option value="id">작성자</option>
 						</select>
-						
 					</form>
 				</div>
 				<div class="freesearch_2">
-					<input type="text" id="SearchContent" value="${param.SearchContent}">
+					<input type="text" style="width: 300px; height:20px; font-size:20px"  id="SearchContent" value="${param.SearchContent}">
 				</div>
 				<div class="freesearch_3">
 					<input type="button" value="검색" id="SearchBoard">

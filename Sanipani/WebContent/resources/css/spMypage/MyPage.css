@@ -1,0 +1,116 @@
+@CHARSET "UTF-8";
+.menu{
+	display : inline-block;
+	width: 25%;
+	height: 1000px;
+	background-color: #FFFFFF;
+	vertical-align : top;
+}
+.menu2{
+	display : inline-block;
+	width: 90%;
+	height: 700px;
+	background-color: #FFFFFF;
+	margin-left: 10px;	
+}
+.menu3{
+	display : inline-block;
+	width: 50%;
+	height: 700px;
+	background-color: #FFFFFF;
+	margin-top: 17.5%;
+	margin-left: 7%;	
+}
+.menu4{
+	display : inline-block;
+	width: 40%;
+	height: 700px;
+	background-color: #FFFFFF;
+	margin-top: 17%;
+	margin-left: 17%;	
+}
+.menu5{
+	display : inline-block;
+	width: 50%;
+	height: 700px;
+	background-color: #FFFFFF;
+	margin-top: 20%;
+	margin-left: 20%;	
+}
+.menu6{
+	display : inline-block;
+	width: 30%;
+	height: 700px;
+	background-color: #FFFFFF;
+	margin-top: 15.5%;
+	margin-left: 10%;	
+}
+
+.mypageBtn{
+	width: 85%;
+	height: 30px;
+	background-color: #AECDFF;
+	margin-left: 15px;	
+    border-radius: 17px;
+}
+
+.updateBtn{
+	width: 85%;
+	height: 30px;
+	background-color: #AECDFF;
+	margin-left: 15px;
+    border-radius: 17px;	
+}
+.pwBtn{
+	width: 85%;
+	height: 30px;
+	background-color: #AECDFF;
+	margin-left: 15px;
+    border-radius: 17px;	
+}
+.pointBtn{
+	width: 85%;
+	height: 30px;
+	background-color: #AECDFF;
+	margin-left: 15px;
+	border-radius: 17px;
+}
+.basketBtn{
+	width: 85%;
+	height: 30px;
+	background-color: #AECDFF;
+	margin-left: 15px;	
+	border-radius: 17px;
+}
+.memoutBtn{
+	width: 85%;
+	height: 30px;
+	background-color: #AECDFF;
+	margin-left: 15px;
+	border-radius: 17px;
+}
+.content1_1{
+	display : inline-block;
+	width: 70%;
+	height: 90%;
+	background-color: #FFFFFF;
+	vertical-align : top;
+}
+.content1_2{
+	display : inline-block;
+	width: 50%;
+	height: 60%;
+	margin-top:19%;
+	margin-left:13%;
+	background-color: #FFFFFF;
+	vertical-align : top;
+}
+.content1_3{
+	display : inline-block;
+	width: 50%;
+	height: 60%;
+	margin-top:19%;
+	margin-left:13%;
+	background-color: #FFFFFF;
+	vertical-align : top;
+}

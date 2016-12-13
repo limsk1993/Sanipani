@@ -8,99 +8,33 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="resources/script/jquery/jquery-1.11.0.js"></script>
 <script type="text/javascript" src="resources/script/spmain/Mainpage.js"></script>
-<script type="text/javascript" src="resources/script/nice-select/jquery.nice-select.js"></script>
 <link rel="stylesheet" type="text/css" href="resources/css/spmain/Mainpage.css"/>
 <link rel="stylesheet" type="text/css" href="resources/css/spAdmin/spAdmin.css"/>
-<link rel="stylesheet" type="text/css" href="resources/css/nice-select/nice-select.css"/>
+
 <script type="text/javascript">
 $(document).ready(function(){
-	 $("#searchSelect").niceSelect();
-	 $("#Buildpopup").hide();
-	refreshMemberInfo();
-	$("#pagingArea").on("click", "span", function(){
-		$("input[name='page']").val($(this).attr("name"));
-		refreshMemberInfo();
+
+	
+	$("#updateBtn").on("click", function(){
+		MemberGradeNum();
 	});
 	
-	$("#tb1").on("click", "tr", function(){
-		$("input[name='testNo']").val($(this).attr("name"));
-		$("#actionForm").attr("action", "AdminMemberInfo"); // 밑의 form에 action의 값이#인데 거 에다가 test5를 넣겠다는 소리.
-		$("#actionForm").submit(); 
+	$("#CancelBtn").on("click",function(){
+		history.go(-1)();	
+	});
+	
+	
+	function MemberGradeNum(){
+		var params = $("#actionForm2").serialize();
 		
-	});
-	
-	$("#SearchBoard").on("click",function(){
-		$("input[name='SearchContent']").val($("#SearchContent").val());
-		$("input[name='page']").val("1");
-		$("input[name='search']").val($("select[name='search']").val());
-		$("#list").submit();
-		refreshMemberInfo();
-	});
-	
-	
-	function refreshMemberInfo(){
-		
-		var params = $("#actionForm").serialize();
 		$.ajax({
 			type : "post",
-			url : "refreshMemberInfo", 
+			url : "MemberGradeNum", 
 			dataType : "json",
 			data : params,
 			success : function(result){
-				var html = "";
-				
-				
-				for(var i = 0 ; i < result.list.length ; i++){
-					html += "<tr name='" + result.list[i].MEMBERNO + "'>";
-					html += "<td width='200' height='40' align='center'>" + result.list[i].MEMBERNO + "</td>";
-					html += "<td width='100' height='40' align='center'>" + result.list[i].NAME + "</td>";
-					html += "<td width='150' height='40' align='center'>" + result.list[i].ID + "</td>";
-					html += "<td width='150' height='40' align='center'>" + result.list[i].NICK + "</td>";
-					html += "<td width='150' height='40' align='center'>" + result.list[i].PHONE + "</td>";
-					html += "<td width='200' height='40' align='center'>" + result.list[i].EMAIL1 + "</td>";
-					html += "<td width='100' height='40' align='center'>" + result.list[i].GRADE_NO + "</td>";
-					
-					/* html += "<td>" + result.list[i].FREE_PICTURE + "</td>"; */
-					html += "</tr>";
-				}
-				
-				$("#tb1").html(html);
-				
-				html = "";
-				html += "<span name='1'>처음</span>";
-				
-		/* 		if($("input[name='page']").val() == 1){
-					html += "<span name='1'>이전</span>";
-				} else{
-					html += "<span name='" + ($("input[name='page']").val - 1) + "'>이전</span>";
-				} */
-				if($("input[name='page']").val() == 1) {
-		            html += "<span name='1'>이전</span>";
-		         } else {
-		            html += "<span name = '" + ($("input[name='page']").val() - 1) + "'>이전</span>";
-		         }
-				
-				for(var i = result.pb.startPcount ; i <= result.pb.endPcount ; i++){
-					if(i == $("input[name='page']").val()){
-						html += "<span name='" + i + "'><b>" + i + "</b></span>";
-					} else{
-						html += "<span name='" + i + "'>" + i + "</b></span>";
-					}
-				}
-				
-				if($("input[name='page']").val() == result.pb.maxPcount){
-					html += "<span name='" + result.pb.maxPcount + "'>다음</span>";
-				} else{
-					html += "<span name='" + ($("input[name='page']").val() * 1 + 1) + "'>다음</span>";
-				}
-				
-				
-				html += "<span name='" + result.pb.maxPcount+"'>마지막</span>";
-				
-				$("#pagingArea").html(html);
-				
-				
-	
+				$("#actionForm").attr("action", "AdminMember");  
+				$("#actionForm").submit();
 			},
 			error : function(result){
 				alert("error!!");
@@ -124,8 +58,9 @@ $(document).ready(function(){
 	<input type="hidden" name="page" value="1" />
 	<input type="hidden" name="SearchContent" value="${param.SearchContent}"/>
 	<input type="hidden" name="testNo" />
-	<input type="hidden" name="search" />
+	<input type="hidden" name="search2" />
 </form>
+
 <div class="main">
 	<div class="left"></div>
 	<div class="main1">
@@ -272,50 +207,44 @@ $(document).ready(function(){
 			<div class="AdminMember_1">
 			 고객정보관리
 			</div>
-			<div class="AdminMember_2">
-					<div id="AdminMemberpopup_1" >
+			<div class="AdminMemberInfo_1">
+				<div class="AdminMemberInfo_3">
+						<div class="AdminMemberInfo_2">회원번호:${con.MEMBERNO }</div>
+						<div class="AdminMemberInfo_2">이름:${con.NAME }</div>
+						<div class="AdminMemberInfo_2">아이디:${con.ID }</div>
+						<div class="AdminMemberInfo_2">닉네임:${con.NICK }</div>
+						<div class="AdminMemberInfo_2">전화번호:${con.PHONE }</div>
+						<div class="AdminMemberInfo_2">이메일:${con.EMAIL1 }</div>
+				<form action="#" id="actionForm2" method="post">
+					<input type="hidden" name="testNo" value="${param.testNo}"/>
+						<div class="AdminMemberInfo_2">회원등급<input type="text" name="MemberGradeNum" value="${con.GRADE_NO }"/></div>
+				</form>
+						<div class="AdminMemberInfo_2">
+						<input type="button" value="수정" id="updateBtn"/>
+						<input type="button" value="취소" id="CancelBtn"/>
+						</div>
+				</div>
+				<div class="AdminMemberInfo_3">
+					<div class="AdminMemberInfo_4">
+					등급별 정보
 					</div>
-				<table border="1">
-				<thead>
-					<tr>
-						<th>회원번호</th>
-						<th>이름</th>
-						<th>아이디</th>
-						<th>닉네임</th>
-						<th>전화번호</th>
-						<th>이메일</th>
-						<th>회원등급</th>
-					<!-- 	<th>첨부자료</th> -->
-					</tr>
-				</thead>
-				<tbody id="tb1">
-				</tbody>
-				
-			</table>
-			
+					<div class="AdminMemberInfo_4">
+					0:운영자
+					</div>
+					<div class="AdminMemberInfo_4">
+					1:일반
+					</div>
+					<div class="AdminMemberInfo_4">
+					2:프리미엄
+					</div>
+					<div class="AdminMemberInfo_4">
+					3:VIP
+					</div>
+					<div class="AdminMemberInfo_4">
+					4:VVIP
+					</div>
+				</div>	
 			</div>
-			<div class="AdminMember_3">
-				<div id="pagingArea"></div>
-			</div>
-			<div class="AdminMember_3">
-				
-				<div class="freesearch_1">
-					<form action="#" name="list" method="post">
-						 <select class="small" name="search" id="searchSelect">
-							<option value="Id" selected="selected">아이디</option>
-							<option value="Nick">닉네임</option>
-						</select>
-					</form>
-				</div>
-				<div class="freesearch_2">
-					<input type="text" id="SearchContent" value="${param.SearchContent}">
-				</div>
-				<div class="freesearch_3">
-					<input type="button" value="검색" id="SearchBoard">
-				</div>
-			
-			</div>
-
 		</div>
 	
 	</div>

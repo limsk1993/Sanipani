@@ -24,30 +24,68 @@
 	width:94%;
 	background-color: #FFFFFF;
 }
-.AdminMemberpopup_1{
-	  display: inline-block;
-      width: 450px;
-      height: 250px;
-      background-color:#5D9657;
-      position: absolute;
-      z-index: 200;
-      top: calc(45% - 50px);
-      left: calc(43% - 100px);
-      border: 2px solid #003300;
-}
-.AdminMemberpopup_2{
+.AdminMemberInfo_1{
 	display: inline-block;
-	margin-top:2%;
-	margin-left:5.3%;
-	height : 80%;
-	width:90%;
+	margin-top:3%;
+	margin-left:3%;
+	height : 50%;
+	width:94%;
+	z-index: 2;
 	background-color: #FFFFFF;
 }
-.AdminMemberpopup_3{
+.AdminMemberInfo_2{
 	display: inline-block;
-	margin-top:2%;
-	margin-left:5.3%;
-	height : 10%;
-	width:90%;
+	margin-top:1%;
+	margin-left:3%;
+	height : 50px;
+	width:94%;
+	z-index: 2;
 	background-color: #FFFFFF;
 }
+.AdminMemberInfo_3{
+	display: inline-block;
+	margin-top:1%;
+	margin-left:3%;
+	height : 95%;
+	width:45%;
+	z-index: 2;
+	background-color: #FFFFFF;
+	vertical-align : top;
+}
+.AdminMemberInfo_4{
+	display: inline-block;
+	margin-top:1%;
+	margin-left:3%;
+	height : 15%;
+	width:70%;
+	z-index: 2;
+	background-color: #FFFFFF;
+	vertical-align : top;
+}
+.freesearch_1{
+	margin-top : 8px;
+	margin-left : 12%;
+	display: inline-block;
+	width:13%;
+	height: 70%;
+	background-color: #FBAFCF;
+}
+.freesearch_2{
+	margin-top : 8px;
+	margin-left : 2%;
+	display: inline-block;
+	width:47%;
+	height: 70%;
+	background-color: #80ffff;
+	vertical-align : top;
+}
+.freesearch_3{
+	margin-top : 8px;
+	margin-left : 1%;
+	display: inline-block;
+	width:13%;
+	height: 70%;
+	background-color: #FBAFCF;
+	vertical-align : top;
+}
+

@@ -8,63 +8,119 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="resources/script/jquery/jquery-1.11.0.js"></script>
 <script type="text/javascript" src="resources/script/spmain/Mainpage.js"></script>
-<script type="text/javascript" src="resources/script/jquery/jquery.form.js"></script>
+
 <link rel="stylesheet" type="text/css" href="resources/css/spmain/Mainpage.css"/>
-<link rel="stylesheet" type="text/css" href="resources/css/freeBoard/FreeBoard.css"/>
+<link rel="stylesheet" type="text/css" href="resources/css/spMypage/MyPage.css"/>
 <script type="text/javascript">
 $(document).ready(function(){
-	$("#AddFreeBoardBtn").on("click",function(){
-		var insertForm = $("#AddFreeForm");
+	refreshMyPage();
+	
+	
+	$("#myPageMain").on("click",function(){
+		refreshMyPage();
 		
-		insertForm.ajaxForm(FreeBoardAdd); // insertForm을 ajaxForm형태로 바꾸겠다. uploadResultCallBack은 ajax를 호출하고나서 이 함수를 호출하겠다.
-		insertForm.submit();
 	});
-	$("#CancelBtn").on("click",function(){
-		history.go(-1)();
+	
+	$("#myPageFix").on("click",function(){
+		$("#actionForm").attr("action", "MyPage2"); // 밑의 form에 action의 값이#인데 거 에다가 test5를 넣겠다는 소리.
+		$("#actionForm").submit();
+	});
+	$("#MemberBye").on("click",function(){
+		$("#actionForm").attr("action", "MyPage6"); // 밑의 form에 action의 값이#인데 거 에다가 test5를 넣겠다는 소리.
+		$("#actionForm").submit();
+	});
+	
+	$("#passChange").on("click",function(){
+		$("#actionForm").attr("action", "MyPage3"); // 밑의 form에 action의 값이#인데 거 에다가 test5를 넣겠다는 소리.
+		$("#actionForm").submit();
 	});
 });
 
-function FreeBoardAdd(data, result){
-	if(result =="success"){
-		var resData = eval("(" + removePre(data) + ")");  // eval는 자바스크립트의 bean으로 바꿔주는것.
-		
-		$("#textFile").val(resData.fileName[0]); // 이거아까20자리 맥인거 그거가져오는듯
-		
-		var params = $("#AddFreeForm").serialize();
-		
+
+	function refreshMyPage(){
+	
+		var params = $("#actionForm").serialize();
 		$.ajax({
 			type : "post",
-			url : "InsertFreeBoard", // TestController에서 마들기
+			url : "MyPageDeTail", 
 			dataType : "json",
 			data : params,
 			success : function(result){
-				if(result.res == "true"){
-					location.href = "FreeBoard";
-				} else{
-					alert("저장 중 문제가 발생했습니다.");
+				var html = "";
+				
+				
+				for(var i = 0 ; i < result.list.length ; i++){
+					html += "<tr>";
+					html += "<td bgcolor='#EEEEEE' width='220' height='45'>아이디</td>";
+					html += "<td width='200' height='20'>" + result.list[i].ID + "</td>";
+					html += "</tr>";
+					html += "<tr>";
+					html += "<td bgcolor='#EEEEEE' width='220' height='45'>이름</td>";
+					html += "<td>" + result.list[i].NAME + "</td>";
+					html += "</tr>";
+					html += "<tr>";
+					html += "<td bgcolor='#EEEEEE' width='220' height='45'>주소</td>";
+					html += "<td>" + result.list[i].ADDR + "</td>";
+					html += "</tr>";
+					html += "<tr>";
+					html += "<td bgcolor='#EEEEEE' width='220' height='45'>이메일</td>";
+					html += "<td>" + result.list[i].EMAIL1 + "</td>";
+					html += "</tr>";
+					html += "<tr>";
+					html += "<td bgcolor='#EEEEEE' width='220' height='45'>핸드폰번호</td>";
+					html += "<td>" + result.list[i].PHONE + "</td>";
+					html += "</tr>";
+					html += "<tr>";
+					html += "<td bgcolor='#EEEEEE' width='220' height='45'>금액</td>";
+					html += "<td>" + result.list[i].TOTAL + "</td>";
+					html += "</tr>";
+				/* 	html += "<tr>";
+					html += "<td>" + result.list[i].FREE_NUM + "</td>";
+					html += "</tr>"; */
+					
+					/* html += "<td>" + result.list[i].FREE_PICTURE + "</td>"; */
+					
 				}
+				
+				$("#tb").html(html);
 			},
 			error : function(result){
-				alert("ERROR!!");
+				alert("error!!");
 			}
 		});
-	} else{
-		alert("저장실패");
-	}
 }
-function removePre(data){
-	if(data.indexOf("<pre>") > -1){ // data의 indexOf(위치찾기) -1은없는경우고  -1보다 크다는건 있다는얘기
-		var st = data.indexOf(">");  //  범위 지정하구있음  pre빼고 짜르겠다는 얘기.
-		var ed = data.indexOf("<", st); // 
+	
+	function UserInfo(){
+		var params = $("#actionForm").serialize();
 		
-		return data.substring(st + 1, ed); // 값을 되돌려줌 짜른 값 pre를 되도렬줌 <>짜르고.
-	} else {
-		return data;
+		$.ajax({
+			type : "post",
+			url : "UserInfo", 
+			dataType : "json",
+			data : params,
+			success : function(result){
+			
+			},
+			error : function(result){
+				alert("error!!");
+			}
+		});
 	}
-}
+	
+	
+
+
+
+
+
+
+
 </script>
 </head>
 <body>
+<form action="#" id="actionForm" method="post">
+	<input type="hidden" name="sNo" value="${sNo}"/>
+</form>
 <div class="main">
 	<div class="left"></div>
 	<div class="main1">
@@ -207,54 +263,41 @@ function removePre(data){
 			</div>
 		</div>
 		
-		<div class="content2">
-			<div>
-				<div class="freeboardword_1">
-					자유게시판글쓰기
+		<div class="content10">
+			<div class="menu">
+				<br/>
+				<h2 align="center">마이페이지</h2>
+					<div class="menu2">
+					<br/>
+						<div class="mypageBtn" id="myPageMain"><h3 align="center">내 정보조회</h3></div>
+						<br/>
+						<div class="updateBtn" id="myPageFix"><h3 align="center">내 정보수정</h3></div>
+						<br/>
+						<div class="pwBtn" id="passChange"><h3 align="center">비밀번호 수정</h3></div>
+						<br/>
+						<div class="pointBtn"><h3 align="center">포인트결제</h3></div>
+						<br/>
+						<div class="basketBtn"><h3 align="center">장비구니</h3></div>
+						<br/>
+						<div class="memoutBtn" id="MemberBye"><h3 align="center">회원탈퇴</h3></div>
+						
+					</div>	
+			</div>	
+				<div class="menu6" id="aaa">
+					<table>
+							<tbody id="tb">
+							</tbody>
+					</table>
 				</div>
-			</div>
-				<form action="fileUploadAjax" id="AddFreeForm" method="post" enctype="multipart/form-data">
-					<div>
-						<div class="freeboardword_2">
-							제목:&nbsp<input type="text" style="width: 300px; height:20px; font-size:20px" name="FreeBoardTitle">
-							 <input type="hidden" name="sId" value="${sId}"> 
-						</div>
-					</div>
-					<div class="freeboardword_2">내용
-					</div>
-					<div class="freeboardword_3">
-						<textarea cols="80" rows="33" style="resize: none; font-size:15px" name="FreeBoardContent"></textarea>
-					</div>
-	<!-- 				<div class="freeboardword_4">
-						첨부파일:<input type="file" name="att1">
-						<input type="hidden" name="textFile" id="textFile"/>
-					</div> -->
-				</form>
-			<div class="freeboardword_6">
-				<input type="button" value="등록" id="AddFreeBoardBtn"/>
-			</div>
-			<div class="freeboardword_7">
-				<input type="button" value="취소" id="CancelBtn"/>
-			</div>
+				
+				
 		</div>
+	
 	</div>
 	<div class="right">
 	
 	<div class="ad"></div>
 	</div>
 </div>
-<form action="#" id="actionForm" method="post">
-	<input type="hidden" name="page" value="${param.page }"/>
-	<input type="hidden" name="searchText" value="${param.searchText}"/>
-</form>	
-
-<!-- <form action="fileUploadAjax" id="insertForm" method="post" enctype="multipart/form-data">다수의 파일이 한개로 되면 multipart data라고함.
-	내용 <input type="text" name="textCon"/>위에서 ajaxForm으로 해줘서 action값을 지정해줘야됨. 
-	<br />
-	파일<input type="file" name="att1"/>
-	<input type="hidden" name="textFile" id="textFile"/>
-</form>
-<input type="button" value="저장" id="saveBtn"/> -->
-
 </body>
 </html>
