@@ -194,33 +194,37 @@ $(document).ready(function(){
 		location.href="Mainpage";
 	});
 	
+	$(".auctionBoard").on("click",function(){
+		location.href="AuctionBoard";
+	});
+	
 	$(".home").on("click",function(){
 		location.href="AuctionBoard";
 	});
 	
 	$(".elec").on("click",function(){
-		location.href="AuctionBoard";
+		location.href="AuctionBoard1";
 	});
 	$(".cloth").on("click",function(){
-		location.href="AuctionBoard";
+		location.href="AuctionBoard2";
 	});
 	$(".watch").on("click",function(){
-		location.href="AuctionBoard";
+		location.href="AuctionBoard3";
 	});
 	$(".cosmetic").on("click",function(){
-		location.href="AuctionBoard";
+		location.href="AuctionBoard4";
 	});
 	$(".travel").on("click",function(){
-		location.href="AuctionBoard";
+		location.href="AuctionBoard5";
 	});
 	$(".furni").on("click",function(){
-		location.href="AuctionBoard";
+		location.href="AuctionBoard6";
 	});
 	$(".book").on("click",function(){
-		location.href="AuctionBoard";
+		location.href="AuctionBoard7";
 	});
 	$(".etc").on("click",function(){
-		location.href="AuctionBoard";
+		location.href="AuctionBoard8";
 	});
 	
 	

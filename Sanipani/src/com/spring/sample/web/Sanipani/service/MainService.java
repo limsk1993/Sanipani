@@ -27,4 +27,24 @@ public class MainService implements IMainService{
 	public int getNoticeCount(HashMap<String, String> params) throws Throwable {
 		return iMainDao.getNoticeCount(params);
 	}
+
+	@Override
+	public HashMap<String, String> getNoticeCon(HashMap<String, String> params) throws Throwable {
+		return iMainDao.getNoticeCon(params);
+	}
+
+	@Override
+	public int deleteNotice(HashMap<String, String> params) throws Throwable {
+		return iMainDao.deleteNotice(params);
+	}
+
+	@Override
+	public int updateNotice(HashMap<String, String> params) throws Throwable {
+		return iMainDao.updateNotice(params);
+	}
+
+	@Override
+	public String insertNotice(HashMap<String, String> params) throws Throwable {
+		return iMainDao.insertNotice(params);
+	}
 }

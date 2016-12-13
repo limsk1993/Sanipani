@@ -16,7 +16,6 @@ public class MainDao implements IMainDao{
 	@SuppressWarnings("unchecked")
 	@Override
 	public HashMap<String, String> getMem(HashMap<String, String> params) throws Throwable {
-		// TODO Auto-generated method stub
 		return (HashMap<String, String>) sqlMapClient.queryForObject("Mainpage.getMem",params);
 	}
 
@@ -29,5 +28,45 @@ public class MainDao implements IMainDao{
 	@Override
 	public int getNoticeCount(HashMap<String, String> params) throws Throwable {
 		return (int) sqlMapClient.queryForObject("Mainpage.getNoticeCount", params);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public HashMap<String, String> getNoticeCon(HashMap<String, String> params) throws Throwable {
+		return (HashMap<String, String>) sqlMapClient.queryForObject("Mainpage.getNoticeCon", params);
+	}
+
+	@Override
+	public int deleteNotice(HashMap<String, String> params) throws Throwable {
+		return sqlMapClient.update("Mainpage.deleteNotice", params);
+	}
+
+	@Override
+	public int updateNotice(HashMap<String, String> params) throws Throwable {
+		return sqlMapClient.update("Mainpage.updateNotice", params);
+	}
+
+	@Override
+	public String insertNotice(HashMap<String, String> params) throws Throwable {
+		String res = "false";
+		
+		sqlMapClient.startTransaction();
+		sqlMapClient.startBatch();
+		
+		try {
+			sqlMapClient.insert("Mainpage.insertNotice", params);
+			
+			sqlMapClient.executeBatch();
+			sqlMapClient.commitTransaction();
+			
+			res = "true";
+		} catch (Exception e) {
+			res = "false";
+			e.printStackTrace();
+		}
+		
+		sqlMapClient.endTransaction();
+		
+		return res;
 	}
 }

@@ -56,27 +56,29 @@
 		});
 
 		
-		 $("#WarningBtn").on("click", function() {//경고			 
+		 $("#WarningBtn").on("click", function() {//경고		
+			 /* alert("됨?"); */
 			 if (confirm("이 사용자를 경고하시겠습니까?")) {
-					var params = $("#actionForm").serialize(); //파일업로드를 하고난 후 글 저장을 하겠다.
-					
-					$.ajax({
-						type : "post",
-						url : "updateWarning",
-						datatype : "json",
-						data : params,
-						success : function(result) {
-							if(result.res > 0){
-								location.href = "ReportBoard";
-							}else{
-								alert("수정 중 문제가 발생했습니다.");	
-							}
-						},
-						error : function(result) {
-							 alert("ERROR!!");
+				var params = $("#actionForm").serialize(); 
+				
+				$.ajax({
+					type : "post",
+					url : "updateWarning",
+					datatype : "json",
+					data : params,
+					success : function(result) {
+						if (result.res > 0) {
+							location.href = "ReportBoard";
+						} else {
+							alert("실패");
 						}
-					});
-			 }
+					},
+					error : function(result) {
+						 alert("ERROR!!");
+					}
+			});
+	}
+			 
 		 });
 
 		$("#deleteBtn").on("click", function() {//삭제
@@ -109,6 +111,7 @@
 			location.href="ReportBoard";
 		});
 	});
+
 </script>
 </head>
 <body>
@@ -246,7 +249,8 @@
 				<input type="hidden" name="searchText" value="${param.searchText}" /> 
 				<input type="hidden" name="ReportNo" value="${param.ReportNo}" />				
 				<input type="hidden" name="REPORTTARGET" value="${con.REPORTTARGET}" />
-				<input type="hidden" name="WARCNT" value="${con.WARCNT}" />
+				<input type="hidden" name="WARCNT" value="${con.WARCNT}" />				
+				
 			</form>
 			<table border="1">
 				<tr>
@@ -268,18 +272,34 @@
 					<td>${con.WARCNT}</td>
 				</tr>
 				<tr>
- 					<th>거래 글 번호</th>
-					<td>${con.REPORTTARGET}</td>
+ 					<th>신고 글 번호</th>
+ 					<td>${con.TRADE_WORD_NO}${con.AUCTIONWORDNO}</td>
 				</tr>
 				<tr>
-					<th>내용</th>
+					<th>신고 글 제목</th>
+					<td>${con.REPORT_TITLE}</td>
+				</tr>
+				<tr>
+					<th>신고 글 내용</th>
+					<td>${con.REPORT_CONTENT}</td>
+				</tr>
+				<tr>
+					<th>신고사유</th>
 					<td>${con.WORDCONTENT}</td>
+					<td><img src ="${con.PICTURE}"/></td>
 				</tr>
 			</table>
-			<input type="button" value="목록" id="listBtn" /> 
-			<input type="button" value="삭제" id="deleteBtn" /> 
-			<input type="button" value="경고하기" id="WarningBtn" />
-			<!-- <input type="text" value="" id=""/> -->
+			
+			<c:choose>
+				<c:when test="${sGrade eq 0}">
+					<input type="button" value="목록" id="listBtn" /> 
+					<input type="button" value="삭제" id="deleteBtn" /> 
+					<input type="button" value="경고하기" id="WarningBtn" />
+				</c:when>
+				<c:otherwise>
+					<input type="button" value="목록" id="listBtn">
+				</c:otherwise>
+			</c:choose>
 		</div>
 	</div>
 

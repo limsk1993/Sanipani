@@ -88,4 +88,25 @@ public class AuctionService implements IAuctionService {
 	public int deleteNotAuctionMember(HashMap<String, String> params) throws Throwable {
 		return iAuctionDao.deleteNotAuctionMember(params);
 	}
+
+	@Override
+	public ArrayList<HashMap<String, String>> getshowReply(HashMap<String, String> params) throws Throwable {
+		return iAuctionDao.getshowReply(params);
+	}
+
+	@Override
+	public void insertAuctionReply(HashMap<String, String> params) throws Throwable {
+		iAuctionDao.insertAuctionReply(params);
+	}
+
+	@Override
+	public int deleteAuctionReply(HashMap<String, String> params) throws Throwable {
+		return iAuctionDao.deleteAuctionReply(params);
+	}
+
+	@Override
+	public void reportAuctionReply(HashMap<String, String> params) throws Throwable {
+		iAuctionDao.reportAuctionReply(params);
+	}
+
 }

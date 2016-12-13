@@ -34,4 +34,12 @@ public interface IAuctionService {
 	public int updateAuctionLookup(HashMap<String, String> params) throws Throwable;
 
 	public int deleteNotAuctionMember(HashMap<String, String> params) throws Throwable;
+
+	public ArrayList<HashMap<String, String>> getshowReply(HashMap<String, String> params) throws Throwable;
+
+	public void insertAuctionReply(HashMap<String, String> params) throws Throwable;
+
+	public int deleteAuctionReply(HashMap<String, String> params) throws Throwable;
+
+	public void reportAuctionReply(HashMap<String, String> params) throws Throwable;
 }

@@ -115,5 +115,56 @@ public class ReportDao implements IReportDao {
 		return sqlMapClient.update("ReportBoard.updateWarning",params);
 		
 	}
+
+
+	@Override
+	public int updateBlacklist(HashMap<String, String> params) throws Throwable {
+		return sqlMapClient.update("ReportBoard.updateBlacklist",params);
+	}
+
+
+	@Override
+	public String insertBlacklist(HashMap<String, String> params) throws Throwable {
+		String BLres = "false";
+		
+		sqlMapClient.startTransaction();//트랜잭션 시작
+		sqlMapClient.startBatch();
+		
+		try{
+			sqlMapClient.insert("ReportBoard.insertBlacklist", params);
+			
+			sqlMapClient.executeBatch();
+			sqlMapClient.commitTransaction();//트랜잭션 커밋
+			
+			BLres = "true";
+			
+		}catch(Exception e){
+			BLres="false";
+			e.printStackTrace();
+		}
+		
+		sqlMapClient.endTransaction();//트랜잭션 종료
+		
+		return BLres;
+	}
+
+
+	@Override
+	public int deleteBlackList(HashMap<String, String> params) throws Throwable {
+		return sqlMapClient.update("ReportBoard.deleteBlackList",params);
+	}
+
+
+	@Override
+	public int deleteBlackList2(HashMap<String, String> params) throws Throwable {
+		return sqlMapClient.update("ReportBoard.deleteBlackList2",params);
+	}
+
+
+	@Override
+	public int deleteBlackList3(HashMap<String, String> params) throws Throwable {
+		return sqlMapClient.delete("ReportBoard.deleteBlackList3",params);
+	}
+	
 	
 }

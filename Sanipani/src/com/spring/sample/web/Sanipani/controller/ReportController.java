@@ -85,9 +85,7 @@ public class ReportController {
 	 
 	 @RequestMapping(value = "/insertReport")
 		public @ResponseBody ResponseEntity<String> insertReport(HttpServletRequest request,
-				@RequestParam HashMap<String, String> params, // 한번에 받아와.
-																// getParameter할필요
-																// 없어짐.
+				@RequestParam HashMap<String, String> params,
 				ModelAndView modelAndView) throws Throwable {
 			ObjectMapper mapper = new ObjectMapper();
 			Map<String, Object> modelMap = new HashMap<String, Object>();
@@ -109,23 +107,7 @@ public class ReportController {
 		 return modelAndView;
 	 }
 	 
-	 @RequestMapping(value = "/deleteReport")
-		public @ResponseBody ResponseEntity<String> deleteTest(
-				HttpServletRequest request,
-				@RequestParam HashMap<String, String> params,
-				ModelAndView modelAndView) throws Throwable {
-			ObjectMapper mapper = new ObjectMapper();
-			Map<String, Object> modelMap = new HashMap<String, Object>();
-			
-			int res = iReportService.deleteReport(params);
-			
-			modelMap.put("res", res);
-			
-			HttpHeaders responseHeaders = new HttpHeaders();
-			responseHeaders.add("Content-Type", "text/json; charset=UTF-8");
-			
-			return new ResponseEntity<String>(mapper.writeValueAsString(modelMap), responseHeaders, HttpStatus.CREATED);
-		}
+	 
 	 
 	 @RequestMapping(value="/RefreshBlackList")
 	 public @ResponseBody ResponseEntity<String> RefreshBlackList(
@@ -191,6 +173,25 @@ public class ReportController {
 			return new ResponseEntity<String>(mapper.writeValueAsString(modelMap), responseHeaders, HttpStatus.CREATED);
 		}
 	 
+	 
+	 @RequestMapping(value = "/deleteReport")
+		public @ResponseBody ResponseEntity<String> deleteTest(
+				HttpServletRequest request,
+				@RequestParam HashMap<String, String> params,
+				ModelAndView modelAndView) throws Throwable {
+			ObjectMapper mapper = new ObjectMapper();
+			Map<String, Object> modelMap = new HashMap<String, Object>();
+			
+			int res = iReportService.deleteReport(params);
+			
+			modelMap.put("res", res);
+			
+			HttpHeaders responseHeaders = new HttpHeaders();
+			responseHeaders.add("Content-Type", "text/json; charset=UTF-8");
+			
+			return new ResponseEntity<String>(mapper.writeValueAsString(modelMap), responseHeaders, HttpStatus.CREATED);
+		}
+	 
 	 @RequestMapping(value = "/updateWarning")
 	 public @ResponseBody ResponseEntity<String> updateWarning(
 			 HttpServletRequest request,
@@ -200,8 +201,12 @@ public class ReportController {
 		 Map<String, Object> modelMap = new HashMap<String, Object>();
 		 
 		 int res = iReportService.updateWarning(params);			
+		 int bres = iReportService.updateBlacklist(params);
+		 String BLres = iReportService.insertBlacklist(params);
 		 
 		 modelMap.put("res", res);
+		 modelMap.put("bres", bres);
+		 modelMap.put("BLres", BLres);
 		 
 		 HttpHeaders responseHeaders = new HttpHeaders();
 		 responseHeaders.add("Content-Type", "text/json; charset=UTF-8");
@@ -209,7 +214,27 @@ public class ReportController {
 		 return new ResponseEntity<String>(mapper.writeValueAsString(modelMap), responseHeaders, HttpStatus.CREATED);
 	 }
 	 
-	 
+	 @RequestMapping(value = "/deleteBlackList")
+		public @ResponseBody ResponseEntity<String> deleteBlackList(
+				HttpServletRequest request,
+				@RequestParam HashMap<String, String> params,
+				ModelAndView modelAndView) throws Throwable {
+			ObjectMapper mapper = new ObjectMapper();
+			Map<String, Object> modelMap = new HashMap<String, Object>();
+			
+			int res = iReportService.deleteBlackList(params);
+			int bdres = iReportService.deleteBlacklist2(params);
+			int bd3res = iReportService.deleteBlacklist3(params);
+			
+			modelMap.put("res", res);
+			modelMap.put("bdres", bdres);
+			modelMap.put("bd3res", bd3res);
+			
+			HttpHeaders responseHeaders = new HttpHeaders();
+			responseHeaders.add("Content-Type", "text/json; charset=UTF-8");
+			
+			return new ResponseEntity<String>(mapper.writeValueAsString(modelMap), responseHeaders, HttpStatus.CREATED);
+		}
 	 
 //	 @RequestMapping(value = "/insertReply")
 //	 public @ResponseBody ResponseEntity<String> insertReply(HttpServletRequest request,

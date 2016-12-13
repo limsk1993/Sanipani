@@ -60,7 +60,33 @@ function uploadResultCallBack(data, result) {
 			data : params,
 			success : function(result) {
 				if(result.res == "true") {
-					location.href = "AuctionBoard";
+					if("${param.catogery}"==1){
+						location.href = "AuctionBoard";
+						}
+						else if("${param.catogery}"==2){
+							location.href = "AuctionBoard1";
+						}
+						else if("${param.catogery}"==3){
+							location.href = "AuctionBoard2";
+						}
+						else if("${param.catogery}"==4){
+							location.href = "AuctionBoard3";
+						}
+						else if("${param.catogery}"==5){
+							location.href = "AuctionBoard4";
+						}
+						else if("${param.catogery}"==6){
+							location.href = "AuctionBoard5";
+						}
+						else if("${param.catogery}"==7){
+							location.href = "AuctionBoard6";
+						}
+						else if("${param.catogery}"==8){
+							location.href = "AuctionBoard7";
+						}
+						else if("${param.catogery}"==9){
+							location.href = "AuctionBoard8";
+						}
 				} else {
 					alert("저장 중 문제가 발생했습니다.");
 				}
@@ -248,12 +274,14 @@ function removePre(data) {
 			<form action="#" id="actionForm" method="post">
 				<input type="hidden" name="page" value="${param.page}" />
 				<input type="hidden" name="searchText" value="${param.searchText}" />
+				<input type="hidden" name="AuctionCategory" value="${param.catogery}" />
 			</form>
 			<form action="fileUploadAjax" 
 				  id="insertForm"
 				  method="post"
 				  enctype="multipart/form-data">
 				  <input type="hidden" name="UserNo" value="${sNo}"/>
+				  <input type="hidden" name="AuctionCategory" value="${param.catogery}" />
 				  <table border="1">
 				  
 				  	<tr>
