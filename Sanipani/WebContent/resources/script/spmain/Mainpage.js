@@ -109,6 +109,10 @@ $(document).ready(function(){
 		location.href="AuctionBoard";
 	});
 	
+	$(".tradeBoard").on("click",function(){
+		location.href="TradeBoard";
+	});
+	
 	$(".home").on("click",function(){
 		location.href="AuctionBoard";
 	});
