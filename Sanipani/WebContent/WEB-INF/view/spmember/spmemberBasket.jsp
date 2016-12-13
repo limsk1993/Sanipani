@@ -41,15 +41,58 @@
 	height: 400px;
 	background-color: #CCCCCC;
 }
-.aucti
+.AcutionTrade{
+	margin-top : 40px;
+	width: 900px;
+	height: 400px;
+	background-color: #CCCCCC;
+}
+.AuctionBasket{
+	width: 1000px;
+	height: 1000px;
+}
+.AuctionBasketBtn{
+	display : inline-block;
+	margin-top : 20px;
+	width: 70px;
+	height: 40px;
+	background-color: #CCCCCC;
+}
+.TradeBasketBtn{
+	display : inline-block;
+	margin-left : 40px;
+	margin-top : 20px;
+	width: 70px;
+	height:40px;
+	background-color: #CCCCCC;
+}
 </style>
 
 <script type="text/javascript">
 $(document).ready(function(){
 	showTrade();
 	showTradeSell();
-	showAutionBuy();
-	showAutionComple();
+	
+
+	
+	$(".TradeBasketBtn").on("click",function(){
+	
+		$(".AuctionBasket").css("display","none");
+		$(".TradeBasket").css("display","block");
+		showTrade();
+		showTradeSell();
+	});
+	
+	$(".AuctionBasketBtn").on("click",function(){
+
+		$(".AuctionBasket").css("display","block");
+		$(".TradeBasket").css("display","none");
+
+		showAutionBuy();
+		showAutionComple();
+		showAutionTrade();
+	});
+	
 	$("#searchBtn").on("click",function(){
 		$("input[name='searchText']").val($("#searchText").val()); //searchText의 value에 serchTextval의 값을 넣는다.
 		$("input[name='page']").val("1");
@@ -107,9 +150,13 @@ $(document).ready(function(){
 	});
 	
 	$("#tradeList2").on("click", "tr", function(){
-		
+	
+	
+		 
 		$("input[name='auctionNo']").val($(this).attr("name"));
-		
+		var ar= $("input[name='auctionNo']").val();
+	    var arr = ar.split("_");
+		$("input[name='auctionNo']").val(arr[0]);
 		$("#actionFormAuction").attr("action", "AuctionDetailLook");
 		$("#actionFormAuction").submit();
 	});
@@ -117,9 +164,35 @@ $(document).ready(function(){
 	$("#tradeList3").on("click", "tr", function(){
 		
 		$("input[name='auctionNo']").val($(this).attr("name"));
-		
+		var ar= $("input[name='auctionNo']").val();
+	    var arr = ar.split("_");
+		$("input[name='auctionNo']").val(arr[0]);
+		if(arr[1]==null){
 		$("#actionFormAuction").attr("action", "AuctionEscrow");
 		$("#actionFormAuction").submit();
+		}
+		else{
+			$("#actionFormAuction").attr("action", "AuctionRequest1");
+			$("#actionFormAuction").submit();	
+			
+		}
+	});
+	
+$("#tradeList4").on("click", "tr", function(){
+		
+		$("input[name='auctionNo']").val($(this).attr("name"));
+		var ar= $("input[name='auctionNo']").val();
+	    var arr = ar.split("_");
+		$("input[name='auctionNo']").val(arr[0]);
+		if(arr[1]==null){
+		$("#actionFormAuction").attr("action", "AuctionEscrow");
+		$("#actionFormAuction").submit();
+		}
+		else{
+			$("#actionFormAuction").attr("action", "AuctionRequest1");
+			$("#actionFormAuction").submit();	
+			
+		}
 	});
 
 });		
@@ -146,7 +219,12 @@ function showTrade(){
 			
 				html += "<td>" + result.list[i].TRADE_STATUS + "</td>";
 				html += "<td>" + result.list[i].TRADE_DATE + "</td>";
-				html += "<td>" + result.list[i].ESCROW_WHETHER + "</td>";
+				if(result.list[i].ESCROW_WHETHER==1){
+					html += "<td>중매</td>";	
+					}else {
+						
+						html += "<td>중매를 하지 않았습니다</td>";	
+					}
 				
 				html += "</tr>";
 			}
@@ -214,7 +292,12 @@ function showTradeSell(){
 				html += "<td>" + result.list[i].ID + "</td>";							
 				html += "<td>" + result.list[i].TRADE_BOARD + "</td>";						
 				html += "<td>" + result.list[i].TRADE_STATUS + "</td>";
-				html += "<td>" + result.list[i].TRADE_DATE + "</td>";
+				if(result.list[i].ESCROW_WHETHER==1){
+					html += "<td>중매</td>";	
+					}else {
+						
+						html += "<td>중매를 하지 않았습니다</td>";	
+					}
 				html += "<td>" + result.list[i].ESCROW_WHETHER + "</td>";				
 				html += "</tr>";
 			}
@@ -263,7 +346,8 @@ function showTradeSell(){
 
 
 function showAutionBuy(){
-	var params = $("#actionForm").serialize(); //serialize 정렬해서 보여준다.
+	$("input[name='comple']").val("1");
+	var params = $("#auctionForm").serialize(); //serialize 정렬해서 보여준다.
 	
 	$.ajax({//비동기화방식
 		type : "post",
@@ -280,6 +364,8 @@ function showAutionBuy(){
 				html += "<td>" + result.list[i].WORDCONTENT + "</td>";
 				html += "<td>" + result.list[i].STARTBUYPAY + "</td>";						
 				html += "<td>" + result.list[i].BIDPRICE + "</td>";
+				html += "<td>" + result.list[i].TRADE_STATUS + "</td>";
+				
 				html += "<td>" + result.list[i].ENDDATE + "</td>";			
 				html += "</tr>";
 			}
@@ -329,8 +415,8 @@ function showAutionBuy(){
 
 
 function showAutionComple(){
-
-	var params = $("#acutionForm").serialize(); //serialize 정렬해서 보여준다.
+	$("input[name='comple']").val("2");
+	var params = $("#auctionForm").serialize(); //serialize 정렬해서 보여준다.
 	
 
 	
@@ -344,12 +430,13 @@ function showAutionComple(){
 			var html = "";
 			
 			for(var i = 0 ; i < result.list.length ; i++){
-				html += "<tr name='" + result.list[i].AUCTIONNO + "'>";
+				html += "<tr name='" + result.list[i].AUCTIONNO +"_"+ result.list[i].ESCROWWHETHER +"'>";
 				html += "<td>" + result.list[i].NO + "</td>";
 				html += "<td>" + result.list[i].ID + "</td>";
 				html += "<td>" + result.list[i].WORDCONTENT + "</td>";
 				html += "<td>" + result.list[i].STARTBUYPAY + "</td>";						
 				html += "<td>" + result.list[i].BIDPRICE + "</td>";
+				html += "<td>" + result.list[i].TRADE_STATUS + "</td>";
 				html += "<td>" + result.list[i].ENDDATE + "</td>";			
 				html += "</tr>";
 			}
@@ -394,6 +481,79 @@ function showAutionComple(){
 			alert("error!!");
 		}
 	});
+	
+	
+}
+
+function showAutionTrade(){
+	
+	var params = $("#auctionForm").serialize(); //serialize 정렬해서 보여준다.
+	
+
+	
+	
+	$.ajax({//비동기화방식
+		type : "post",
+		url : "showAutionTrade", 
+		dataType : "json",
+		data : params,
+		success : function(result){
+			var html = "";
+			
+			for(var i = 0 ; i < result.list.length ; i++){
+				html += "<tr name='" + result.list[i].AUCTIONNO +"_"+ result.list[i].ESCROWWHETHER +"'>";
+				html += "<td>" + result.list[i].NO + "</td>";
+				html += "<td>" + result.list[i].ID + "</td>";
+				html += "<td>" + result.list[i].WORDCONTENT + "</td>";
+				html += "<td>" + result.list[i].STARTBUYPAY + "</td>";						
+				html += "<td>" + result.list[i].BIDPRICE + "</td>";
+				html += "<td>" + result.list[i].TRADE_STATUS + "</td>";
+				html += "<td>" + result.list[i].ENDDATE + "</td>";			
+				html += "</tr>";
+			}
+			
+			$("#tradeList4").html(html);
+			
+		html = "";
+		html += "<span name='1'>처음</span>";
+		
+/* 		if($("input[name='page']").val() == 1){
+			html += "<span name='1'>이전</span>";
+		} else{
+			html += "<span name='" + ($("input[name='page']").val - 1) + "'>이전</span>";
+		} */
+		if($("input[name='page']").val() == 1) {
+            html += "<span name='1'>이전</span>";
+         } else {
+            html += "<span name = '" + ($("input[name='page']").val() - 1) + "'>이전</span>";
+         }
+		
+		for(var i = result.pb.startPcount ; i <= result.pb.endPcount ; i++){
+			if(i == $("input[name='page']").val()){
+				html += "<span name='" + i + "'><b>" + i + "</b></span>";
+			} else{
+				html += "<span name='" + i + "'>" + i + "</b></span>";
+			}
+		}
+		
+		if($("input[name='page']").val() == result.pb.maxPcount){
+			html += "<span name='" + result.pb.maxPcount + "'>다음</span>";
+		} else{
+			html += "<span name='" + ($("input[name='page']").val() * 1 + 1) + "'>다음</span>";
+		}
+		
+		
+		html += "<span name='" + result.pb.maxPcount+"'>마지막</span>";
+		
+		$("#tradePageNo4").html(html);
+			
+		},
+		error : function(result){
+			alert("error!!");
+		}
+	});
+	
+	
 }
 </script>
 </head>
@@ -548,7 +708,7 @@ function showAutionComple(){
 				<input type="hidden" name="auctionNo" value="" />
 			</form>
 			
-			<form action="#" id="acutionForm" method="post">
+			<form action="#" id="auctionForm" method="post">
 					<c:choose>
 					<c:when test="${empty param.page}"> <!-- empty 는 비어있으면. -->
 						<input type="hidden" name="page" value="1" />
@@ -560,7 +720,7 @@ function showAutionComple(){
 				</c:choose>
 					
 					<input type="hidden" name="sNo" value="${sNo}"/>
-					<input type="hidden" name="comple" value="1"/>
+					<input type="hidden" name="comple" value=""/>
 			</form>
 			
 			<form action="#" id="actionForm" method="post">
@@ -583,8 +743,9 @@ function showAutionComple(){
 				
 				
 			</form>
-			
-			
+			<div class="TradeBasketBtn">거래</div>
+			<div class="AuctionBasketBtn">경매</div>
+			<div class="TradeBasket">
 			<div class="TradeProgress">
 				<table border="1">
 					<thead>
@@ -647,8 +808,9 @@ function showAutionComple(){
 				
 				<div id="tradePageNo1"></div>
 			</div>	
+			</div>
 				
-				
+				<div class="AuctionBasket"  style="display:none" >
 				<div class="Auction">
 					<table border="1">
 						<thead>
@@ -658,6 +820,7 @@ function showAutionComple(){
 								<th>물품정보</th>					
 								<th>시작경매가</th>
 								<th>현재경매가</th>
+								<th>경매상태</th>
 								<th>종료시간</th>
 							</tr>
 						</thead>
@@ -685,6 +848,7 @@ function showAutionComple(){
 								<th>물품정보</th>
 								<th>시작경매가</th>
 								<th>현재경매가</th>
+								<th>경매상태</th>
 								<th>종료시간</th>
 							</tr>
 						</thead>
@@ -694,11 +858,42 @@ function showAutionComple(){
 						</tbody>
 					</table>
 					<br/>
-					<input type="text" id="searchText2" value=""/>
-					<input type="button" value="검색" id="searchBtn2"/>
+					<input type="text" id="searchText3" value=""/>
+					<input type="button" value="검색" id="searchBtn3"/>
 					<br/>
 				
 					<div id="tradePageNo3"></div>
+				</div>
+				
+				<div class="AcutionTrade">
+					<table border="1">
+						<thead>
+							<tr>
+								<th>No</th>
+								<th>아이디</th>
+								<th>물품정보</th>
+								<th>시작경매가</th>
+								<th>현재경매가</th>
+								<th>경매상태</th>
+								<th>종료시간</th>
+							</tr>
+						</thead>
+
+						<tbody id="tradeList4">
+					
+						</tbody>
+					</table>
+					<br/>
+					<input type="text" id="searchText4" value=""/>
+					<input type="button" value="검색" id="searchBtn4"/>
+					<br/>
+				
+					<div id="tradePageNo4"></div>
+				</div>
+			
+				
+				
+				
 				</div>
 				
 				

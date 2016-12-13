@@ -1,45 +1,43 @@
 @CHARSET "UTF-8";
 
 .main{
-
    width: 100%;
    height: 1200px;
-   background-color: #FF312F;
+   background-color: #FFFFFF;
 }
 .main1{
    vertical-align : top;
    display : inline-block;
    width: 60%;
    height: 100%;
-   background-color: #0F00FF;
 }
 .left{
    display : inline-block;
    width: 19%;
    height: 100%;
-   background-color: #AF12FF;
+   background-color: #FFFFFF;
 }
 
 .right{
    display : inline-block;
    width: 19%;
    height: 100%;
-   background-color: #0FAC12;
+   background-color: #FFFFFF;
 }
 
 .login{
    display :  block;
    width:100%;
    height : 70px;
-   background-color: #123C12;
+   background-color: #FFFFFF;
    padding-top: 10px;
    padding-bottom: 10px;
 }
 .menubar{
    display : block;
    width:100%;
-   height : 90px;
-   background-color: #123456;
+   height : 150px;
+   background-color: #FFFFFF;
    padding-top: 10px;
    padding-bottom: 10px;
 }
@@ -47,11 +45,9 @@
    display :  block;
    width:100%;
    height : 1000px;
-   background-color: #456782;
+   /* background-color: #B2FFD1; */
+   border: 1px;
 }
-
-
-
 
 .loginNull{
    display:inline-block;
@@ -65,7 +61,7 @@
    display:inline-block;
    width:54%;
    height: 100%;
-   background-color: #456782;
+   background-color: #FFFFFF;
 }
 
 
@@ -78,7 +74,7 @@
    display:inline-block;
    width:30%;
    height: 100%;
-   background-color: #45ABC2;
+   background-color: #FFFFFF;
 }
 .login2{
    vertical-align : top;
@@ -86,7 +82,7 @@
    display:inline-block;
    width:30%;
    height: 100%;
-   background-color: #999782;
+   background-color: #FFFFFF;
 }
 .login3{
    vertical-align : top;
@@ -94,7 +90,7 @@
    display:inline-block;
    width:16%;
    height: 100%;
-   background-color: #456999;
+   background-color: #FFFFFF;
 }
 .login4{
    vertical-align : top;
@@ -102,7 +98,7 @@
    display:inline-block;
    width:16%;
    height: 100%;
-   background-color: #451111;
+   background-color: #FFFFFF;
 }
 
 
@@ -125,14 +121,16 @@
 }
 
 .loginBtn{
-   margin-top:20px;
-   width:70px;
+   margin-top:10px;
+   margin-left:10px;
+   width: 70px;
    height: 25px;
    background-color: #FFFFFF;
 
 }
 .memberLogiBtn{
-   margin-top:20px;
+   margin-top:10px;
+   margin-left:10px;
    width:70px;
    height: 25px;
    background-color: #FFFFFF;
@@ -148,7 +146,7 @@
    display:inline-block;
    width:54%;
    height: 100%;
-   background-color: #412322;
+   background-color: #FFFFFF;
 }
 
 .login1_1{
@@ -156,36 +154,36 @@
    display:inline-block;
    width:50%;
    height: 100%;
-   background-color: #45ABC2;
+   background-color: #FFFFFF;
 }
 .login2_1{
    vertical-align : top;
    display:inline-block;
    width:14%;
    height: 100%;
-   background-color: #999782;
+   background-color: #FFFFFF;
 }
 .login3_1{
    vertical-align : top;
    display:inline-block;
    width:14%;
    height: 100%;
-   background-color: #456999;
+   background-color: #FFFFFF;
 }
 .login4_1{
    vertical-align : top;
    display:inline-block;
    width:14%;
    height: 100%;
-   background-color: #451111;
+   background-color: #FFFFFF;
 } 
 
 
 
 .memberInfo{
-   margin-top:10px;
+   margin-top:20px;
+   margin-left:100px;
    width:80%;
-
 }
 .logout{
    margin-top:10px;
@@ -214,9 +212,10 @@
 
 .logo{
    display: inline-block;
+   margin-left: 5pt;
    width:20%;
    height: 100%;
-   background-color: #451111;
+   background-color: #FFFFFF;
 }
 
 .menuall{
@@ -224,7 +223,8 @@
    display: inline-block;
    width:78%;
    height: 100%;
-   background-color: #451111;
+   background-color: #FFFFFF;
+   margin-left: 5px;
 }
 
 
@@ -232,11 +232,11 @@
 
 
 .auctionBoard{
-   vertical-align : top;
-   display: inline-block;
-   width:19%;
-   height: 100%;
-   background-color: #333333;
+   bottom : 0px;
+     display: inline-block;
+     width:19%;
+     height: 100px;
+     background-color: #333333;
 }
 .auctionBoard_1{
    vertical-align : top;
@@ -250,7 +250,7 @@
    vertical-align : top;
    display: inline-block;
    width:19%;
-   height: 100%;
+   height: 100px;
    background-color: #444444;
 }
 .tradeBoard_1{
@@ -264,21 +264,21 @@
    vertical-align : top;
    display: inline-block;
    width:19%;
-   height: 100%;
+   height: 100px;
    background-color: #123111;
 }
 .customerBoard{
    vertical-align : top;
    display: inline-block;
    width:19%;
-   height: 100%;
+   height: 100px;
    background-color: #459811;
 }
 .freeBoard{
    vertical-align : top;
    display: inline-block;
    width:19%;
-   height: 100%;
+   height: 100px;
    background-color: #459991;
 }
 
@@ -286,6 +286,7 @@
 
                
 .home{
+
    display: block;
    margin-top: 5px;
    height:40px;
@@ -343,58 +344,59 @@
 
 
 .home_1{
+   	margin-top :50px;	
    display: block;
-   margin-top: 5px;
+   
    height:40px;
-   background-color: #409991;
+   background-color: #6DD66D;
 }
 .elec_1{
    display: block;
    margin-top: 5px;
    height:40px;
-   background-color: #409991;
+   background-color: #6DD66D;
 }
 .cloth_1{
    display: block;
    margin-top: 5px;
    height:40px;
-   background-color: #409991;
+   background-color: #6DD66D;
 }
 .watch_1{
    display: block;
    margin-top: 5px;
    height:40px;
-   background-color: #409991;
+   background-color: #6DD66D;
 }
 .cosmetic_1{
    display: block;
    margin-top: 5px;
    height:40px;
-   background-color: #409991;
+   background-color: #6DD66D;
 }
 .travel_1{
    display: block;
    margin-top: 5px;
    height:40px;
-   background-color: #409991;
+   background-color: #6DD66D;;
 }
 .furni_1{
    display: block;
    margin-top: 5px;
    height:40px;
-   background-color: #409991;
+   background-color: #6DD66D;
 }
 .book_1{
    display: block;
    margin-top: 5px;
    height:40px;
-   background-color: #409991;
+   background-color: #6DD66D;
 }
 .etc_1{
    display: block;
    margin-top: 5px;
    height:40px;
-   background-color: #409991;
+   background-color: #6DD66D;
 }
 
 
@@ -406,7 +408,7 @@
    display :block;
    width: 150px;
    height: 550px;
-   background-color: #FFAACC;
+   background-color: #FFFFFF;
 }
 
 .reporttitle{ /* 신고게시판 타이틀  */

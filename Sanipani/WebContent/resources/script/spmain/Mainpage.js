@@ -4,7 +4,96 @@
 
 
 $(document).ready(function(){
+	$("#Id").on("keypress",function(event){
+		if(event.keyCode==13) {
 	
+
+			if($.trim($("#Id").val())==""){
+				alert("아이디를 입력하세요");
+				$("#Id").focus();
+			}
+			else if($.trim($("#Pw").val())==""){
+				alert("비밀번호를  입력하세요");
+				$("#Pw").focus();
+			}
+			else {
+			
+					var params = $("#LoginForm").serialize();
+					
+					$.ajax({
+						type:"post",
+						url:"testLoginCheckAjax",
+						dataType:"json",
+						data : params,
+						
+						success : function(result){
+							if(result.res=="success"){
+								loginCut.style.display="inline-block";
+								loginAccess.style.display="none";
+								$("#memNick").html(result.NICK);
+								
+							}else {
+								alert("아이디 비번을 확인");
+								$("#Id").focus();
+							}
+						},
+						error : function(result){
+							
+						}
+					});
+					
+				
+			}
+	
+		
+		}
+	});
+	
+	
+	$("#Pw").on("keypress",function(event){
+		if(event.keyCode==13) {
+	
+
+			if($.trim($("#Id").val())==""){
+				alert("아이디를 입력하세요");
+				$("#Id").focus();
+			}
+			else if($.trim($("#Pw").val())==""){
+				alert("비밀번호를  입력하세요");
+				$("#Pw").focus();
+			}
+			else {
+			
+					var params = $("#LoginForm").serialize();
+					
+					$.ajax({
+						type:"post",
+						url:"testLoginCheckAjax",
+						dataType:"json",
+						data : params,
+						
+						success : function(result){
+							if(result.res=="success"){
+								loginCut.style.display="inline-block";
+								loginAccess.style.display="none";
+								$("#memNick").html(result.NICK);
+								
+							}else {
+								alert("아이디 비번을 확인");
+								$("#Id").focus();
+							}
+						},
+						error : function(result){
+							
+						}
+					});
+					
+				
+			}
+	
+		
+		}
+	});
 	
 	$(".loginBtn").on("click",function(){
 		if($.trim($("#Id").val())==""){

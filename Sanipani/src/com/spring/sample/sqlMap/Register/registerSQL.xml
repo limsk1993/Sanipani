@@ -21,8 +21,8 @@
 	</select>
 	
 	<insert id="insertPlusMoney" parameterClass="java.util.HashMap">
-	INSERT INTO SANIPANIMONEY(SA_PA_MO_NO,MEMBERNO,CHARGE_PRICE,CHARGE_DATE)
- 	VALUES(SA_PA_MONEY.NEXTVAL,#sNo#,#moneyUp#,SYSDATE)
+	INSERT INTO SANIPANIMONEY(SA_PA_MO_NO,MEMBERNO,CHARGE_PRICE,CHARGE_DATE,MONEY_STATUS)
+ 	VALUES(SA_PA_MONEY.NEXTVAL,#sNo#,#moneyUp#,SYSDATE,'충전')
 	
 	</insert>
 	
@@ -35,37 +35,77 @@
 	<select id="getTradePage"
 	parameterClass="java.util.HashMap" resultClass="Integer"
 	>
-	SELECT COUNT(TRADE_NO) AS CNT        
-	FROM(    
-    SELECT TRADE_NO,WORD_TITLE,T.MEMBERNO
-    FROM TRADE T INNER JOIN TRADEBOARD B ON T.TRADE_WORD_NO = B.TRADE_WORD_NO
-    			 INNER JOIN MEMBERINFO M ON T.MEMBERNO = M.MEMBERNO
-    ) A
-    WHERE 1=1
-    <isNotEmpty property="searchText">
- 	 AND WORD_TITLE LIKE '%' || #searchText# || '%'
-    </isNotEmpty>
-	AND MEMBERNO = #sNo#
+	  SELECT SUM(CNT) AS CNT
+  		FROM(
+  			 SELECT COUNT(TRADE_NO) AS CNT        
+	           FROM(    
+    					SELECT TRADE_NO,WORD_TITLE,T.MEMBERNO
+    					  FROM TRADE T INNER JOIN TRADEBOARD B ON T.TRADE_WORD_NO = B.TRADE_WORD_NO
+    			 					   INNER JOIN MEMBERINFO M ON T.MEMBERNO = M.MEMBERNO
+  					 ) A
+   			 WHERE 1=1  <isNotEmpty property="searchText">
+ 	 					AND WORD_TITLE LIKE '%' || #searchText# || '%'
+    					</isNotEmpty>
+   		 
+			AND MEMBERNO = #sNo#
+ 				
+ 				 UNION ALL
+   
+  			    	   SELECT   COUNT(TRADE_NO) AS CNT
+                         FROM    TRADEBOARD B LEFT OUTER JOIN TRADE T ON B.TRADE_WORD_NO = T.TRADE_WORD_NO
+                   				 LEFT OUTER JOIN MEMBERINFO I  ON B.MEMBERNO = I.MEMBERNO
+  						WHERE    B.MEMBERNO =#sNo# AND
+ 								   
+       						     T.TRADE_STATUS_NO >=2 AND
+       							 T.TRADE_STATUS_NO1 =2
+       							 <isNotEmpty property="searchText">
+ 	 							 AND WORD_TITLE LIKE '%' || #searchText# || '%'
+    							 </isNotEmpty>
+       							 )
+	
+	
+
 	</select>
 	
 	<select id="getTradeList"
 	parameterClass="java.util.HashMap" resultClass="java.util.HashMap"
 	>
-	SELECT    NO,TRADE_NO,ID,WORD_TITLE,BUY_PAY,TRADE_STATUS,TRADE_DATE,ESCROW_WHETHER 
-        FROM(  
-        SELECT    ROW_NUMBER() OVER (ORDER BY T.TRADE_NO DESC) AS NO,
-                  TRADE_NO,ID,WORD_TITLE,BUY_PAY,TRADE_STATUS,ESCROW_WHETHER,
-                  TO_CHAR(TRADE_DATE,'YYYY-MM-DD'||' '||'HH:MI:SS') AS TRADE_DATE
-        FROM TRADE T INNER JOIN TRADEBOARD B  ON T.TRADE_WORD_NO = B.TRADE_WORD_NO
-                     INNER JOIN TRADESTATUS S ON T.TRADE_STATUS_NO = S.TRADE_STATUS_NO
-                     INNER JOIN MEMBERINFO I  ON T.MEMBERNO = I.MEMBERNO
-                    <isNotEmpty property="searchText">
-                    AND B.WORD_TITLE LIKE '%' || #searchText# || '%' 
-                  	</isNotEmpty>   
-                  	AND I.MEMBERNO = #sNo#
-           
-             ) A
-        WHERE A.NO BETWEEN #start# AND #end#
+	SELECT NO,TRADE_NO,ID,WORD_TITLE,BUY_PAY,TRADE_STATUS,TRADE_DATE,ESCROW_WHETHER
+	FROM
+	(SELECT  ROW_NUMBER() OVER (ORDER BY TRADE_NO DESC) AS NO,TRADE_NO,ID,WORD_TITLE,BUY_PAY,TRADE_STATUS,TRADE_DATE,ESCROW_WHETHER 
+	  FROM 
+	  		(SELECT    TRADE_NO,ID,WORD_TITLE,BUY_PAY,TRADE_STATUS,TRADE_DATE,ESCROW_WHETHER 
+      		   FROM(  
+        			   SELECT    TRADE_NO,ID,WORD_TITLE,BUY_PAY,TRADE_STATUS,ESCROW_WHETHER,
+                				 TO_CHAR(TRADE_DATE,'YYYY-MM-DD'||' '||'HH:MI:SS') AS TRADE_DATE
+        				 FROM    TRADE T INNER JOIN TRADEBOARD B  ON T.TRADE_WORD_NO = B.TRADE_WORD_NO
+                     			         INNER JOIN TRADESTATUS S ON T.TRADE_STATUS_NO = S.TRADE_STATUS_NO
+                     			         INNER JOIN MEMBERINFO I  ON T.MEMBERNO = I.MEMBERNO
+             		    WHERE    I.MEMBERNO =#sNo#
+                  				 <isNotEmpty property="searchText">
+                    			 AND B.WORD_TITLE LIKE '%' || #searchText# || '%' 
+                  				 </isNotEmpty>   )
+                    UNION ALL
+  
+  			  SELECT   TRADE_NO,ID,WORD_TITLE,BUY_PAY,TRADE_STATUS,TRADE_DATE,ESCROW_WHETHER 
+  			    FROM(  
+  			    	   SELECT    TRADE_NO,ID,WORD_TITLE,BUY_PAY,TRADE_STATUS,
+  						         TO_CHAR(TRADE_DATE,'YYYY-MM-DD'||' '||'HH:MI:SS') AS TRADE_DATE,ESCROW_WHETHER
+                         FROM    TRADEBOARD B LEFT OUTER JOIN TRADE T ON B.TRADE_WORD_NO = T.TRADE_WORD_NO
+                  				              LEFT OUTER JOIN TRADESTATUS S ON T.TRADE_STATUS_NO = S.TRADE_STATUS_NO
+                   				              LEFT OUTER JOIN MEMBERINFO I  ON B.MEMBERNO = I.MEMBERNO
+  						WHERE    B.MEMBERNO =#sNo# AND
+ 								 <isNotEmpty property="searchText">
+                 				  AND B.WORD_TITLE LIKE '%' || #searchText# || '%'  AND
+                  				 </isNotEmpty>   
+       						     T.TRADE_STATUS_NO >=2 AND
+       							 T.TRADE_STATUS_NO1 =2)
+       							 )
+       							 )A
+       							 
+      WHERE A.NO BETWEEN #start# AND #end#
+        
+	
 	
 	</select>
 	
@@ -134,6 +174,7 @@
 	<select id="showAutionBuyPage"
 	parameterClass="java.util.HashMap" resultClass="Integer"
 	>
+	
 	  SELECT COUNT(MAX(BIDPRICE))
       FROM AUCTION
       WHERE MEMBERNO =#sNo#
@@ -147,23 +188,141 @@
 	<select id="showAutionBuy"
 			parameterClass="java.util.HashMap" resultClass="java.util.HashMap"
 	>
+	SELECT  AUCTIONWORDNO,STARTBUYPAY,WORDCONTENT,ID,NO,BIDPRICE_NO,BIDPRICE,AUCTIONNO
+			  ,ENDDATE,TRADESTATUSNO,ESCROWWHETHER,TRADE_STATUS
+	FROM 
+		(
 	   SELECT A.AUCTIONWORDNO,STARTBUYPAY,WORDCONTENT,ID,ROW_NUMBER() OVER (ORDER BY A.AUCTIONWORDNO DESC) AS NO,BIDPRICE_NO,BIDPRICE,AUCTIONNO
-			  ,TO_CHAR(ENDDATE,'YYYY-MM-DD'||' '||'HH:MI:SS') AS ENDDATE,TRADESTATUSNO
+			  ,TO_CHAR(ENDDATE,'YYYY-MM-DD'||' '||'HH:MI:SS') AS ENDDATE,TRADESTATUSNO,ESCROWWHETHER,TRADE_STATUS
 		 FROM (SELECT ROW_NUMBER() OVER(PARTITION BY AUCTIONWORDNO ORDER BY BIDPRICE DESC) AS BIDPRICE_NO
-		 		,AUCTIONWORDNO,MEMBERNO,TRADESTATUSNO,BIDPRICE,AUCTIONNO
+		 		,AUCTIONWORDNO,MEMBERNO,TRADESTATUSNO,BIDPRICE,AUCTIONNO,ESCROWWHETHER
      		     FROM AUCTION
      		  ) A 
      					 INNER JOIN AUCTIONBOARD B ON A.AUCTIONWORDNO =B.AUCTIONWORDNO
-     					 INNER JOIN MEMBERINFO I ON A.MEMBERNO = I.MEMBERNO 
-			             AND A.BIDPRICE_NO = 1                 
-	WHERE A.MEMBERNO =#sNo#
+     					 INNER JOIN MEMBERINFO I ON A.MEMBERNO = I.MEMBERNO
+     					 INNER JOIN TRADESTATUS S ON A.TRADESTATUSNO = S.TRADE_STATUS_NO 
+			             AND A.BIDPRICE_NO = 1              
+		WHERE    A.BIDPRICE_NO = 1  AND
+				 A.AUCTIONWORDNO IN (SELECT AUCTIONWORDNO
+                              FROM AUCTION 
+                             WHERE MEMBERNO=#sNo# )		             
+			               
+	
 		<isNotEmpty property="searchText">
  	 AND WORD_TITLE LIKE '%' || #searchText# || '%'
    	   </isNotEmpty>
-   	   <isNotEmpty property="comple">
- 	 AND TRADESTATUSNO = 6 
-   	   </isNotEmpty>
+   	 <isEqual  property="comple" compareValue="1" >
+   	  AND TRADESTATUSNO = 5  
+   	   </isEqual>
+   	   <isEqual  property="comple" compareValue="2" >
+   	   AND TRADESTATUSNO = 6
+   	  </isEqual>
+   	  )A
+		 WHERE NO BETWEEN #start# AND #end#
+	</select>
 	
+	<select id="showAutionTradePage"
+	parameterClass="java.util.HashMap" resultClass="Integer"
+	>
+	 SELECT SUM(CNT) 
+ 	FROM ( 
+   SELECT  COUNT(A.AUCTIONWORDNO) AS CNT
+		 FROM (SELECT ROW_NUMBER() OVER(PARTITION BY AUCTIONWORDNO ORDER BY BIDPRICE DESC) AS BIDPRICE_NO
+		 			 ,AUCTIONWORDNO,MEMBERNO,TRADESTATUSNO,BIDPRICE,AUCTIONNO
+     		     FROM AUCTION
+     		  			) A 
+     					
+     					 INNER JOIN AUCTIONBOARD B ON A.AUCTIONWORDNO =B.AUCTIONWORDNO
+     					 INNER JOIN MEMBERINFO I ON B.MEMBERNO = I.MEMBERNO
+     					 INNER JOIN TRADESTATUS S ON A.TRADESTATUSNO = S.TRADE_STATUS_NO 
+			            		    AND A.BIDPRICE_NO = 1                 
+         WHERE A.BIDPRICE_NO = 1  AND TRADESTATUSNO >= 6 AND
+               B.AUCTIONWORDNO IN (SELECT AUCTIONWORDNO
+                                     FROM AUCTION 
+                                    WHERE MEMBERNO=#sNo# )
+         		<isNotEmpty property="searchText">
+ 	             AND WORD_TITLE LIKE '%' || #searchText# || '%'
+   	            </isNotEmpty>
+
+		UNION ALL
+
+
+		SELECT COUNT(A.AUCTIONWORDNO) AS CNT
+			   
+		  FROM (SELECT ROW_NUMBER() OVER(PARTITION BY AUCTIONWORDNO ORDER BY BIDPRICE DESC) AS BIDPRICE_NO
+		 			   ,AUCTIONWORDNO,MEMBERNO,TRADESTATUSNO,BIDPRICE,AUCTIONNO
+     		      FROM AUCTION
+     					 ) A 
+     					 INNER JOIN AUCTIONBOARD B ON A.AUCTIONWORDNO =B.AUCTIONWORDNO
+     					 INNER JOIN MEMBERINFO I ON B.MEMBERNO = I.MEMBERNO
+     					 INNER JOIN TRADESTATUS S ON A.TRADESTATUSNO = S.TRADE_STATUS_NO 
+			             AND A.BIDPRICE_NO = 1                 
+		  WHERE A.BIDPRICE_NO = 1  AND   TRADESTATUSNO >= 6 AND
+  				B.AUCTIONWORDNO IN (SELECT AUCTIONWORDNO
+                                      FROM AUCTIONBOARD 
+                                     WHERE MEMBERNO=#sNo# )
+                                     )
+		<isNotEmpty property="searchText">
+ 	             AND WORD_TITLE LIKE '%' || #searchText# || '%'
+   	            </isNotEmpty>
+	</select>
+	
+	<select id="showAutionTrade"
+	parameterClass="java.util.HashMap" resultClass="java.util.HashMap"
+	>
+	  SELECT AUCTIONWORDNO,STARTBUYPAY,WORDCONTENT,ID,NO,BIDPRICE_NO,BIDPRICE,AUCTIONNO
+			  ,ENDDATE,TRADESTATUSNO,ESCROWWHETHER,TRADE_STATUS
+	    FROM(
+				  SELECT AUCTIONWORDNO,STARTBUYPAY,WORDCONTENT,ID,ROW_NUMBER() OVER (ORDER BY AUCTIONWORDNO DESC) AS NO,BIDPRICE_NO,BIDPRICE,AUCTIONNO
+					     ,ENDDATE,TRADESTATUSNO,ESCROWWHETHER,TRADE_STATUS
+  					FROM
+  							(
+  							 SELECT A.AUCTIONWORDNO,STARTBUYPAY,WORDCONTENT,ID,BIDPRICE_NO,BIDPRICE,AUCTIONNO
+			  						,TO_CHAR(ENDDATE,'YYYY-MM-DD'||' '||'HH:MI:SS') AS ENDDATE,TRADESTATUSNO,ESCROWWHETHER,TRADE_STATUS
+						   	   FROM (
+						   	         SELECT ROW_NUMBER() OVER(PARTITION BY AUCTIONWORDNO ORDER BY BIDPRICE DESC) AS BIDPRICE_NO
+		 									,AUCTIONWORDNO,MEMBERNO,TRADESTATUSNO,BIDPRICE,AUCTIONNO,ESCROWWHETHER
+     		   	  					   FROM AUCTION
+     		  						 ) A 
+     					
+     					 			INNER JOIN AUCTIONBOARD B ON A.AUCTIONWORDNO =B.AUCTIONWORDNO
+     					 			INNER JOIN MEMBERINFO I ON B.MEMBERNO = I.MEMBERNO
+     					 			INNER JOIN TRADESTATUS S ON A.TRADESTATUSNO = S.TRADE_STATUS_NO 
+			            		    AND A.BIDPRICE_NO = 1                 
+                             WHERE A.BIDPRICE_NO = 1  AND TRADESTATUSNO >= 6 AND
+            				       B.AUCTIONWORDNO IN (SELECT AUCTIONWORDNO
+                                					     FROM AUCTION 
+                                  					    WHERE MEMBERNO=#sNo# )
+                                   <isNotEmpty property="searchText">
+ 	 								AND WORD_TITLE LIKE '%' || #searchText# || '%'
+   	 		  					   </isNotEmpty>
+             
+
+		UNION ALL
+
+
+	 SELECT A.AUCTIONWORDNO,STARTBUYPAY,WORDCONTENT,ID,BIDPRICE_NO,BIDPRICE,AUCTIONNO
+			,TO_CHAR(ENDDATE,'YYYY-MM-DD'||' '||'HH:MI:SS') AS ENDDATE,TRADESTATUSNO,ESCROWWHETHER,TRADE_STATUS
+       FROM (SELECT ROW_NUMBER() OVER(PARTITION BY AUCTIONWORDNO ORDER BY BIDPRICE DESC) AS BIDPRICE_NO
+		 			   ,AUCTIONWORDNO,MEMBERNO,TRADESTATUSNO,BIDPRICE,AUCTIONNO,ESCROWWHETHER
+     		      FROM AUCTION
+     					 ) A 
+     					 INNER JOIN AUCTIONBOARD B ON A.AUCTIONWORDNO =B.AUCTIONWORDNO
+     					 INNER JOIN MEMBERINFO I ON B.MEMBERNO = I.MEMBERNO
+     					 INNER JOIN TRADESTATUS S ON A.TRADESTATUSNO = S.TRADE_STATUS_NO 
+			             AND A.BIDPRICE_NO = 1                 
+		  WHERE A.BIDPRICE_NO = 1  AND   TRADESTATUSNO >= 6 AND
+  				B.AUCTIONWORDNO IN (SELECT AUCTIONWORDNO
+                                      FROM AUCTIONBOARD 
+                                     WHERE MEMBERNO=#sNo#)
+                                     <isNotEmpty property="searchText">
+ 	 			AND WORD_TITLE LIKE '%' || #searchText# || '%'
+   	 		   </isNotEmpty>
+                                     )
+                                     )A
+                                     
+                                     
+
 	</select>
 
 

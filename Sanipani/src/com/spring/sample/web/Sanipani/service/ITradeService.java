@@ -59,7 +59,7 @@ public interface ITradeService {
 
 	void MoneyUpdate(HashMap<String, String> params) throws Throwable;
 
-	HashMap<String, String> getTradeCon1(HashMap<String, String> params) throws Throwable;
+	int getTradeCon1(HashMap<String, String> params) throws Throwable;
 
 	void insertBuyerMoney(HashMap<String, String> params) throws Throwable;
 
@@ -88,6 +88,16 @@ public interface ITradeService {
 	HashMap<String, String> getStatusBuyer(HashMap<String, String> params) throws Throwable;
 
 	HashMap<String, String> getAuctionSeller(HashMap<String, String> params) throws Throwable;
+
+	void DeliveryUpdateAuction(HashMap<String, String> params) throws Throwable;
+
+	Long getTradeUserNo1(HashMap<String, String> params) throws Throwable;
+
+	void CompleteUpdateAuction(HashMap<String, String> params) throws Throwable;
+
+	void TradeDelUpdate(HashMap<String, String> params) throws Throwable;
+
+
 
 
 

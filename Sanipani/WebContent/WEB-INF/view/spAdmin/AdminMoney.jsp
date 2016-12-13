@@ -103,12 +103,34 @@ function refreshList1(){
 				html += "<td>" + result.list[i].NO + "</td>";
 	
 				html += "<td>" + result.list[i].ID + "</td>";
-				html += "<td>" + result.list[i].CHARGE_PRICE + "</td>";
-				html += "<td>" + result.list[i].CHARGE_DATE + "</td>";
 				
-				html += "<td>" + result.list[i].EXCHANGE_PRICE + "</td>";
-				html += "<td>" + result.list[i].EXCHANGE_DATE + "</td>";
+				if(result.list[i].CHARGE_PRICE>0){
+					html += "<td>" + result.list[i].CHARGE_PRICE + "</td>";
+				}
+				else{
+					html += "<td></td>"	
+				}
 				
+				if(result.list[i].CHARGE_DATE!=null){
+					html += "<td>" + result.list[i].CHARGE_DATE + "</td>";
+				}
+				else{
+					html += "<td></td>"	
+				}
+			
+				if(result.list[i].EXCHANGE_PRICE>0){
+					html += "<td>" + result.list[i].EXCHANGE_PRICE + "</td>";
+				}
+				else{
+					html += "<td></td>"	
+				}
+				
+				if(result.list[i].EXCHANGE_DATE!=null){
+					html += "<td>" + result.list[i].EXCHANGE_DATE + "</td>";
+				}
+					else{
+					html += "<td></td>"	
+				}
 				html += "<td class='moneyRefund' name='" + result.list[i].SA_PA_MO_NO+"_"+result.list[i].CHARGE_PRICE+"_"+result.list[i].EXCHANGE_PRICE +"_"+result.list[i].MEMBERNO+"'>" + '환불' + "</td>";
 				html += "</tr>";
 			}

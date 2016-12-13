@@ -82,4 +82,16 @@ public class MemberService implements IMemberService {
 		// TODO Auto-generated method stub
 		return iMemberDao.showAutionBuy(params);
 	}
+
+	@Override
+	public int showAutionTradePage(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return iMemberDao.showAutionTradePage(params);
+	}
+
+	@Override
+	public ArrayList<HashMap<String, String>> showAutionTrade(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return iMemberDao.showAutionTrade(params);
+	}
 }
