@@ -15,26 +15,45 @@
 	vertical-align :top;
 	display : inline-block;
 	padding : 20px;
-	width: 690px;
+	width: 830px;
 	height: 90%;
-	background-color: #F1232F;
+
 }
 .tradeCategory{
 	display : inline-block;
 	width: 200px;
 	height: 90%;
-	background-color: #123FAC;
+	 background-color: #B2FFD1;
+	 border-radius: 20px;
+	 overflow: hidden;
+	 margin-top:20px; 
 }
 img{
 	width : 100px;
 	height: 100px;
 }
 td{
-	
+	text-overflow: ellipsis;
 	height: 100px;
 
 }
+table{
+	text-overflow: ellipsis;
+	width:900px;
+	border-bottom: 1px;
+}
+select{
+	
+	margin-left: 820px;
+}
 
+th {
+	background-color: #6DD66D;
+	
+}
+tr:hover{
+	background-color: #EEEEEE;
+}
 </style>
 
 </head>
@@ -199,8 +218,15 @@ td{
 		
 		</div>
 		<div class="tradeTable">
-		<h2>거래게시판 </h2>
-			<form action="#" id="actionForm" method="get">
+		<div class="tradeTag"><h2>거래게시판 </h2></div>
+	
+		<form action="#" name="list2" method="post">
+			    <select class="small" name="search2" id="searchSelect2">
+				<option value="1" selected="selected">최신순</option>
+				<option value="2">가격순</option>
+			</select>
+		</form> 
+				<form action="#" id="actionForm" method="get">
 				<c:choose>
 					<c:when test="${empty param.page}"> <!-- empty 는 비어있으면. -->
 						<input type="hidden" name="page" value="1" />
@@ -210,11 +236,13 @@ td{
 						<input type="hidden" name="page" value="${param.page}"/>
 					</c:otherwise>
 				</c:choose>
+					<input type="hidden" name="search" />
 				<input type="hidden" name="catogery" value="5" />
-				<input type="hidden" name="page" value="1" />
+			
 				<input type="hidden" name="searchText" value="${param.searchText}"/>
 				<input type="hidden" name="testNo" />
 				<input type="hidden" name="sNo" value="${sNo}"/>
+				<input type="hidden" name="sRank" value="${sGrade}"/>
 			</form>
 			<form action="#" id="actionForm1" method="get">
 				<c:choose>
@@ -232,7 +260,8 @@ td{
 				<input type="hidden" name="testNo" />
 				
 			</form>
-			<table border="1">
+
+			<table >
 				<thead>
 					<tr>
 						<th>No</th>
@@ -241,7 +270,7 @@ td{
 						<th>내용</th>
 					
 						<th>가격</th>
-						<th>거래상태</th>
+						
 						<th>작성자</th>
 						<th>작성일</th>
 						<th>조회수</th>
