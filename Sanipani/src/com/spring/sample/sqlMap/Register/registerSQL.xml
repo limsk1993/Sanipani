@@ -175,13 +175,29 @@
 	parameterClass="java.util.HashMap" resultClass="Integer"
 	>
 	
-	  SELECT COUNT(MAX(BIDPRICE))
-      FROM AUCTION
-      WHERE MEMBERNO =#sNo#
-       <isNotEmpty property="searchText">
- 	 AND WORD_TITLE LIKE '%' || #searchText# || '%'
-   	   </isNotEmpty>
-      GROUP BY AUCTIONWORDNO
+	 SELECT COUNT(*)
+	   FROM
+				(
+				SELECT ROW_NUMBER() OVER(PARTITION BY AUCTIONWORDNO ORDER BY BIDPRICE DESC) AS BIDPRICE_NO,AUCTIONWORDNO,TRADESTATUSNO,MEMBERNO
+				  FROM AUCTION) A
+              					INNER JOIN AUCTIONBOARD B 
+              							ON A.AUCTIONWORDNO =B.AUCTIONWORDNO
+             					INNER JOIN TRADESTATUS S 
+             							ON A.TRADESTATUSNO = S.TRADE_STATUS_NO 
+              					INNER JOIN MEMBERINFO I 
+              							ON A.MEMBERNO = I.MEMBERNO
+			              		AND A.BIDPRICE_NO = 1      
+             
+             	  WHERE 1=1 
+             	  		<isNotEmpty property="searchText">
+ 						AND WORDTITLE LIKE '%' || #searchText# || '%'
+   	   					</isNotEmpty>
+   	 					<isEqual  property="comple" compareValue="1" >
+   	  					AND TRADESTATUSNO = 5  
+   	   					</isEqual>
+   	   					<isEqual  property="comple" compareValue="2" >
+   	   					AND TRADESTATUSNO = 6
+   	  					</isEqual>
 	
 	</select>
 	
@@ -202,23 +218,23 @@
      					 INNER JOIN MEMBERINFO I ON A.MEMBERNO = I.MEMBERNO
      					 INNER JOIN TRADESTATUS S ON A.TRADESTATUSNO = S.TRADE_STATUS_NO 
 			             AND A.BIDPRICE_NO = 1              
-		WHERE    A.BIDPRICE_NO = 1  AND
-				 A.AUCTIONWORDNO IN (SELECT AUCTIONWORDNO
-                              FROM AUCTION 
-                             WHERE MEMBERNO=#sNo# )		             
+				WHERE    A.BIDPRICE_NO = 1  AND
+						 A.AUCTIONWORDNO IN (SELECT AUCTIONWORDNO
+                             				   FROM AUCTION 
+                           					  WHERE MEMBERNO=#sNo# )		             
 			               
 	
-		<isNotEmpty property="searchText">
- 	 AND WORD_TITLE LIKE '%' || #searchText# || '%'
-   	   </isNotEmpty>
-   	 <isEqual  property="comple" compareValue="1" >
-   	  AND TRADESTATUSNO = 5  
-   	   </isEqual>
-   	   <isEqual  property="comple" compareValue="2" >
-   	   AND TRADESTATUSNO = 6
-   	  </isEqual>
-   	  )A
-		 WHERE NO BETWEEN #start# AND #end#
+						<isNotEmpty property="searchText">
+ 						AND WORDTITLE LIKE '%' || #searchText# || '%'
+   	   					</isNotEmpty>
+   	 					<isEqual  property="comple" compareValue="1" >
+   	  					AND TRADESTATUSNO = 5  
+   	   					</isEqual>
+   	   					<isEqual  property="comple" compareValue="2" >
+   	   					AND TRADESTATUSNO = 6
+   	  					</isEqual>
+   	 		 )A
+	   WHERE NO BETWEEN #start# AND #end#
 	</select>
 	
 	<select id="showAutionTradePage"
@@ -241,7 +257,7 @@
                                      FROM AUCTION 
                                     WHERE MEMBERNO=#sNo# )
          		<isNotEmpty property="searchText">
- 	             AND WORD_TITLE LIKE '%' || #searchText# || '%'
+ 	             AND WORDTITLE LIKE '%' || #searchText# || '%'
    	            </isNotEmpty>
 
 		UNION ALL
@@ -261,10 +277,11 @@
   				B.AUCTIONWORDNO IN (SELECT AUCTIONWORDNO
                                       FROM AUCTIONBOARD 
                                      WHERE MEMBERNO=#sNo# )
-                                     )
-		<isNotEmpty property="searchText">
- 	             AND WORD_TITLE LIKE '%' || #searchText# || '%'
+                                     <isNotEmpty property="searchText">
+ 	             AND WORDTITLE LIKE '%' || #searchText# || '%'
    	            </isNotEmpty>
+                                     )
+		
 	</select>
 	
 	<select id="showAutionTrade"
@@ -294,7 +311,7 @@
                                 					     FROM AUCTION 
                                   					    WHERE MEMBERNO=#sNo# )
                                    <isNotEmpty property="searchText">
- 	 								AND WORD_TITLE LIKE '%' || #searchText# || '%'
+ 	 								AND WORDTITLE LIKE '%' || #searchText# || '%'
    	 		  					   </isNotEmpty>
              
 
@@ -316,7 +333,7 @@
                                       FROM AUCTIONBOARD 
                                      WHERE MEMBERNO=#sNo#)
                                      <isNotEmpty property="searchText">
- 	 			AND WORD_TITLE LIKE '%' || #searchText# || '%'
+ 	 			AND WORDTITLE LIKE '%' || #searchText# || '%'
    	 		   </isNotEmpty>
                                      )
                                      )A

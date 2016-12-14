@@ -229,7 +229,6 @@ public class TradeController {
 			   							  ModelAndView modelAndView) throws Throwable{
 		   
 		 
-		   iTradeService.getTradereple(params);
 		   HashMap<String, String> con = iTradeService.getTradeCon(params);
 		   
 		   modelAndView.addObject("con", con); 
@@ -369,7 +368,7 @@ public class TradeController {
 			   							  ModelAndView modelAndView) throws Throwable{
 		   
 		   if(session.getAttribute("sNo")!=null){
-		   iTradeService.getTradereple(params);
+		  
 		   HashMap<String, String> con = iTradeService.getStatus(params);
 		   
 		   modelAndView.addObject("con", con); 
@@ -392,7 +391,6 @@ public class TradeController {
 			   							  ModelAndView modelAndView) throws Throwable{
 	
 		   if(session.getAttribute("sNo")!=null){
-		   iTradeService.getTradereple(params);
 		   HashMap<String, String> con = iTradeService.getTradeUser1(params);
 		   HashMap<String, String> con1 = iTradeService.getTradeUser2(params);
 		   HashMap<String, String> con2 = iTradeService.getTradeStatus1(params);	
@@ -492,7 +490,7 @@ public class TradeController {
 			   							  @RequestParam HashMap<String, String> params,
 			   							  ModelAndView modelAndView) throws Throwable{
 		   if(session.getAttribute("sNo")!=null){
-		   iTradeService.getTradereple(params);
+		 
 		   HashMap<String, String> con = iTradeService.getTradeUser1(params);
 		   HashMap<String, String> con1 = iTradeService.getTradeUser2(params);
 		   HashMap<String, String> con2 = iTradeService.getTradeDelivery(params);	

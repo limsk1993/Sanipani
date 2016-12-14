@@ -105,7 +105,7 @@ public class AdminController {
 		   public ModelAndView AdminMoney(HttpServletRequest request,
 		                      ModelAndView modelAndView,
 		                      HttpSession session){
-			  if(session.getAttribute("sGrade")=="0"){
+			  if(session.getAttribute("sGrade").toString().equals("0")){
 		      modelAndView.setViewName("spAdmin/AdminMoney");
 		    }
 			  else{

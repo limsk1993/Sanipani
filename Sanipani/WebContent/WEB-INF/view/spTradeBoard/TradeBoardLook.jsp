@@ -157,6 +157,7 @@
 	width : 80px;
 	height : 30px;
 	background-color: #B2FFD1;
+	text-align: center;
 
 }
 
@@ -167,6 +168,7 @@
 	width : 80px;
 	height : 30px;
 	background-color: #00C73C;
+	text-align: center;
 
 }
 .tradeRequest{
@@ -177,7 +179,7 @@
 	height : 30px;
 	margin-left: 650px;
 	background-color: #00C73C;
-	
+	text-align: center;
 
 }
 
@@ -192,6 +194,7 @@
 	margin-left: 410px;
 	border-radius: 20px;
 	background-color: #00C73C;
+	text-align: center;
 
 }
 
@@ -205,6 +208,7 @@
 	background-color: #B2FFD1;
 	border-radius: 20px;
 	margin-left: 725px;
+	text-align: center;
 }
 .repleContent{
 	width : 100%;

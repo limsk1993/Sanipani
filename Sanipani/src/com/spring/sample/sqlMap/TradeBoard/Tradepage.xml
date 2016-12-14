@@ -433,8 +433,9 @@
 		parameterClass="java.util.HashMap"
 		>
 			INSERT INTO REPORTBOARD(REPORTWORDNO,REPORTCATEGORYNO,WORDTITLE,WORDCONTENT,REPORTTARGET,MEMBERNO,WRITERDATE,
-									REPORT_TITLE,REPORT_CONTENT,TRADE_WORD_NO)
-      	    VALUES (REPORT_SEQ.NEXTVAL,#reportCato#,#reportTitle#,#reportContent#,#fraudUser#,#reportUser#,SYSDATE,#reportTitle1#,#reportContent1#,#testNo#)
+									REPORT_TITLE,REPORT_CONTENT,TRADE_WORD_NO,PICTURE,PICTURE1,PICTURE2,PICTURE3,PICTURE4)
+      	    VALUES (REPORT_SEQ.NEXTVAL,#reportCato#,#reportTitle#,#reportContent#,#fraudUser#,#reportUser#,SYSDATE,#reportTitle1#,#reportContent1#,#testNo#,
+      	    		#textFile#,#textFile1#,#textFile2#,#textFile3#,#textFile4#)
 	
 	
 	</insert>
