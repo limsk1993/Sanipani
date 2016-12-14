@@ -13,8 +13,19 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	$("#cusfixBtn").on("click", function(){
+	
+			
+		if(${sNo} == ${con.CUSTOMER_MEMBERNO}){
+			
+		 
 		$("#actionForm").attr("action", "CusFix");
 		$("#actionForm").submit();
+		
+		
+		}else{
+			alert("작성자만 수정할 수 있습니다.");
+		}
+		
 	});
 	
 	$(".bar").on("click",function(){
@@ -24,6 +35,9 @@ $(document).ready(function(){
 		location.href = "QnAlist";
 	});
 	$("#cusdeleteBtn").on("click", function(){
+		if(${sNo} == ${con.CUSTOMER_MEMBERNO}){
+			
+		
 		var params = $("#actionForm").serialize();
 		
 		$.ajax({
@@ -43,6 +57,43 @@ $(document).ready(function(){
 				alert("ERROR");
 			}
 		});
+	}else{
+			alert("작성자만 삭제가능합니다.");
+			
+	}
+});
+	$("#cusreplyBtn").on("click", function(){
+		var params = $("#actionForm").serialize();
+		
+		$.ajax({
+			type : "post",
+			url : "Cusreply",
+			dataType : "json",
+			data : params,
+			success : function(result){
+				if(result.res > 0){
+					$("#actionForm").attr("action", "CusBoardetail");
+					$("#actionForm").submit();
+				}else{
+					alert("수정실패");
+				}
+			}
+		});
+	});
+	$(".bar1_1").on("click", function(){
+		location.href="CusBoard";
+	});
+	$(".bar1_2").on("click", function(){
+		location.href="CusRefund";
+	});
+	$(".bar1_3").on("click", function(){
+		location.href="Cuscall";
+	});
+	$(".bar1_4").on("click", function(){
+		location.href="CusCoupon";
+	});
+	$(".bar1_5").on("click", function(){
+		location.href="CusService";
 	});
 });
 </script>
@@ -192,7 +243,7 @@ $(document).ready(function(){
 		
 		<div class="content">
 		<div class="bar">
-			QNA 게싯판
+			<b>고객센터 >> 문의 내역</b>
 			</div>
 			<div class="bar1">
 				<div class="bar1_1">
@@ -205,7 +256,7 @@ $(document).ready(function(){
 				주문 / 결제
 				</div>
 				<div class="bar1_4">
-				쿠폰 / 사니파니머니
+				 사니파니머니
 				</div>
 				<div class="bar1_5">
 				회원 서비스
@@ -224,7 +275,7 @@ $(document).ready(function(){
 					<input type="hidden" name="testNo" value="${param.testNo}"/>
 					
 				
-					<table border="1">
+					<table>
 					<thead>
 					<tr>
 						<th>번호</th>
@@ -241,15 +292,45 @@ $(document).ready(function(){
 						<th>내용</th>
 						<td>${con.CUSTOMER_WORDCONTENT}</td>
 					</tr>
+					<tr>
+						<th>답변</th>
+						<td>${con.CUSTOMER_REPLY}</td>
 					</thead>	
 					</table>
+					
+					
 					<div class="CusdetailBtn">
-					<input type="button" value="글수정" id="cusfixBtn">
-					<input type="button" value="글삭제" id="cusdeleteBtn">
-					</form>
+			 	 
+				 	<c:choose>	
+				 		<c:when test="${sNo eq con.CUSTOMER_MEMBERNO or sGrade eq 0}">
+							<input type="button" value="글수정" id="cusfixBtn">		
+							<input type="button" value="글삭제" id="cusdeleteBtn">
+						</c:when>
+						<c:otherwise>
+						
+						</c:otherwise>	
+					</c:choose>
+					<c:choose>
+						<c:when test="${sGrade eq 0}">
+				 		 
+						<input type="button" value="답변하기" id="cusreplyBtn">
+						</c:when>
+						<c:otherwise>
+						
+						</c:otherwise>
+					</c:choose>
 					</div>
-					
-					
+					<c:choose>
+						<c:when test="${sGrade eq 0}">
+							<div class="replycontent" id="CusAdmin" >
+								<textarea cols="70" rows="6" style="resize:none;" name="CUSREPLY" ></textarea>
+							</div>
+						</c:when>
+						<c:otherwise>
+							<div class="replycontent1" id="CusUser" style="display: none;"> </div>		
+						</c:otherwise>
+					</c:choose>
+					</form>
 					
 				</div>
 

@@ -41,4 +41,26 @@ public interface ICustomerDao {
 
 	public int getCusdelete(HashMap<String, String> params) throws Throwable;
 
+	public int getCusreply(HashMap<String, String> params) throws Throwable;
+
+	public int getRefundlist(HashMap<String, String> params) throws Throwable;
+
+	public ArrayList<HashMap<String, String>> getRefund(HashMap<String, String> params) throws Throwable;
+
+	public int getCalllist(HashMap<String, String> params) throws Throwable;
+
+	public ArrayList<HashMap<String, String>> getCall(HashMap<String, String> params) throws Throwable;
+
+	public int getCouponlist(HashMap<String, String> params) throws Throwable;
+
+	public ArrayList<HashMap<String, String>> getCoupon(HashMap<String, String> params) throws Throwable;
+
+	public int getServicelist(HashMap<String, String> params) throws Throwable;
+
+	public ArrayList<HashMap<String, String>> getService(HashMap<String, String> params) throws Throwable;
+
+	public int getQnAlookup(HashMap<String, String> params) throws Throwable;
+
+	public int getCuslookup(HashMap<String, String> params) throws Throwable;
+
 }

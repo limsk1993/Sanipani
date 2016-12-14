@@ -28,6 +28,21 @@ $(document).ready(function(){
 		CusupdateForm.submit();
 	});
 	
+	$(".bar1_1").on("click", function(){
+		location.href="CusBoard";
+	});
+	$(".bar1_2").on("click", function(){
+		location.href="CusRefund";
+	});
+	$(".bar1_3").on("click", function(){
+		location.href="Cuscall";
+	});
+	$(".bar1_4").on("click", function(){
+		location.href="CusCoupon";
+	});
+	$(".bar1_5").on("click", function(){
+		location.href="CusService";
+	});
 
 });
 
@@ -223,7 +238,7 @@ function removePre(data) {
 		
 		<div class="content">
 		<div class="bar">
-			QNA 게싯판
+			<b>고객센터 >> 문의수정 </b>
 			</div>
 			<div class="bar1">
 				<div class="bar1_1">
