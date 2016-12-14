@@ -191,7 +191,7 @@ $(document).ready(function(){
 		var ar= $("input[name='auctionNo']").val();
 	    var arr = ar.split("_");
 		$("input[name='auctionNo']").val(arr[0]);
-		if(arr[1]==null){
+		if(arr[1]=='null'){
 		$("#actionFormAuction").attr("action", "AuctionEscrow");
 		$("#actionFormAuction").submit();
 		}
@@ -208,7 +208,8 @@ $("#tradeList4").on("click", "tr", function(){
 		var ar= $("input[name='auctionNo']").val();
 	    var arr = ar.split("_");
 		$("input[name='auctionNo']").val(arr[0]);
-		if(arr[1]==null){
+		alert(arr[1]);
+		if(arr[1]=='null'){
 		$("#actionFormAuction").attr("action", "AuctionEscrow");
 		$("#actionFormAuction").submit();
 		}
@@ -316,13 +317,14 @@ function showTradeSell(){
 				html += "<td>" + result.list[i].ID + "</td>";							
 				html += "<td>" + result.list[i].TRADE_BOARD + "</td>";						
 				html += "<td>" + result.list[i].TRADE_STATUS + "</td>";
+				html += "<td>" + result.list[i].TRADE_DATE + "</td>";
 				if(result.list[i].ESCROW_WHETHER==1){
 					html += "<td>중매</td>";	
 					}else {
 						
 						html += "<td>중매를 하지 않았습니다</td>";	
 					}
-				html += "<td>" + result.list[i].ESCROW_WHETHER + "</td>";				
+							
 				html += "</tr>";
 			}
 			

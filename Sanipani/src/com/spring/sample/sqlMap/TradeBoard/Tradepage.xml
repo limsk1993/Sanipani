@@ -448,6 +448,19 @@
                                    FROM TRADE
                                   WHERE TRADE_NO= #TradeNo#)
 	</update>
+	
+	
+	<update id="TradeStatusUpdate"
+	parameterClass="java.util.HashMap">
+	UPDATE TRADE SET TRADE_STATUS_NO =10
+        WHERE TRADE_NO = #TradeNo#
+	
+	</update>
+	
+	
+	
+	
+	
     <!--Auction  -->
     <update id="EscrowUpdateAuction"
      parameterClass="java.util.HashMap"

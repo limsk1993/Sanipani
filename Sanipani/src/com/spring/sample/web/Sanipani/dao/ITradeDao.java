@@ -100,6 +100,8 @@ public interface ITradeDao {
 
 	void CompleteUpdateAuction(HashMap<String, String> params) throws Throwable;
 
+	void TradeStatusUpdate(HashMap<String, String> params) throws Throwable;
+
 	
 
 

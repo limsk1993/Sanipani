@@ -32,8 +32,12 @@ img{
 	width : 100px;
 	height: 100px;
 }
-td{
-	text-overflow: ellipsis;
+td{	
+	
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 	height: 100px;
 
 }
@@ -53,6 +57,10 @@ th {
 }
 tr:hover{
 	background-color: #EEEEEE;
+}
+.Board{
+	overflow : hidden;
+	
 }
 </style>
 

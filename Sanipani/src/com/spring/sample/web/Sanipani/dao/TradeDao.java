@@ -487,6 +487,12 @@ public class TradeDao implements ITradeDao {
 		sqlMapClient.update("Tradepage.CompleteUpdateAuction",params);
 	}
 
+	@Override
+	public void TradeStatusUpdate(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		sqlMapClient.update("Tradepage.TradeStatusUpdate",params);
+	}
+
 	
 
 	

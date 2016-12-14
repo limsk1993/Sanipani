@@ -97,6 +97,8 @@ public interface ITradeService {
 
 	void TradeDelUpdate(HashMap<String, String> params) throws Throwable;
 
+	void TradeStatusUpdate(HashMap<String, String> params) throws Throwable;
+
 
 
 
