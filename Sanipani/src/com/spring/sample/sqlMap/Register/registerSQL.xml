@@ -142,7 +142,7 @@
                     <isNotEmpty property="searchText">
                     AND B.WORD_TITLE LIKE '%' || #searchText# || '%' 
                   	</isNotEmpty>   
-                    AND T.TRADE_STATUS_NO = 1 AND B.MEMBERNO = #sNo#              
+                    AND T.TRADE_STATUS_NO = 1  OR T.TRADE_STATUS_NO =2  AND B.MEMBERNO = #sNo#              
       )A 
       
     WHERE NO BETWEEN #start# AND #end#

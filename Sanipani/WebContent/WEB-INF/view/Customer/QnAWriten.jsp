@@ -28,7 +28,9 @@ $(document).ready(function(){
 	$("#QnACanBtn").on("click", function(){
 		history.go(-1)();
 	});
-	
+	$(".bar").on("click", function(){
+		location.href = "CusBoard";
+	});
 	
 });
 function QnAadd(data, result){
@@ -231,7 +233,7 @@ function removePre(data) {
 				주문 / 결제
 				</div>
 				<div class="bar1_4">
-				쿠폰 / 사니파니머니
+				사니파니머니
 				</div>
 				<div class="bar1_5">
 				회원 서비스
@@ -241,9 +243,9 @@ function removePre(data) {
 				
 		<div class="content2"> 		 
 			<div class="bar2">
-				QNA 작성ㅋ
+				<b>고객센터 >> 자주묻는질문</b>
 			</div>
-				<div class="qnabar">
+				<div class="qnabar2">
 				<form action="fileUploadAjax" id="CusActionForm2" method="post" enctype="multipart/form-data">
 					<div class="category"> 
 					
@@ -251,7 +253,7 @@ function removePre(data) {
 						<select class="small" name="Category" id="Category">
 							<option value="1" selected="selected">환불 /거래 취소</option><!-- 처음에 선택되는값  -->
 							<option value="2" >주문/결제</option>
-							<option value="3" >쿠폰/사니파니머니</option>
+							<option value="3" >사니파니머니</option>
 							<option value="4" >회원서비스</option>
 						</select>
 					</div>	
@@ -259,21 +261,24 @@ function removePre(data) {
 					<div class="title">
 						제목
 						<input type="text" name="QnATitle" >
+						<input type="hidden" name="Nick2" value="${sId}"> 
 					</div>
 					<div class="title" >
-						내용
+						
 					</div> 
 					<div class="Writecontent">
 						
-						<textarea cols="70" rows="20" style="resize:none;" name="QnABoardContent">
-						</textarea>	
-						
+						내용<textarea cols="70" rows="15" style="resize:none;" name="QnABoardContent"></textarea>							
 					</div>
-					</form>
+					
 					
 					
 					
 				</div>
+				<div class="replycontent">
+						답글<textarea cols="70" rows="8" style="resize:none;" name="QNAREPLY"></textarea>
+					</div>
+					</form>
 			<div class="Writebar">
 			<input type="button" id="QnAinsBtn" value="작성">
 			<input type="button" id="QnACanBtn" value="취소">

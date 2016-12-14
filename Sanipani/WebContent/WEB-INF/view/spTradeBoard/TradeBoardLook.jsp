@@ -367,14 +367,16 @@ $(document).ready(function(){
 				data : params,
 				success : function(result){
 			
-					$("#actionForm").attr("action", "TradeEscrow");
-					$("#actionForm").submit();
-						
+					alert("이미 거래요청을 하셨습니다 장바구니에서 확인하세요");
+					
+					
 				
 				},
 				error : function(result){
-					alert("이미 거래요청을 하셨습니다 장바구니에서 확인하세요");
-				}
+				
+					$("#actionForm").attr("action", "TradeEscrow");
+					$("#actionForm").submit();
+			}
 			});
 		
 		}

@@ -983,6 +983,7 @@ $(document).ready(function(){
 					<input type="hidden" name="Rank" value="">
 					<input type="hidden" name="TradeStatus" value="${param.TradeNo}_거래완료입금">
 					
+					
 				</form>
 				
 					<table border="1" width="490px">
@@ -1044,7 +1045,7 @@ $(document).ready(function(){
 					</c:otherwise>
 				</c:choose>
 					<c:choose>
-						<c:when test="${con.TRADE_STATUS_NO eq 2 && con.TRADE_STATUS_NO1 eq 2 || con.TRADE_STATUS_NO eq 3}">
+						<c:when test="${con.TRADE_STATUS_NO eq 10 && con.TRADE_STATUS_NO1 eq 2 || con.TRADE_STATUS_NO eq 3}">
 							<div class="tradeStatus1" id="tradeStatus1" style="display: none;">
 						</c:when>
 			
@@ -1060,8 +1061,8 @@ $(document).ready(function(){
 					
 					
 					<c:choose>
-					
-						<c:when test="${con.MEMBERNO ne sNo && con.ESCROW_WHETHER eq 1&&con.TRADE_STATUS_NO eq 2 && con.TRADE_STATUS_NO1 eq 2 || con.TRADE_STATUS_NO eq 3 }">
+						
+						<c:when test="${con.MEMBERNO ne sNo && con.ESCROW_WHETHER eq 1 && con.TRADE_STATUS_NO1 eq 2 && con.TRADE_STATUS_NO eq 10  }">
 							<div class="tradeStatus2" id="tradeStatus2" >
 								<div class="DeliveryShow">배송 조회</div>
 								<div class="DeliveryAtten">배송유의사항</div>
@@ -1070,7 +1071,25 @@ $(document).ready(function(){
 							</div>
 						</c:when>
 						
-						<c:when test="${con.MEMBERNO ne sNo && con.TRADE_STATUS_NO eq 2 && con.TRADE_STATUS_NO1 eq 2 || con.TRADE_STATUS_NO eq 3}">
+						<c:when test="${con.MEMBERNO ne sNo && con.ESCROW_WHETHER eq 1 && con.TRADE_STATUS_NO1 eq 2 && con.TRADE_STATUS_NO eq 3  }">
+							<div class="tradeStatus2" id="tradeStatus2" >
+								<div class="DeliveryShow">배송 조회</div>
+								<div class="DeliveryAtten">배송유의사항</div>
+								<div class="tradeStatusBtn1">거래 현황</div>
+								<div class="tradeComplete">거래 완료</div>					
+							</div>
+						</c:when>
+						
+						<c:when test="${con.MEMBERNO ne sNo && con.ESCROW_WHETHER eq 0 && con.TRADE_STATUS_NO eq 10 && con.TRADE_STATUS_NO1 eq 2 }">
+							<div class="tradeStatus2" id="tradeStatus2" >
+								
+								<div class="DeliveryAtten1">배송유의사항</div>
+								<div class="tradeStatusBtn1">거래 현황</div>
+								<div class="tradeComplete">거래 완료</div>
+							</div>
+						</c:when>
+						
+						<c:when test="${con.MEMBERNO ne sNo && con.ESCROW_WHETHER eq 0 && con.TRADE_STATUS_NO eq 3 && con.TRADE_STATUS_NO1 eq 2 }">
 							<div class="tradeStatus2" id="tradeStatus2" >
 								
 								<div class="DeliveryAtten1">배송유의사항</div>
@@ -1079,7 +1098,7 @@ $(document).ready(function(){
 							</div>
 						</c:when>
 							
-						<c:when test="${con.ESCROW_WHETHER eq 1&&con.TRADE_STATUS_NO eq 2 && con.TRADE_STATUS_NO1 eq 2 || con.TRADE_STATUS_NO eq 3}">
+						<c:when test="${con.MEMBERNO eq sNo && con.ESCROW_WHETHER eq 1&&con.TRADE_STATUS_NO eq 10 && con.TRADE_STATUS_NO1 eq 2 }">
 							<div class="tradeStatus2" id="tradeStatus2" >
 								<div class="DeliveryShow">배송 조회</div>
 								<div class="DeliveryAtten">배송유의사항</div>
@@ -1088,7 +1107,16 @@ $(document).ready(function(){
 							</div>
 						</c:when>
 						
-						<c:when test="${con.TRADE_STATUS_NO eq 2 && con.TRADE_STATUS_NO1 eq 2 || con.TRADE_STATUS_NO eq 3}">
+						<c:when test="${con.MEMBERNO eq sNo && con.ESCROW_WHETHER eq 1&&con.TRADE_STATUS_NO eq 3 && con.TRADE_STATUS_NO1 eq 2 }">
+							<div class="tradeStatus2" id="tradeStatus2" >
+								<div class="DeliveryShow">배송 조회</div>
+								<div class="DeliveryAtten">배송유의사항</div>
+								<div class="tradeStatusBtn1">거래 현황</div>
+							
+							</div>
+						</c:when>
+						
+						<c:when test="${con.MEMBERNO eq sNo && con.ESCROW_WHETHER eq 0&& con.TRADE_STATUS_NO eq 10 && con.TRADE_STATUS_NO1 eq 2 }">
 							<div class="tradeStatus2" id="tradeStatus2" >
 								
 								<div class="DeliveryAtten1">배송유의사항</div>
@@ -1096,7 +1124,14 @@ $(document).ready(function(){
 								
 							</div>
 						</c:when>
-						
+						<c:when test="${con.MEMBERNO eq sNo && con.ESCROW_WHETHER eq 0&& con.TRADE_STATUS_NO eq 3 && con.TRADE_STATUS_NO1 eq 2 }">
+							<div class="tradeStatus2" id="tradeStatus2" >
+								
+								<div class="DeliveryAtten1">배송유의사항</div>
+								<div class="tradeStatusBtn1">거래 현황</div>
+								
+							</div>
+						</c:when>
 						
 					
 						<c:otherwise>

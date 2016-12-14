@@ -146,7 +146,22 @@
 .Writecontent{
 	display : inline-block;
 	width:98%;
-	height : 70%;
+	height : 30%;
 	margin-top : 10px;
 	background-color : #FF00DD;
+}
+.replycontent{
+	display : inline-block;
+	width:98%;
+	height : 15%;
+	margin-top : 10px;
+	background-color : #FF00DD;
+}
+.qnabar2{
+	display : inline-block;
+	width:98%;
+	height: 40%;
+	vertical-align : top;
+	margin-top : 10px;
+	background-color : #FFFFFF;
 }

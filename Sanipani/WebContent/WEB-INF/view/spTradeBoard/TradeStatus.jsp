@@ -69,7 +69,7 @@ $(document).ready(function(){
 							
 							},
 							error : function(result){
-								alert("ERROR");
+								alert("돈을 충전하요 주십쇼");
 							}
 						});
 						

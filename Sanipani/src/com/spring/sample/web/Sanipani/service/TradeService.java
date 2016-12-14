@@ -286,6 +286,12 @@ public class TradeService implements ITradeService{
 		iTradeDao.CompleteUpdateAuction(params);
 	}
 
+	@Override
+	public void TradeStatusUpdate(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		iTradeDao.TradeStatusUpdate(params);
+	}
+
 
 
 

@@ -651,6 +651,7 @@ public class TradeController {
 	      iTradeService.insertBuyerMoney(params);
 	      iTradeService.TradeOtherDel(params);
 	      iTradeService.TradeDelUpdate(params);
+	      iTradeService.TradeStatusUpdate(params);
 	      
 	      HttpHeaders responseHeaders = new HttpHeaders();
 	      responseHeaders.add("Content-Type", "text/json; charset=UTF-8");

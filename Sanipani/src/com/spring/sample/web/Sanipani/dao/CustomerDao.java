@@ -180,4 +180,82 @@ public class CustomerDao implements ICustomerDao {
 		return (int) sqlMapClient.update("Customer.getCusdelete",params);
 	}
 
+
+	@Override
+	public int getCusreply(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return (int) sqlMapClient.update("Customer.getCusreply", params);
+	}
+
+
+	@Override
+	public int getRefundlist(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return (int) sqlMapClient.queryForObject("Customer.getRefundlist",params);
+	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<HashMap<String, String>> getRefund(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return (ArrayList<HashMap<String, String>>) sqlMapClient.queryForList("Customer.getRefund",params);
+	}
+
+
+	@Override
+	public int getCalllist(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return (int) sqlMapClient.queryForObject("Customer.getCalllist",params);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<HashMap<String, String>> getCall(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return (ArrayList<HashMap<String, String>>) sqlMapClient.queryForList("Customer.getCall",params);
+	}
+
+
+	@Override
+	public int getCouponlist(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return (int) sqlMapClient.queryForObject("Customer.getCouponlist",params);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<HashMap<String, String>> getCoupon(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return (ArrayList<HashMap<String, String>>) sqlMapClient.queryForList("Customer.getCoupon",params);
+	}
+
+
+	@Override
+	public int getServicelist(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return (int) sqlMapClient.queryForObject("Customer.getServicelist",params);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<HashMap<String, String>> getService(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return (ArrayList<HashMap<String, String>>) sqlMapClient.queryForList("Customer.getService",params);
+	}
+
+
+	@Override
+	public int getQnAlookup(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return (int) sqlMapClient.update("Customer.getQnAlookup", params);
+	}
+
+
+	@Override
+	public int getCuslookup(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return (int) sqlMapClient.update("Customer.getCuslookup", params);
+	}
+
 }

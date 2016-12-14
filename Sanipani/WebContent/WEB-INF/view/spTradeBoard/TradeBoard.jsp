@@ -57,6 +57,10 @@ th {
 tr:hover{
 	background-color: #EEEEEE;
 }
+.Board{
+	overflow : hidden;
+	
+}
 </style>
 
 </head>

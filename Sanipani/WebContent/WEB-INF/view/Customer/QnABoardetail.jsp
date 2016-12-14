@@ -212,7 +212,7 @@ $(document).ready(function(){
 				주문 / 결제
 				</div>
 				<div class="bar1_4">
-				쿠폰 / 사니파니머니
+				사니파니머니
 				</div>
 				<div class="bar1_5">
 				회원 서비스
@@ -222,7 +222,7 @@ $(document).ready(function(){
 				
 		<div class="content2"> 		 
 			<div class="bar2">
-				자주 묻는 질문
+				<b>고객센터 >> 자주 묻는 질문 </b>
 			</div>
 				<div class="bar2_1">
 					<form action="#" id="actionForm2" method="post">
@@ -231,16 +231,19 @@ $(document).ready(function(){
 					<input type="text" name="testNo2" value="${param.testNo2}"/>
 					</form>
 				
-					<table border="1">
+					<table>
 						<thead>
 							<tr>
 								<th>번호</th>
 								<td>${con.QNA_WORDNUMBER}</td> 
 							</tr>
 							<tr>
-								<th>내용</th>
-								<td>${con.QNA_WRITER}</td>
+								<th>제목</th>
+								<td>${con.QNA_TITLE}</td>
 							</tr>
+							<tr>
+								<th>작성자</th>
+								<td>${con.QNA_WRITER}</td>	
 							<tr>
 								<th>작성일</th>
 								<td>${con.QNA_WRITEDATE}</td>
@@ -256,8 +259,13 @@ $(document).ready(function(){
 						</thead>	
 					</table>
 					<div>
-					<input type="button" value="글삭제" id="QnAdeleteBtn"/>
-					<input type="button" value="글수정" id="QnAmodifyBtn"/>
+						<c:choose>
+							<c:when test="${sGrade eq 0}">				
+								<input type="button" value="글삭제" id="QnAdeleteBtn"/>
+								<input type="button" value="글수정" id="QnAmodifyBtn"/>
+						
+							</c:when>	
+						</c:choose>	
 					</div>
 				</div>
 		</div>
