@@ -12,6 +12,31 @@
 <link rel="stylesheet" type="text/css" href="resources/css/spmain/Mainpage.css"/>
 <link rel="stylesheet" type="text/css" href="resources/css/freeBoard/FreeBoard.css"/>
 <link rel="stylesheet" type="text/css" href="resources/css/nice-select/nice-select.css"/>
+<style type="text/css">
+table img{
+	width : 100px;
+	height: 100px;
+}
+td{
+	text-overflow: ellipsis;
+	height: 50px;
+}
+table{
+	text-overflow: ellipsis;
+	width:900px;
+	border-bottom: 1px;
+}
+select{
+	margin-left: 820px;
+}
+
+th {
+	background-color: #6DD66D;
+}
+tr:hover{
+	background-color: #EEEEEE;
+}
+</style>
 <script type="text/javascript">
 $(document).ready(function(){
 	$("#searchSelect").niceSelect();
@@ -28,7 +53,6 @@ $(document).ready(function(){
 		$("#actionForm").attr("action", "FreeBoardAdd");  
 		$("#actionForm").submit();
 		}
-	
 	});
 	
 	$("#pagingArea").on("click", "span", function(){
@@ -41,7 +65,6 @@ $(document).ready(function(){
 		$("#actionForm").submit();
 		FreeBoardLookUp();
 /* 		FreeBoardLookUp(); */
-			
 	});
 	$("#SearchBoard").on("click", function(){
 		$("input[name='SearchContent']").val($("#SearchContent").val()); //searchText의 value에 serchTextval의 값을 넣는다.
@@ -90,11 +113,11 @@ $(document).ready(function(){
 				
 				for(var i = 0 ; i < result.list.length ; i++){
 					html += "<tr name='" + result.list[i].FREE_NUM + "'>";
-					html += "<td>" + result.list[i].FREE_NUM + "</td>";
+					html += "<td height='35' align='center'>" + result.list[i].FREE_NUM + "</td>";
 					html += "<td>" + result.list[i].FREE_TITLE + "</td>";
-					html += "<td>" + result.list[i].MEM_NO + "</td>";
-					html += "<td>" + result.list[i].FREE_DATE + "</td>";
-					html += "<td>" + result.list[i].FREE_LOOKUP + "</td>";
+					html += "<td align='center'>" + result.list[i].MEM_NO + "</td>";
+					html += "<td align='center'>" + result.list[i].FREE_DATE + "</td>";
+					html += "<td align='center'>" + result.list[i].FREE_LOOKUP + "</td>";
 					
 					/* html += "<td>" + result.list[i].FREE_PICTURE + "</td>"; */
 					html += "</tr>";
@@ -103,7 +126,7 @@ $(document).ready(function(){
 				$("#tb").html(html);
 				
 				html = "";
-				html += "<span name='1'>처음</span>";
+				html += "<span name='1'>처음&nbsp</span>";
 				
 		/* 		if($("input[name='page']").val() == 1){
 					html += "<span name='1'>이전</span>";
@@ -111,23 +134,23 @@ $(document).ready(function(){
 					html += "<span name='" + ($("input[name='page']").val - 1) + "'>이전</span>";
 				} */
 				if($("input[name='page']").val() == 1) {
-		            html += "<span name='1'>이전</span>";
+		            html += "<span name='1'>이전&nbsp</span>";
 		         } else {
-		            html += "<span name = '" + ($("input[name='page']").val() - 1) + "'>이전</span>";
+		            html += "<span name = '" + ($("input[name='page']").val() - 1) + "'>이전&nbsp</span>";
 		         }
 				
 				for(var i = result.pb.startPcount ; i <= result.pb.endPcount ; i++){
 					if(i == $("input[name='page']").val()){
-						html += "<span name='" + i + "'><b>" + i + "</b></span>";
+						html += "<span name='" + i + "'><b>" + i + "&nbsp</b></span>";
 					} else{
-						html += "<span name='" + i + "'>" + i + "</b></span>";
+						html += "<span name='" + i + "'>" + i + "&nbsp</b></span>";
 					}
 				}
 				
 				if($("input[name='page']").val() == result.pb.maxPcount){
-					html += "<span name='" + result.pb.maxPcount + "'>다음</span>";
+					html += "<span name='" + result.pb.maxPcount + "'>다음&nbsp</span>";
 				} else{
-					html += "<span name='" + ($("input[name='page']").val() * 1 + 1) + "'>다음</span>";
+					html += "<span name='" + ($("input[name='page']").val() * 1 + 1) + "'>다음&nbsp</span>";
 				}
 				
 				
@@ -147,7 +170,7 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-<form action="#" id="actionForm" method="post">
+<form action="#" id="actionForm" method="get">
 	<c:choose>
 		<c:when test="${empty param.page}"> <!-- empty 는 비어있으면. -->
 			<input type="hidden" name="page" value="1" />
@@ -173,7 +196,6 @@ $(document).ready(function(){
 			
 			
 			<!--로그인 접속전  -->
-		
 		<c:choose>
 			<c:when test="${sNo ne null}">
 				<div class="loginAccess" id="loginAccess" style="display: none;">
@@ -186,25 +208,25 @@ $(document).ready(function(){
 			
 				<div class="login1">
 					<div class="id">
-						id:<input type="text" name="Id" id="Id" maxlength="15">
+						<b>ID:</b><input type="text" name="Id" id="Id" maxlength="15" border="1">
 					</div>
 				</div>
 			
 				<div class="login2">
 					<div class="pw">
-						pw:<input type="password" name="Pw" id="Pw"  maxlength="15">
+						<b>PW:</b><input type="password" name="Pw" id="Pw"  maxlength="15" border="1">
 					</div>	
 				</div>
 			</form>	
 				<div class="login3">
 					<div class="loginBtn">
-					로그인
+						<img alt="LoginBtn" src="resources/images/MainPageImage/Login.bmp">
 					</div>
 				</div>
 				
 				<div class="login4">
 					<div class="memberLogiBtn">
-					회원가입
+						<img alt="RegisterBtn" src="resources/images/MainPageImage/RegisterImg.bmp">
 					</div>
 				</div>
 			
@@ -225,25 +247,25 @@ $(document).ready(function(){
 		</c:choose>	
 				<div class="login1_1">
 					<div class="memberInfo">
-						<span id="memNick">${sNick}</span>님 환영합니다
+						<b><span id="memNick">${sNick}</span>님 환영합니다</b>
 					</div>
 				</div>
 				
 				<div class="login2_1">
 					<div class="logout">
-						logout
+						<img alt="LogoutBtn" src="resources/images/MainPageImage/Logout.bmp">
 					</div>		
 				</div>
 				
 				<div class="login3_1">
 					<div class="mypage">
-						mypage
+						<img alt="MypageBtn" src="resources/images/MainPageImage/Mypage.bmp">
 					</div>
 				</div>
 				
 				<div class="login4_1">
 					<div class="basket">
-						basket
+						<img alt="BasketBtn" src="resources/images/MainPageImage/Basket.bmp">
 					</div>
 				</div>
 				
@@ -257,60 +279,34 @@ $(document).ready(function(){
 		
 		<div class="menubar">
 			<div class="logo">
-				logo
+				<img alt="logo" src="resources/images/MainPageImage/SaniPaniLogo.png" width="226.44px" height="150px" border="2">
 			</div>
 			
-			<div class="menuall">
-				<div class="auctionBoard" id="auctionBoard">
-					auction
-				</div>
-				<div class="auctionBoard_1" id="auctionBoard_1" style="display:none;">
-					auction1
-					<div class="home">가정제품</div>
-					<div class="elec">전자기기</div>
-					<div class="cloth">의류,신발</div>
-					<div class="watch">시계</div>
-					<div class="cosmetic">화장품</div>
-					<div class="travel">여행용품</div>
-					<div class="furni">가구</div>
-					<div class="book">도서</div>
-					<div class="etc">기타</div>
+			<div class="menuall" height="150px">
+			<div height="30px"></div>
+			<br/>
+				<div class="auctionBoard" id="auctionBoard" height="120px">
+					<img alt="AuctionImg" src="resources/images/MainPageImage/AuctionImg.bmp">
 				</div>
 				<div class="tradeBoard" id="tradeBoard">
-					trade
-				</div>
-				<div class="tradeBoard_1" id="tradeBoard_1" style="display:none;">
-					trade1
-					<div class="home_1">가정제품</div>
-					<div class="elec_1">전자기기</div>
-					<div class="cloth_1">의류,신발</div>
-					<div class="watch_1">시계</div>
-					<div class="cosmetic_1">화장품</div>
-					<div class="travel_1">여행용품</div>
-					<div class="furni_1">가구</div>
-					<div class="book_1">도서</div>
-					<div class="etc_1">기타</div>
+					<img alt="TradeImg" src="resources/images/MainPageImage/TradeImg.bmp">
 				</div>
 				<div class="reportBoard">
-					report
+					<img alt="ReportImg" src="resources/images/MainPageImage/ReportImg.bmp">
 				</div>
-				
 				<div class="customerBoard">
-					customer
+					<img alt="CustomerImg" src="resources/images/MainPageImage/CustomerImg.bmp">
 				</div>
-				
 				<div class="freeBoard">
-					free
+					<img alt="FreeImg" src="resources/images/MainPageImage/FreeImg.bmp">
 				</div>
 			</div>
 		</div>
-		
+		<br/>
 		<div class="content">
 		<input type="hidden" name="idCheck" value="${sNo}">
 			<div class="freetitle">
-				<div class="freetitle_1">
-				자유게시판
-				</div>
+					<h2>자유게시판</h2>
 				<div class="freetitle_2">
 					 <form action="#" name="list2" method="post">
 						 <select class="small" name="search2" id="searchSelect2">
@@ -321,14 +317,14 @@ $(document).ready(function(){
 				</div>
 			</div>
 			<div class="freecontent">
-			<table border="1">
+			<table>  <!-- border="1" -->
 				<thead>
 					<tr>
-						<th>글번호</th>
-						<th  width="300" height="50">제목</th>
-						<th>작성자</th>
-						<th>등록날짜</th>
-						<th>조회수</th>
+						<th width='80' height='70' align='center'>글번호</th>
+						<th width="540" height="40">제목</th>
+						<th width='120' height='40' align='center'>작성자</th>
+						<th width='220' height='40'>등록날짜</th>
+						<th width='80' height='40' align='center'>조회수</th>
 						
 					<!-- 	<th>첨부자료</th> -->
 					</tr>
@@ -341,9 +337,9 @@ $(document).ready(function(){
 				<div class="freenumber_1">
 					<div id="pagingArea"></div>
 				</div>
-				<div class="freenumber_2">
+				<!-- <div class="freenumber_2">
 					<input type="button" value="글쓰기" id="FreeBoardAdd"/>
-				</div>
+				</div> -->
 			</div>
 			<div class="freesearch">
 				<div class="freesearch_1">
@@ -353,15 +349,16 @@ $(document).ready(function(){
 							<option value="content">내용</option>
 							<option value="id">작성자</option>
 						</select>
-						
 					</form>
 				</div>
 				<div class="freesearch_2">
-					<input type="text" id="SearchContent" value="${param.SearchContent}">
-				</div>
-				<div class="freesearch_3">
+					<input type="text" style="width: 300px; height:20px; font-size:20px"  id="SearchContent" value="${param.SearchContent}">
 					<input type="button" value="검색" id="SearchBoard">
+					<input type="button" value="글쓰기" id="FreeBoardAdd"/>
 				</div>
+<!-- 				<div class="freesearch_3">
+					<input type="button" value="검색" id="SearchBoard">
+				</div> -->
 			</div>
 		</div>
 	

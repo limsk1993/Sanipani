@@ -7,7 +7,7 @@
 		<select id="getFreeBoard"
 		parameterClass="java.util.HashMap"
 		resultClass="java.util.HashMap">
-		SELECT A.RNUM, A.FREE_NUM, A.FREE_TITLE,  A.FREE_DATE, A.FREE_LOOKUP, A.FREE_PICTURE, A.MEM_NO
+		SELECT A.RNUM, A.FREE_NUM, A.FREE_TITLE,  A.FREE_DATE, A.FREE_LOOKUP, A.MEM_NO
 		FROM (SELECT
 		<isEmpty property="search2">
 			ROW_NUMBER() OVER(ORDER BY FREE_DATE DESC) AS RNUM,
@@ -18,7 +18,7 @@
 		<isEqual property="search2" compareValue="old">
 			ROW_NUMBER() OVER(ORDER BY FREE_DATE ASC) AS RNUM,
 		</isEqual>
-		FREE_NUM, FREE_TITLE,TO_CHAR(FREE_DATE,'YYYY/MM/DD'||'  '||'HH24:MI:SS') AS FREE_DATE , FREE_LOOKUP, FREE_PICTURE, MEM_NO
+		FREE_NUM, FREE_TITLE,TO_CHAR(FREE_DATE,'YYYY/MM/DD'||'  '||'HH24:MI:SS') AS FREE_DATE , FREE_LOOKUP, MEM_NO
 		FROM FREEBOARD
 	    WHERE 1 = 1
 		AND DELETE_NUM = 0

@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="resources/script/jquery/jquery-1.11.0.js"></script>
 <script type="text/javascript" src="resources/script/spmain/Mainpage.js"></script>
-
+<script type="text/javascript" src="resources/script/jquery/jquery.form.js"></script>
 <link rel="stylesheet" type="text/css" href="resources/css/spmain/Mainpage.css"/>
 
 <style type="text/css">
@@ -18,34 +18,33 @@
 	padding : 20px;
 	width: 850px;
 	height: 90%;
-	background-color: #F1232F;
+	background-color: #FFFFFF;
 	
 
 }
 .tradeCategory{
 	display : inline-block;
-	width: 200px;
+	width: 220px;
 	height: 90%;
-	background-color: #123FAC;
+	background-color: #B2FFD1;
 }
 </style>
 
 <style type="text/css">
 .tradePictureIf{
-
 	width : 100%;
 	height : 390px;
-	background-color: #F123FF;
+	background-color: #B2FFD1;
 }
 .tradeContent1{
 	width : 100%;
 	height : 500px;
-	background-color: #000131;
+	background-color: #FFFFFF;
 }
 .tradeReple{
 	width : 100%;
 	height : 500px;
-	background-color: #F1240F;
+	background-color: #FFFFFF;
 
 }
 .tradePicture{
@@ -53,14 +52,14 @@
 	display : inline-block;
 	width : 40%;
 	height : 390px;
-	background-color: #FFFFFF;
+	background-color: #B2FFD1;
 }
 .tradePictureMain{
 	
 	margin-left : 20px;
 	width : 300px;
 	height : 300px;
-	background-color: #444444;
+	background-color: #B2FFD1;
 	
 }
 .tradePictureMain img{
@@ -127,7 +126,7 @@
 	display : inline-block;
 	width : 56%;
 	height : 390px;
-	background-color: #F123FF;
+	background-color: #B2FFD1;
 }
 	
 .tradeContentTop{
@@ -146,7 +145,7 @@
 	display : block;
 	width : 90%;
 	height : 50px;
-	background-color: #F000FF;
+	background-color: #FFFFFF;
 }
 .tradeStatusBtn{	
 	margin-top : 10px;
@@ -154,7 +153,7 @@
 	display : inline-block;
 	width : 80px;
 	height : 30px;
-	background-color: #FFFFFF;
+	background-color: #B2FFD1;
 }
 
 .tradeCencelBtn{
@@ -163,7 +162,7 @@
 	display : inline-block;
 	width : 80px;
 	height : 30px;
-	background-color:#FFFFFF;
+	background-color:#B2FFD1;
 }
 .tradeRequest{
 	margin-top: 20px;
@@ -187,6 +186,16 @@
 	vertical-align: top;
 	margin-top : 10px;
 	margin-left: 20px;
+	display : inline-block;
+	width : 100px;
+	height : 30px;
+	background-color:#FFFFFF;
+}
+
+.DeliveryAtten1{
+	vertical-align: top;
+	margin-top : 10px;
+	margin-left: 230px;
 	display : inline-block;
 	width : 100px;
 	height : 30px;
@@ -341,9 +350,156 @@
 }
 </style>
 	
+
+
+<style type="text/css">
+.popupReport{
+    display: inline-block;
+    width: 600px;
+    height: 750px;
+    background-color:#BBBBBB;
+    position: absolute;
+    z-index: 200;
+    top: calc(45% - 50px);
+    left: calc(40% - 100px);
+    border: 2px solid #000000;
+}
+.popupMain{
+	display : inline-block;
+    width: 100%;
+    height: 1300px;
+    position: absolute;
+    z-index: 100;
+    background-color:#FFFFFF;
+    opacity: 0.4;  
+      
+}
+.reportHead{
+	  width: 100%;
+    height: 50px;
+    background-color:#F12C23;
+
+}
+
+.reportContent{
+	
+	width: 100%;
+    height: 460px;
+    background-color:#012C03;
+	
+
+}
+
+.reportContent textarea{
+	margin-left: 26px;
+}
+
+.reportSome{
+	width: 100%;
+    height: 180px;
+    background-color:#012123;
+}
+
+.reportBtn1{
+	display : inline-block;
+	margin-left : 30px;
+	width: 70px;
+    height: 40px;
+    background-color:#012FF3;
+
+}
+
+.reportCencelBtn{
+	vertical-align :top ;
+	display : inline-block;
+	margin-left : 400px;
+	width: 70px;
+    height: 40px;
+    background-color:#012FF3;
+
+}
+
+	
+</style>
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+
+	$(".reportBtn").on("click", function(){
+		if($("input[name='reportUser']").val()>0){
+		$(".popupMain").css("display","block");
+		$(".popupReport").css("display","block");
+	}else{
+		alert("로그인이 필요합니다");
+	}
+	});
+	
+	$(".reportCencelBtn").on("click", function(){
+		$(".popupMain").css("display","none");
+		$(".popupReport").css("display","none");
+	});
+	
+	$(".reportBtn1").on("click", function(){
+		var reportForm = $("#reportForm");
+		alert("qwd");
+		reportForm.ajaxForm(uploadResultCallBack); // insertForm을 ajaxForm형태로 바꾸겠다. uploadResultCallBack은 ajax를 호출하고나서 이 함수를 호출하겠다.
+		reportForm.submit();		
+
+	});
+});
+
+function uploadResultCallBack(data, result){ //data:json(아까param가지고 조랄한거.) result : success와 faile ajax결과
+	if(result =="success"){
+		var resData = eval("(" + removePre(data) + ")");  // eval는 자바스크립트의 bean으로 바꿔주는것.
+		
+		$("#textFile").val(resData.fileName[0]); // 이거아까20자리 맥인거 그거가져오는듯
+		$("#textFile1").val(resData.fileName[1]);
+		$("#textFile2").val(resData.fileName[2]);
+		$("#textFile3").val(resData.fileName[3]);
+		$("#textFile4").val(resData.fileName[4]);
+		var params = $("#reportForm").serialize();
+		
+		$.ajax({
+			type : "post",
+			url : "insertTradeReport", // TestController에서 마들기
+			dataType : "json",
+			data : params,
+			success : function(result){
+				if(result.res == "true"){
+					$("#actionForm").attr("action", "TradeRequest");
+					$("#actionForm").submit();
+				} else{
+					alert("저장 중 문제가 발생했습니다.");
+				}
+			},
+			error : function(result){
+				alert("ERROR!!");
+			}
+		});
+	} else{
+		alert("저장실패");
+	}
+	
+}
+
+
+function removePre(data){
+	if(data.indexOf("<pre>") > -1){ // data의 indexOf(위치찾기) -1은없는경우고  -1보다 크다는건 있다는얘기
+		var st = data.indexOf(">");  //  범위 지정하구있음  pre빼고 짜르겠다는 얘기.
+		var ed = data.indexOf("<", st); // 
+		
+		return data.substring(st + 1, ed); // 값을 되돌려줌 짜른 값 pre를 되도렬줌 <>짜르고.
+	} else {
+		return data;
+	}
+}
+</script>
 <script type="text/javascript">
 
 $(document).ready(function(){	
+	
+
 	$(".tradePicture1").on("click",function(){
 		var img = $(".tradePictureMain").children("img").prop("src");
 		var img1 = $(".tradePicture1").children("img").prop("src");
@@ -414,6 +570,12 @@ $(document).ready(function(){
 		
 	});
 	
+	$(".DeliveryAtten1").on("click",function(){
+		$("#actionForm").attr("action", "DeliIntroPage");
+		$("#actionForm").submit();
+		
+	});
+	
 	$(".DeliveryShow").on("click",function(){
 		$("#actionForm").attr("action", "DeliShowPage");
 		$("#actionForm").submit();
@@ -421,6 +583,7 @@ $(document).ready(function(){
 	});
 	
 	$(".tradeComplete").on("click",function(){
+		if(${con.TRADE_STATUS_NO} != 4){
 		if(confirm("거래를 완료하시겠습니까???????")){
 			var params = $("#actionForm").serialize();
 			
@@ -441,6 +604,10 @@ $(document).ready(function(){
 					
 				}
 			});
+		}
+		}
+		else{
+			alert("이미 완료하였습니다");
 		}
 	});
 	
@@ -621,7 +788,6 @@ $(document).ready(function(){
 			
 			
 			<!--로그인 접속전  -->
-		
 		<c:choose>
 			<c:when test="${sNo ne null}">
 				<div class="loginAccess" id="loginAccess" style="display: none;">
@@ -634,25 +800,25 @@ $(document).ready(function(){
 			
 				<div class="login1">
 					<div class="id">
-						id:<input type="text" name="Id" id="Id" maxlength="15">
+						<b>ID:</b><input type="text" name="Id" id="Id" maxlength="15" border="1">
 					</div>
 				</div>
 			
 				<div class="login2">
 					<div class="pw">
-						pw:<input type="password" name="Pw" id="Pw"  maxlength="15">
+						<b>PW:</b><input type="password" name="Pw" id="Pw"  maxlength="15" border="1">
 					</div>	
 				</div>
 			</form>	
 				<div class="login3">
 					<div class="loginBtn">
-					로그인
+						<img alt="LoginBtn" src="resources/images/MainPageImage/Login.bmp">
 					</div>
 				</div>
 				
 				<div class="login4">
 					<div class="memberLogiBtn">
-					회원가입
+						<img alt="RegisterBtn" src="resources/images/MainPageImage/RegisterImg.bmp">
 					</div>
 				</div>
 			
@@ -673,25 +839,25 @@ $(document).ready(function(){
 		</c:choose>	
 				<div class="login1_1">
 					<div class="memberInfo">
-						<span id="memNick">${sNick}</span>님 환영합니다
+						<b><span id="memNick">${sNick}</span>님 환영합니다</b>
 					</div>
 				</div>
 				
 				<div class="login2_1">
 					<div class="logout">
-						logout
+						<img alt="LogoutBtn" src="resources/images/MainPageImage/Logout.bmp">
 					</div>		
 				</div>
 				
 				<div class="login3_1">
 					<div class="mypage">
-						mypage
+						<img alt="MypageBtn" src="resources/images/MainPageImage/Mypage.bmp">
 					</div>
 				</div>
 				
 				<div class="login4_1">
 					<div class="basket">
-						basket
+						<img alt="BasketBtn" src="resources/images/MainPageImage/Basket.bmp">
 					</div>
 				</div>
 				
@@ -705,76 +871,101 @@ $(document).ready(function(){
 		
 		<div class="menubar">
 			<div class="logo">
-				logo
+				<img alt="logo" src="resources/images/MainPageImage/SaniPaniLogo.png" width="226.44px" height="150px" border="2">
 			</div>
 			
-			<div class="menuall">
-				<div class="auctionBoard" id="auctionBoard">
-					auction
-				</div>
-				<div class="auctionBoard_1" id="auctionBoard_1" style="display:none;">
-					auction1
-					<div class="home">가정제품</div>
-					<div class="elec">전자기기</div>
-					<div class="cloth">의류,신발</div>
-					<div class="watch">시계</div>
-					<div class="cosmetic">화장품</div>
-					<div class="travel">여행용품</div>
-					<div class="furni">가구</div>
-					<div class="book">도서</div>
-					<div class="etc">기타</div>
+			<div class="menuall" height="150px">
+			<div height="30px"></div>
+			<br/>
+				<div class="auctionBoard" id="auctionBoard" height="120px">
+					<img alt="AuctionImg" src="resources/images/MainPageImage/AuctionImg.bmp">
 				</div>
 				<div class="tradeBoard" id="tradeBoard">
-					trade
-				</div>
-				<div class="tradeBoard_1" id="tradeBoard_1" style="display:none;">
-					trade1
-					<div class="home_1">가정제품</div>
-					<div class="elec_1">전자기기</div>
-					<div class="cloth_1">의류,신발</div>
-					<div class="watch_1">시계</div>
-					<div class="cosmetic_1">화장품</div>
-					<div class="travel_1">여행용품</div>
-					<div class="furni_1">가구</div>
-					<div class="book_1">도서</div>
-					<div class="etc_1">기타</div>
+					<img alt="TradeImg" src="resources/images/MainPageImage/TradeImg.bmp">
 				</div>
 				<div class="reportBoard">
-					report
+					<img alt="ReportImg" src="resources/images/MainPageImage/ReportImg.bmp">
 				</div>
-				
 				<div class="customerBoard">
-					customer
+					<img alt="CustomerImg" src="resources/images/MainPageImage/CustomerImg.bmp">
 				</div>
-				
 				<div class="freeBoard">
-					free
+					<img alt="FreeImg" src="resources/images/MainPageImage/FreeImg.bmp">
 				</div>
 			</div>
 		</div>
-		
+		<br/>
 		<div class="content">
 		
 		<div class="tradeCategory">
-			<div class="home">가정제품</div>
-			<div class="elec">전자기기</div>
-			<div class="cloth">의류,신발</div>
-			<div class="watch">시계</div>
-			<div class="cosmetic">화장품</div>
-			<div class="travel">여행용품</div>
-			<div class="furni">가구</div>
-			<div class="book">도서</div>
-			<div class="etc">기타</div>
+			<div class="AuctionBoardCategory"><img alt="TabImg" src="resources/images/AuctionPageImage/TradeTab.bmp"></div>
+			<div class="home_1"><img alt="HomeImg" src="resources/images/AuctionPageImage/AuctionHome.bmp"></div>
+			<div class="elec_1"><img alt="elecImg" src="resources/images/AuctionPageImage/AuctionElec.bmp"></div>
+			<div class="cloth_1"><img alt="clothImg" src="resources/images/AuctionPageImage/AuctionCloth.bmp"></div>
+			<div class="watch_1"><img alt="watchImg" src="resources/images/AuctionPageImage/AuctionWatch.bmp"></div>
+			<div class="cosmetic_1"><img alt="cosmeticImg" src="resources/images/AuctionPageImage/AuctionCosmetic.bmp"></div>
+			<div class="travel_1"><img alt="travelImg" src="resources/images/AuctionPageImage/AuctionTravel.bmp"></div>
+			<div class="furni_1"><img alt="furniImg" src="resources/images/AuctionPageImage/AuctionFurni.bmp"></div>
+			<div class="book_1"><img alt="bookImg" src="resources/images/AuctionPageImage/AuctionBook.bmp"></div>
+			<div class="etc_1"><img alt="etcImg" src="resources/images/AuctionPageImage/AuctionEtc.bmp"></div>
 		</div>
 		
 		<div class="tradeTable">
 			<div class="tradePictureIf">
 				<div class="tradePicture">
-					<div class="tradePictureMain">	<img alt="${con.TEST_FILE}" src="resources/upload/${con.PICTURENAME}"/></div>
-					<div class="tradePicture1"> <img alt="${con.TEST_FILE}" src="resources/upload/${con.PICTURENAME1}"/></div>
-					<div class="tradePicture2"> <img alt="${con.TEST_FILE}" src="resources/upload/${con.PICTURENAME2}"/></div>
-					<div class="tradePicture3"> <img alt="${con.TEST_FILE}" src="resources/upload/${con.PICTURENAME3}"/></div>
-					<div class="tradePicture4"> <img alt="${con.TEST_FILE}" src="resources/upload/${con.PICTURENAME4}"/></div>
+						<div class="tradePictureMain">
+						<c:choose>
+							<c:when test="${con.PICTURENAME eq null}">
+								<img alt="${con.TEST_FILE}" src="resources/images/TradeStatus1/no_image.png"/>
+							</c:when>
+							<c:otherwise>
+								<img alt="${con.TEST_FILE}" src="resources/upload/${con.PICTURENAME}"/>
+							</c:otherwise>
+						</c:choose>
+					</div>
+					
+					<div class="tradePicture1">
+						 <c:choose>
+							<c:when test="${con.PICTURENAME1 eq null}">
+								<img alt="${con.TEST_FILE}" src="resources/images/TradeStatus1/no_image.png"/>
+							</c:when>
+							<c:otherwise>
+								<img alt="${con.TEST_FILE}" src="resources/upload/${con.PICTURENAME1}"/>
+							</c:otherwise>
+						</c:choose>
+					</div>
+					
+					<div class="tradePicture2"> 
+						<c:choose>
+							<c:when test="${con.PICTURENAME2 eq null}">
+								<img alt="${con.TEST_FILE}" src="resources/images/TradeStatus1/no_image.png"/>
+							</c:when>
+							<c:otherwise>
+								<img alt="${con.TEST_FILE}" src="resources/upload/${con.PICTURENAME2}"/>
+							</c:otherwise>
+						</c:choose>
+					</div>
+					<div class="tradePicture3"> 
+						<c:choose>
+							<c:when test="${con.PICTURENAME3 eq null}">
+								<img alt="${con.TEST_FILE}" src="resources/images/TradeStatus1/no_image.png"/>
+							</c:when>
+							<c:otherwise>
+								<img alt="${con.TEST_FILE}" src="resources/upload/${con.PICTURENAME3}"/>
+							</c:otherwise>
+						</c:choose>
+					</div>
+					
+					<div class="tradePicture4"> 
+						<c:choose>
+							<c:when test="${con.PICTURENAME4 eq null}">
+								<img alt="${con.TEST_FILE}" src="resources/images/TradeStatus1/no_image.png"/>
+							</c:when>
+							<c:otherwise>
+								<img alt="${con.TEST_FILE}" src="resources/upload/${con.PICTURENAME4}"/>
+							</c:otherwise>
+						</c:choose>
+					</div>
 				</div>	
 			
 				<div class="tradeIf">
@@ -790,6 +981,8 @@ $(document).ready(function(){
 					<input type="hidden" name="Star" value="">
 					<input type="hidden" name="SellNo" value="">
 					<input type="hidden" name="Rank" value="">
+					<input type="hidden" name="TradeStatus" value="${param.TradeNo}_거래완료입금">
+					
 					
 				</form>
 				
@@ -821,6 +1014,19 @@ $(document).ready(function(){
 							<td>${con.WRITER_DATE}</td>
 				
 						</tr>
+						<tr>
+							<td>중매여부</td>
+							<td>
+							<c:choose>
+							<c:when test="${con.ESCROW_WHETHER eq 1}">
+							중매
+							</c:when>
+							<c:otherwise>
+							중매를 하지 않았습니다
+							</c:otherwise>
+							</c:choose>
+							</td>
+						</tr>	
 					</table>
 				</div>
 				
@@ -828,7 +1034,7 @@ $(document).ready(function(){
 			<div class="tradeContent1">
 				<div class="tradeContentTop">
 				
-						${con.WORD_CONTENTS}
+				<pre>	${con.WORD_CONTENTS}</pre>	
 				</div>
 				<c:choose>
 					<c:when test="${con.TRADE_STATUS_NO eq 4 }">
@@ -839,7 +1045,7 @@ $(document).ready(function(){
 					</c:otherwise>
 				</c:choose>
 					<c:choose>
-						<c:when test="${con.TRADE_STATUS_NO eq 2 && con.TRADE_STATUS_NO1 eq 2 || con.TRADE_STATUS_NO eq 3}">
+						<c:when test="${con.TRADE_STATUS_NO eq 10 && con.TRADE_STATUS_NO1 eq 2 || con.TRADE_STATUS_NO eq 3}">
 							<div class="tradeStatus1" id="tradeStatus1" style="display: none;">
 						</c:when>
 			
@@ -855,19 +1061,84 @@ $(document).ready(function(){
 					
 					
 					<c:choose>
-						<c:when test="${con.TRADE_STATUS_NO eq 2 && con.TRADE_STATUS_NO1 eq 2 || con.TRADE_STATUS_NO eq 3}">
+						
+						<c:when test="${con.MEMBERNO ne sNo && con.ESCROW_WHETHER eq 1 && con.TRADE_STATUS_NO1 eq 2 && con.TRADE_STATUS_NO eq 10  }">
 							<div class="tradeStatus2" id="tradeStatus2" >
-						</c:when>
-					
-						<c:otherwise>
-							<div class="tradeStatus2" id="tradeStatus2" style="display: none;">
-						</c:otherwise>
-					</c:choose>
 								<div class="DeliveryShow">배송 조회</div>
 								<div class="DeliveryAtten">배송유의사항</div>
 								<div class="tradeStatusBtn1">거래 현황</div>
+								<div class="tradeComplete">거래 완료</div>					
+							</div>
+						</c:when>
+						
+						<c:when test="${con.MEMBERNO ne sNo && con.ESCROW_WHETHER eq 1 && con.TRADE_STATUS_NO1 eq 2 && con.TRADE_STATUS_NO eq 3  }">
+							<div class="tradeStatus2" id="tradeStatus2" >
+								<div class="DeliveryShow">배송 조회</div>
+								<div class="DeliveryAtten">배송유의사항</div>
+								<div class="tradeStatusBtn1">거래 현황</div>
+								<div class="tradeComplete">거래 완료</div>					
+							</div>
+						</c:when>
+						
+						<c:when test="${con.MEMBERNO ne sNo && con.ESCROW_WHETHER eq 0 && con.TRADE_STATUS_NO eq 10 && con.TRADE_STATUS_NO1 eq 2 }">
+							<div class="tradeStatus2" id="tradeStatus2" >
+								
+								<div class="DeliveryAtten1">배송유의사항</div>
+								<div class="tradeStatusBtn1">거래 현황</div>
 								<div class="tradeComplete">거래 완료</div>
 							</div>
+						</c:when>
+						
+						<c:when test="${con.MEMBERNO ne sNo && con.ESCROW_WHETHER eq 0 && con.TRADE_STATUS_NO eq 3 && con.TRADE_STATUS_NO1 eq 2 }">
+							<div class="tradeStatus2" id="tradeStatus2" >
+								
+								<div class="DeliveryAtten1">배송유의사항</div>
+								<div class="tradeStatusBtn1">거래 현황</div>
+								<div class="tradeComplete">거래 완료</div>
+							</div>
+						</c:when>
+							
+						<c:when test="${con.MEMBERNO eq sNo && con.ESCROW_WHETHER eq 1&&con.TRADE_STATUS_NO eq 10 && con.TRADE_STATUS_NO1 eq 2 }">
+							<div class="tradeStatus2" id="tradeStatus2" >
+								<div class="DeliveryShow">배송 조회</div>
+								<div class="DeliveryAtten">배송유의사항</div>
+								<div class="tradeStatusBtn1">거래 현황</div>
+							
+							</div>
+						</c:when>
+						
+						<c:when test="${con.MEMBERNO eq sNo && con.ESCROW_WHETHER eq 1&&con.TRADE_STATUS_NO eq 3 && con.TRADE_STATUS_NO1 eq 2 }">
+							<div class="tradeStatus2" id="tradeStatus2" >
+								<div class="DeliveryShow">배송 조회</div>
+								<div class="DeliveryAtten">배송유의사항</div>
+								<div class="tradeStatusBtn1">거래 현황</div>
+							
+							</div>
+						</c:when>
+						
+						<c:when test="${con.MEMBERNO eq sNo && con.ESCROW_WHETHER eq 0&& con.TRADE_STATUS_NO eq 10 && con.TRADE_STATUS_NO1 eq 2 }">
+							<div class="tradeStatus2" id="tradeStatus2" >
+								
+								<div class="DeliveryAtten1">배송유의사항</div>
+								<div class="tradeStatusBtn1">거래 현황</div>
+								
+							</div>
+						</c:when>
+						<c:when test="${con.MEMBERNO eq sNo && con.ESCROW_WHETHER eq 0&& con.TRADE_STATUS_NO eq 3 && con.TRADE_STATUS_NO1 eq 2 }">
+							<div class="tradeStatus2" id="tradeStatus2" >
+								
+								<div class="DeliveryAtten1">배송유의사항</div>
+								<div class="tradeStatusBtn1">거래 현황</div>
+								
+							</div>
+						</c:when>
+						
+					
+						<c:otherwise>
+							<div class="tradeStatus2" id="tradeStatus2" style="display: none;"></div>
+						</c:otherwise>
+					</c:choose>
+								
 							
 					
 				</div>
@@ -910,5 +1181,49 @@ $(document).ready(function(){
 
 </div>
 
+
+<div class="popupReport" style="display:none">
+	<form action="fileUploadAjax" method="post" id="reportForm"  name="reportForm" enctype="multipart/form-data">
+	<div class="reportHead">
+			신고사례 
+				<select name="reportCato">
+						<option value="1">물품상태 불량</option>
+						<option value="2">구성품 누락</option>
+						<option value="3">욕설 및 비매너</option>
+				</select>
+				<input type="text" name="reportTitle"/>
+	</div>
+	
+	<div class="reportContent">
+	<textarea rows="30" cols="75"  style="resize: none;" name="reportContent"></textarea>
+	</div>
+	<div class="reportSome">
+		
+		<input type="hidden" name="reportUser" value="${sNo}"/>
+		<input type="hidden" name="fraudUser" value="${con.MEMBERNO}"/>
+		<input type="hidden" name="testNo" value="${param.testNo}"/>
+		<input type="hidden" name="reportTitle1" value="${con.WORD_TITLE}"/>
+		<input type="hidden" name="reportContent1" value="${con.WORD_CONTENTS}"/>
+		<input type="hidden" name="repleNo1" value=""/>
+					<input type="file" name="att1"> 
+					<input type="hidden" name="textFile" id="textFile"/>
+					<input type="file" name="att2"> 
+					<input type="hidden" name="textFile1" id="textFile1"/>
+					<input type="file" name="att3"> 
+					<input type="hidden" name="textFile2" id="textFile2"/>
+					<input type="file" name="att4"> 
+					<input type="hidden" name="textFile3" id="textFile3"/>
+					<input type="file" name="att5"> 
+					<input type="hidden" name="textFile4" id="textFile4"/>
+	</div>
+	<div class="reportCencelBtn"></div>
+	<div  class="reportBtn1">
+					
+					
+	
+	</div>
+	</form>
+
+</div>
 </body>
 </html>

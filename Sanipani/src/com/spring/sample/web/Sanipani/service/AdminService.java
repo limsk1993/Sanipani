@@ -29,4 +29,37 @@ public class AdminService implements IAdminService{
 		return iMainDao.getMemberInfo(params);
 	}
 
+	@Override
+	public HashMap<String, String> getMemberInfoCon(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return iMainDao.getMemberInfoCon(params);
+	}
+
+
+	@Override
+	public int MemberGradeNum(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return iMainDao.MemberGradeNum(params);
+	}
+
+	@Override
+	public int getAdminMoneyPage(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return iMainDao.getAdminMoneyPage(params);
+	}
+
+
+	@Override
+	public ArrayList<HashMap<String, String>> getAdminMoney(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return iMainDao.getAdminMoney(params);
+	}
+
+
+	@Override
+	public void insertMoneyRefund(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		iMainDao.insertMoneyRefund(params);
+	}
+
 }

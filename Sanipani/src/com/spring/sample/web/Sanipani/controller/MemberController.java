@@ -255,5 +255,59 @@ public class MemberController {
 		      return new ResponseEntity<String>(mapper.writeValueAsString(modelMap),
 		                                responseHeaders, HttpStatus.CREATED);   
 		   }
+	 	 
+	 	 
+	 	 @RequestMapping(value = "/showAutionBuy")
+		   public @ResponseBody ResponseEntity<String> showAutionBuy(
+		         HttpServletRequest request,
+		         @RequestParam HashMap<String, String> params,/*여러개의 값을 한번에 넣어 한번에 받아옴.*/
+		         ModelAndView modelAndView) throws Throwable {
+		      
+		      ObjectMapper mapper = new ObjectMapper();
+		      Map<String, Object> modelMap = new HashMap<String, Object>();
+		      
+		      PagingBean pb = iPagingService.getPageingBean(Integer.parseInt(params.get("page")), iMemberService.showAutionBuyPage(params));
+		      
+		      params.put("start", Integer.toString(pb.getStartCount()));
+		      params.put("end", Integer.toString(pb.getEndCount()));
+		      System.out.println(params.get("searchText"));
+		      ArrayList<HashMap<String, String>> list = iMemberService.showAutionBuy(params);
+		           
+		      modelMap.put("list", list);
+		      modelMap.put("pb", pb);
+		            
+		      HttpHeaders responseHeaders = new HttpHeaders();
+		      responseHeaders.add("Content-Type", "text/json; charset=UTF-8");
+		      
+		      return new ResponseEntity<String>(mapper.writeValueAsString(modelMap),
+		                                responseHeaders, HttpStatus.CREATED);   
+		   }
+	 	 
+	 	 
+	 	 	@RequestMapping(value = "/showAutionTrade")
+		   public @ResponseBody ResponseEntity<String> showAutionTrade(
+		         HttpServletRequest request,
+		         @RequestParam HashMap<String, String> params,/*여러개의 값을 한번에 넣어 한번에 받아옴.*/
+		         ModelAndView modelAndView) throws Throwable {
+		      
+		      ObjectMapper mapper = new ObjectMapper();
+		      Map<String, Object> modelMap = new HashMap<String, Object>();
+		      
+		      PagingBean pb = iPagingService.getPageingBean(Integer.parseInt(params.get("page")), iMemberService.showAutionTradePage(params));
+		      
+		      params.put("start", Integer.toString(pb.getStartCount()));
+		      params.put("end", Integer.toString(pb.getEndCount()));
+		      System.out.println(params.get("searchText"));
+		      ArrayList<HashMap<String, String>> list = iMemberService.showAutionTrade(params);
+		           
+		      modelMap.put("list", list);
+		      modelMap.put("pb", pb);
+		            
+		      HttpHeaders responseHeaders = new HttpHeaders();
+		      responseHeaders.add("Content-Type", "text/json; charset=UTF-8");
+		      
+		      return new ResponseEntity<String>(mapper.writeValueAsString(modelMap),
+		                                responseHeaders, HttpStatus.CREATED);   
+		   }
 	 
 }

@@ -8,13 +8,32 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="resources/script/jquery/jquery-1.11.0.js"></script>
 <script type="text/javascript" src="resources/script/spmain/Mainpage.js"></script>
+<script type="text/javascript" src="resources/script/nice-select/jquery.nice-select.js"></script>
 <link rel="stylesheet" type="text/css" href="resources/css/spmain/Mainpage.css"/>
 <link rel="stylesheet" type="text/css" href="resources/css/spAdmin/spAdmin.css"/>
+<link rel="stylesheet" type="text/css" href="resources/css/nice-select/nice-select.css"/>
 <script type="text/javascript">
 $(document).ready(function(){
+	 $("#searchSelect").niceSelect();
+	 $("#Buildpopup").hide();
 	refreshMemberInfo();
 	$("#pagingArea").on("click", "span", function(){
 		$("input[name='page']").val($(this).attr("name"));
+		refreshMemberInfo();
+	});
+	
+	$("#tb1").on("click", "tr", function(){
+		$("input[name='testNo']").val($(this).attr("name"));
+		$("#actionForm").attr("action", "AdminMemberInfo"); // 밑의 form에 action의 값이#인데 거 에다가 test5를 넣겠다는 소리.
+		$("#actionForm").submit(); 
+		
+	});
+	
+	$("#SearchBoard").on("click",function(){
+		$("input[name='SearchContent']").val($("#SearchContent").val());
+		$("input[name='page']").val("1");
+		$("input[name='search']").val($("select[name='search']").val());
+		$("#list").submit();
 		refreshMemberInfo();
 	});
 	
@@ -32,20 +51,20 @@ $(document).ready(function(){
 				
 				
 				for(var i = 0 ; i < result.list.length ; i++){
-					html += "<tr>";
-					html += "<td>" + result.list[i].MEMBERNO + "</td>";
-					html += "<td>" + result.list[i].NAME + "</td>";
-					html += "<td>" + result.list[i].ID + "</td>";
-					html += "<td>" + result.list[i].NICK + "</td>";
-					html += "<td>" + result.list[i].PHONE + "</td>";
-					html += "<td>" + result.list[i].EMAIL1 + "</td>";
-					html += "<td>" + result.list[i].GRADE_NO + "</td>";
+					html += "<tr name='" + result.list[i].MEMBERNO + "'>";
+					html += "<td width='200' height='40' align='center'>" + result.list[i].MEMBERNO + "</td>";
+					html += "<td width='100' height='40' align='center'>" + result.list[i].NAME + "</td>";
+					html += "<td width='150' height='40' align='center'>" + result.list[i].ID + "</td>";
+					html += "<td width='150' height='40' align='center'>" + result.list[i].NICK + "</td>";
+					html += "<td width='150' height='40' align='center'>" + result.list[i].PHONE + "</td>";
+					html += "<td width='200' height='40' align='center'>" + result.list[i].EMAIL1 + "</td>";
+					html += "<td width='100' height='40' align='center'>" + result.list[i].GRADE_NO + "</td>";
 					
 					/* html += "<td>" + result.list[i].FREE_PICTURE + "</td>"; */
 					html += "</tr>";
 				}
 				
-				$("#tb").html(html);
+				$("#tb1").html(html);
 				
 				html = "";
 				html += "<span name='1'>처음</span>";
@@ -105,7 +124,7 @@ $(document).ready(function(){
 	<input type="hidden" name="page" value="1" />
 	<input type="hidden" name="SearchContent" value="${param.SearchContent}"/>
 	<input type="hidden" name="testNo" />
-	<input type="hidden" name="search2" />
+	<input type="hidden" name="search" />
 </form>
 <div class="main">
 	<div class="left"></div>
@@ -254,6 +273,8 @@ $(document).ready(function(){
 			 고객정보관리
 			</div>
 			<div class="AdminMember_2">
+					<div id="AdminMemberpopup_1" >
+					</div>
 				<table border="1">
 				<thead>
 					<tr>
@@ -267,15 +288,34 @@ $(document).ready(function(){
 					<!-- 	<th>첨부자료</th> -->
 					</tr>
 				</thead>
-				<tbody id="tb">
+				<tbody id="tb1">
 				</tbody>
+				
 			</table>
+			
 			</div>
 			<div class="AdminMember_3">
 				<div id="pagingArea"></div>
 			</div>
 			<div class="AdminMember_3">
+				
+				<div class="freesearch_1">
+					<form action="#" name="list" method="post">
+						 <select class="small" name="search" id="searchSelect">
+							<option value="Id" selected="selected">아이디</option>
+							<option value="Nick">닉네임</option>
+						</select>
+					</form>
+				</div>
+				<div class="freesearch_2">
+					<input type="text" id="SearchContent" value="${param.SearchContent}">
+				</div>
+				<div class="freesearch_3">
+					<input type="button" value="검색" id="SearchBoard">
+				</div>
+			
 			</div>
+
 		</div>
 	
 	</div>
@@ -284,5 +324,6 @@ $(document).ready(function(){
 	<div class="ad"></div>
 	</div>
 </div>
+
 </body>
 </html>

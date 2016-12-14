@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ReportBoard">
+	<select id="getReport" parameterClass="java.util.HashMap"
+		resultClass="java.util.HashMap">
+		      SELECT ROW_NUMBER() OVER(ORDER BY A.REPORTWORDRNO DESC) AS REPORTWORDRNO, WORDTITLE, WORDCONTENT, WRITERDATE, LOOKUP, B.REPORTCATEGORYNAME, A.REPORTTARGET, C.NICK,A.NO,WARCNT
+			  FROM (SELECT ROW_NUMBER() OVER(ORDER BY REPORTWORDNO DESC) AS REPORTWORDRNO, REPORTWORDNO AS NO,
+			  		REPORTCATEGORYNO, REPORTTARGET, MEMBERNO,
+                    REPORTWORDNO, WORDTITLE, WORDCONTENT, to_char(WRITERDATE, 'YYYY-MM-DD') AS WRITERDATE, LOOKUP
+      			    FROM REPORTBOARD
+              WHERE REPORTDELETE=1
+			<isNotEmpty property="searchText">
+				AND WORDTITLE LIKE '%' || #searchText# || '%'
+			</isNotEmpty>
+			) A LEFT OUTER JOIN REPORTCATEGORY B
+				ON A.REPORTCATEGORYNO = B.REPORTCATEGORYNO
+        LEFT OUTER JOIN MEMBERINFO C
+                    ON A.MEMBERNO = C.MEMBERNO
+		WHERE A.REPORTWORDRNO BETWEEN #start# AND #end#
+	</select>
+
+	<select id="getReportCount" parameterClass="java.util.HashMap"
+		resultClass="Integer">
+				SELECT COUNT(REPORTWORDNO) AS CNT
+				FROM REPORTBOARD				
+				WHERE REPORTDELETE=1
+				<isNotEmpty property="searchText">
+				AND WORDTITLE LIKE '%' || #searchText# || '%'
+				</isNotEmpty>
+	</select>
+	
+	<select id="getReportCon"
+			parameterClass="java.util.HashMap"
+			resultClass="java.util.HashMap">
+		SELECT A.REPORTWORDRNO, A.WORDTITLE, A.WORDCONTENT, A.WRITERDATE, A.LOOKUP, B.REPORTCATEGORYNAME, A.REPORTTARGET,D.NICK NICKNAME,A.NO,D.WARCNT, C.NICK NICK2,
+		AUCTIONWORDNO,REPORT_TITLE,REPORT_CONTENT,TRADE_WORD_NO
+		FROM (SELECT ROW_NUMBER() OVER(ORDER BY REPORTWORDNO DESC) AS REPORTWORDRNO, REPORTWORDNO AS NO,
+						REPORTCATEGORYNO, REPORTTARGET,LOOKUP,
+              			WORDTITLE,WORDCONTENT, to_char(WRITERDATE, 'YYYY-MM-DD') AS WRITERDATE,
+						SUBSTR(PICTURE, INSTR(PICTURE1, '.' , - 1) + 1) AS PICTURE_EXT, MEMBERNO,AUCTIONWORDNO,REPORT_TITLE,REPORT_CONTENT,TRADE_WORD_NO
+				FROM REPORTBOARD) A LEFT OUTER JOIN REPORTCATEGORY B
+									ON A.REPORTCATEGORYNO = B.REPORTCATEGORYNO
+									LEFT OUTER JOIN MEMBERINFO D
+                    ON D.MEMBERNO=REPORTTARGET               
+                LEFT OUTER JOIN MEMBERINFO C
+                    ON C.MEMBERNO=A.MEMBERNO
+                  WHERE A.NO=#ReportNo#
+	</select>
+	<select id="getReportCNT"
+			parameterClass="java.util.HashMap"
+			resultClass="java.util.HashMap">
+		SELECT COUNT(MEMBERNO)
+		FROM (SELECT A.REPORTWORDRNO, WORDTITLE, WORDCONTENT, WRITERDATE, LOOKUP, B.REPORTCATEGORYNAME, A.REPORTTARGET, C.NICK, A.NO, COUNT(C.MEMBERNO), C.MEMBERNO
+	    	  FROM (SELECT ROW_NUMBER() OVER(ORDER BY REPORTWORDNO DESC) AS REPORTWORDRNO, REPORTWORDNO AS NO,
+	            	  		REPORTCATEGORYNO, REPORTTARGET, MEMBERNO,REPORTWORDNO, WORDTITLE, WORDCONTENT, to_char(WRITERDATE, 'YYYY-MM-DD') AS WRITERDATE, LOOKUP
+	        	    FROM REPORTBOARD) A                
+	            					    LEFT OUTER JOIN REPORTCATEGORY B
+	                          						ON A.REPORTCATEGORYNO = B.REPORTCATEGORYNO
+	                					LEFT OUTER JOIN MEMBERINFO C
+	                            					ON A.MEMBERNO = C.MEMBERNO
+	    WHERE 1=1 
+	    GROUP BY A.REPORTWORDRNO, WORDTITLE, WORDCONTENT, WRITERDATE, LOOKUP, B.REPORTCATEGORYNAME, A.REPORTTARGET, C.NICK, A.NO, C.MEMBERNO)
+        WHERE MEMBERNO = #sNo#
+        
+      </select>
+	
+	<insert id="insertReport"
+			parameterClass="java.util.HashMap">
+		INSERT INTO REPORTBOARD(REPORTWORDNO, REPORTCATEGORYNO, MEMBERNO, WORDTITLE, WORDCONTENT, REPORTTARGET, REPORTPRODUCTNAME, WRITERDATE, LOOKUP, REPORTDELETE,
+			PICTURE1)
+		VALUES(Report_SEQ.NEXTVAL, #ReportCategory#,  #MEMNO#, #ReportTitle# , #Reportcontent#, #FraudNick#, #ProductName#, SYSDATE, 0, 1, #textFile#)
+	</insert>
+	
+	<update id="updatelook"
+			parameterClass="java.util.HashMap">
+				UPDATE REPORTBOARD
+				SET LOOKUP = LOOKUP + 1		
+				WHERE REPORTWORDNO = #ReportNo#
+	</update>
+	
+	<update id="updateWarning"
+			parameterClass="java.util.HashMap">
+				UPDATE MEMBERINFO
+				SET WARCNT = WARCNT + 1		
+				WHERE MEMBERNO = #REPORTTARGET#
+	</update>
+	
+	<update id="updateBlacklist"
+			parameterClass="java.util.HashMap">
+				UPDATE MEMBERINFO
+				SET GRADE_NO = 5	
+				WHERE MEMBERNO = #REPORTTARGET#
+				AND WARCNT >=2
+	</update>
+	
+	<update id="deleteReport"
+			parameterClass="java.util.HashMap">
+				UPDATE REPORTBOARD
+				SET REPORTDELETE = 0	
+				WHERE REPORTWORDNO = #ReportNo#
+	</update>
+	
+	<update id="deleteBlackList"
+			parameterClass="java.util.HashMap">
+				UPDATE MEMBERINFO
+				SET WARCNT = 0	
+				WHERE MEMBERNO = #MEMBERNO#
+	</update>
+	<update id="deleteBlackList2"
+			parameterClass="java.util.HashMap">
+				UPDATE MEMBERINFO
+				SET GRADE_NO = 1	
+				WHERE MEMBERNO = #MEMBERNO#
+	</update>
+	<delete id="deleteBlackList3"
+			parameterClass="java.util.HashMap">
+				DELETE FROM BLACKLIST
+				WHERE BLACKLISTNO=#BLACKLISTNO#
+	</delete>
+	
+	<select id="getBlackList" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+			SELECT A.BLACKLISTRNO, ID, BLACKLISTNO, BDATE, NICK, REPORTCATEGORYNAME, REPORTWORDNO,MEMBERNO
+			  FROM (SELECT ROW_NUMBER() OVER(ORDER BY BLACKLISTNO DESC) AS BLACKLISTRNO, 
+                     ID, BLACKLISTNO, to_char(BDATE, 'yyyy-mm-dd') AS BDATE, NICK, REPORTCATEGORYNAME, REPORTWORDNO, MEMBERNO
+      			    FROM BLACKLIST) A
+      			    WHERE 1=1
+            	<isNotEmpty property="searchText">
+					AND ID LIKE '%' || #searchText# || '%'
+				</isNotEmpty>
+            AND A.BLACKLISTRNO BETWEEN #start# AND #end#
+	</select>
+	
+	<select id="getBlackListCount" 
+			parameterClass="java.util.HashMap"
+			resultClass="Integer">
+				SELECT COUNT(*) AS CNT
+				FROM BLACKLIST				
+				WHERE 1=1
+				<isNotEmpty property="searchText">
+				AND ID LIKE '%' || #searchText# || '%'
+				</isNotEmpty>
+	</select>
+	
+	<select id="getBlackListCon"
+			parameterClass="java.util.HashMap"
+			resultClass="java.util.HashMap">
+		SELECT A.BLACKLISTRNO, ID, BLACKLISTNO, BDATE, NICK, REPORTCATEGORYNAME, REPORTWORDNO, MEMBERNO
+			  FROM (SELECT ROW_NUMBER() OVER(ORDER BY BLACKLISTNO DESC) AS BLACKLISTRNO,
+                     ID, BLACKLISTNO, BDATE, NICK, REPORTCATEGORYNAME, REPORTWORDNO,MEMBERNO
+      			    FROM BLACKLIST) A
+		WHERE REPORTWORDNO = #ReportNo#
+	</select>
+	
+	<update id="updateReport"
+			parameterClass="java.util.HashMap">
+		UPDATE REPORTBOARD SET WORDTITLE = #ReportTitle#,
+								WORDCONTENT = #Reportcontent#,
+								REPORTCATEGORYNO = #ReportCategory#
+		WHERE REPORTWORDNO = #ReportNo#
+	</update>
+	
+	<insert id="insertBlacklist"
+			parameterClass="java.util.HashMap">
+		INSERT INTO BLACKLIST 
+		(BLACKLISTNO,BDATE,ID,NICK,REPORTWORDNO,REPORTCATEGORYNAME,MEMBERNO)
+		VALUES 
+		(BLACKLIST_SEQ.NEXTVAL,SYSDATE, 
+       	(SELECT A.ID 
+       	 FROM MEMBERINFO A LEFT OUTER JOIN REPORTBOARD B 
+       									ON B.REPORTTARGET=A.MEMBERNO 
+         WHERE REPORTWORDNO=#ReportNo# 
+         AND WARCNT>=2),
+       (SELECT NICK 
+        FROM MEMBERINFO A LEFT OUTER JOIN REPORTBOARD B 
+       									ON B.REPORTTARGET=A.MEMBERNO 
+		WHERE REPORTWORDNO=#ReportNo#  AND WARCNT>=2),
+       (SELECT REPORTWORDNO 
+        FROM REPORTBOARD A LEFT OUTER JOIN MEMBERINFO B 
+        								ON A.REPORTTARGET=B.MEMBERNO 
+        WHERE REPORTWORDNO=#ReportNo#  AND WARCNT>=2),
+       (SELECT REPORTCATEGORYNAME 
+        FROM REPORTBOARD A LEFT OUTER JOIN REPORTCATEGORY B 
+        								ON A.REPORTCATEGORYNO=B.REPORTCATEGORYNO 
+                          LEFT OUTER JOIN MEMBERINFO C 
+                          				ON C.MEMBERNO=A.REPORTTARGET 
+        WHERE REPORTWORDNO=#ReportNo#  AND WARCNT>=2),
+       	(SELECT A.MEMBERNO
+        FROM MEMBERINFO A LEFT OUTER JOIN REPORTBOARD B
+        								ON A.MEMBERNO=B.REPORTTARGET
+        WHERE REPORTWORDNO=#ReportNo#  
+         AND WARCNT>=2))
+	</insert>
+	
+</sqlMap>

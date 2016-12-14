@@ -3,17 +3,65 @@
     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
    <sqlMap namespace="Mainpage">
 		<select id="getMem"
-		parameterClass="java.util.HashMap"
-		resultClass="java.util.HashMap">
-		
-		SELECT MEMBERNO,ID,NICK,GRADE_NO
-		FROM MEMBERINFO
-		
-		WHERE ID = #Id#
-		AND PW   = #Pw#
-		
+				parameterClass="java.util.HashMap"
+				resultClass="java.util.HashMap">
+			SELECT MEMBERNO,ID,NICK,GRADE_NO
+			FROM MEMBERINFO
+			WHERE ID = #Id#
+			AND PW   = #Pw#
 		</select>   
-   
-   
-   
+	
+		<select id="getNotice"
+				parameterClass="java.util.HashMap"
+				resultClass="java.util.HashMap">
+			SELECT A.NOTICENO, A.MEMBERNO, A.NOTICETITLE, A.NOTICECONTENT, A.NOTICEWRITERDATE, A.NOTICELOOKUP, A.NICK
+			FROM (SELECT ROW_NUMBER() OVER(ORDER BY NB.NOTICENO DESC) AS RNUM, 
+						 NB.NOTICENO, NB.MEMBERNO, NB.NOTICETITLE, NB.NOTICECONTENT, to_char(NB.NOTICEWRITERDATE, 'yyyy-mm-dd') AS NOTICEWRITERDATE, NB.NOTICELOOKUP, MI.NICK
+				  FROM NOTICEBOARD NB LEFT OUTER JOIN MEMBERINFO MI ON NB.MEMBERNO = MI.MEMBERNO
+				  WHERE 1 = 1
+				  AND NOTICEDEL = 1
+				  <isNotEmpty property="searchText">
+				  	AND NOTICETITLE LIKE '%' || #searchText# || '%'
+				  </isNotEmpty>
+				  ) A
+			WHERE A.RNUM BETWEEN #start# AND #end#
+		</select>
+		
+		<select id="getNoticeCount"
+				parameterClass="java.util.HashMap"
+				resultClass="Integer">
+			SELECT COUNT(*) AS CNT
+			FROM NOTICEBOARD
+			WHERE 1 = 1
+			<isNotEmpty property="searchText">
+				AND NOTICETITLE LIKE '%' || #searchText# || '%'
+			</isNotEmpty>
+		</select>
+		
+		<select id="getNoticeCon"
+				parameterClass="java.util.HashMap"
+				resultClass="java.util.HashMap">
+			SELECT NOTICENO, NB.MEMBERNO, NOTICETITLE, NOTICECONTENT, NOTICEWRITERDATE, NOTICELOOKUP, MI.NICK
+			FROM NOTICEBOARD NB INNER JOIN MEMBERINFO MI ON NB.MEMBERNO = MI.MEMBERNO
+			WHERE NOTICENO = #NoticeNo#
+		</select>
+		
+		<update id="deleteNotice">
+			UPDATE NOTICEBOARD
+			SET NOTICEDEL = 0
+			WHERE NOTICENO = #NoticeNo#
+		</update>
+		
+		<update id="updateNotice">
+			UPDATE NOTICEBOARD
+			SET NOTICETITLE = #Noticetitle#, NOTICECONTENT = #NoticeContents#
+			WHERE NOTICENO = #NoticeNo#
+		</update>
+		
+		<insert id="insertNotice"
+				parameterClass="java.util.HashMap">
+			INSERT INTO NOTICEBOARD(NOTICENO, MEMBERNO, NOTICETITLE, NOTICECONTENT, NOTICEWRITERDATE, NOTICELOOKUP, NOTICEDEL)
+			VALUES(NOTICE_SEQ.NEXTVAL, #UserNo#, #Noticetitle#, #NoticeContents#, SYSDATE, '0', '1')
+		</insert>
+		
    </sqlMap>

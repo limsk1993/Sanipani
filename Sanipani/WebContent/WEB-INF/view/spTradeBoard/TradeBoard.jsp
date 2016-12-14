@@ -9,138 +9,60 @@
 <script type="text/javascript" src="resources/script/jquery/jquery-1.11.0.js"></script>
 <script type="text/javascript" src="resources/script/spmain/Mainpage.js"></script>
 <link rel="stylesheet" type="text/css" href="resources/css/spmain/Mainpage.css"/>
+<script type="text/javascript" src="resources/script/spmain/TradeBoard.js"></script>
 <style type="text/css">
 .tradeTable{
 	vertical-align :top;
 	display : inline-block;
 	padding : 20px;
-	width: 690px;
+	width: 830px;
 	height: 90%;
-	background-color: #F1232F;
 }
 .tradeCategory{
 	display : inline-block;
-	width: 200px;
+	width: 220px;
 	height: 90%;
-	background-color: #123FAC;
+	 background-color: #B2FFD1;
+	 border-radius: 20px;
+	 overflow: hidden;
+	 margin-top:20px; 
 }
-img{
+table img{
 	width : 100px;
 	height: 100px;
 }
-td{
+td{	
 	
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 	height: 100px;
 
 }
-
-</style>
-<script type="text/javascript">
-$(document).ready(function(){
-	refreshList1();
-	
-	$("#searchBtn").on("click",function(){
-		$("input[name='searchText']").val($("#searchText").val()); //searchText의 value에 serchTextval의 값을 넣는다.
-		$("input[name='page']").val("1");
-		
-		refreshList1();
-	});
-	
-	$("#tradeBoardAddBtn").on("click",function(){
-		$("#actionForm").attr("action", "TradeBoardAdd");  //actionForm의 action값에  test7을 넣음.
-		$("#actionForm").submit(); //actionForm 실행
-		
-	});
-	
-	
-	$("#tradePageNo").on("click", "span", function(){
-		$("input[name='page']").val($(this).attr("name"));
-		
-		refreshList1();
-	});
-	
-	$("#tradeList").on("click", "tr", function(){
-		$("input[name='testNo']").val($(this).attr("name"));
-	
-		 $("#actionForm").attr("action", "TradeBoardLook"); // 밑의 form에 action의 값이#인데 거 에다가 test5를 넣겠다는 소리.
-		$("#actionForm").submit();
-	});
-});		
-		
-		
-	
-function refreshList1(){
-	var params = $("#actionForm").serialize(); //serialize 정렬해서 보여준다.
-	
-	$.ajax({//비동기화방식
-		type : "post",
-		url : "refreshTest1", 
-		dataType : "json",
-		data : params,
-		success : function(result){
-			var html = "";
-			
-			for(var i = 0 ; i < result.list.length ; i++){
-				html += "<tr name='" + result.list[i].TRADE_WORD_NO + "'>";
-				html += "<td>" + result.list[i].NO + "</td>";
-				if(result.list[i].PICTURENAME==null){
-				html += "<td></td>";
-				}else{
-					html += "<td>"+"<img src=\"resources/upload/"+result.list[i].PICTURENAME+"\"/></td>";
-				}
-				html += "<td>" + result.list[i].TRADE_BOARD + "</td>";
-				html += "<td>" + result.list[i].WORD_TITLE + "</td>";
-				html += "<td>" + result.list[i].BUY_PAY + "</td>";
-				html += "<td></td>";
-				html += "<td>" + result.list[i].NICK + "</td>";
-				html += "<td>" + result.list[i].WRITER_DATE + "</td>";
-				html += "<td>" + result.list[i].LOOKUP + "</td>";
-				
-				html += "</tr>";
-			}
-			
-			$("#tradeList").html(html);
-			
-		html = "";
-		html += "<span name='1'>처음</span>";
-		
-/* 		if($("input[name='page']").val() == 1){
-			html += "<span name='1'>이전</span>";
-		} else{
-			html += "<span name='" + ($("input[name='page']").val - 1) + "'>이전</span>";
-		} */
-		if($("input[name='page']").val() == 1) {
-            html += "<span name='1'>이전</span>";
-         } else {
-            html += "<span name = '" + ($("input[name='page']").val() - 1) + "'>이전</span>";
-         }
-		
-		for(var i = result.pb.startPcount ; i <= result.pb.endPcount ; i++){
-			if(i == $("input[name='page']").val()){
-				html += "<span name='" + i + "'><b>" + i + "</b></span>";
-			} else{
-				html += "<span name='" + i + "'>" + i + "</b></span>";
-			}
-		}
-		
-		if($("input[name='page']").val() == result.pb.maxPcount){
-			html += "<span name='" + result.pb.maxPcount + "'>다음</span>";
-		} else{
-			html += "<span name='" + ($("input[name='page']").val() * 1 + 1) + "'>다음</span>";
-		}
-		
-		
-		html += "<span name='" + result.pb.maxPcount+"'>마지막</span>";
-		
-		$("#tradePageNo").html(html);
-			
-		},
-		error : function(result){
-			alert("error!!");
-		}
-	});
+table{
+	text-overflow: ellipsis;
+	width:900px;
+	border-bottom: 1px;
 }
-</script>
+select{
+	
+	margin-left: 820px;
+}
+
+th {
+	background-color: #6DD66D;
+	
+}
+tr:hover{
+	background-color: #EEEEEE;
+}
+.Board{
+	overflow : hidden;
+	
+}
+</style>
+
 </head>
 <body>
 <div class="main">
@@ -166,25 +88,25 @@ function refreshList1(){
 			
 				<div class="login1">
 					<div class="id">
-						id:<input type="text" name="Id" id="Id" maxlength="15">
+						<b>ID:</b><input type="text" name="Id" id="Id" maxlength="15" border="1">
 					</div>
 				</div>
 			
 				<div class="login2">
 					<div class="pw">
-						pw:<input type="password" name="Pw" id="Pw"  maxlength="15">
+						<b>PW:</b><input type="password" name="Pw" id="Pw"  maxlength="15" border="1">
 					</div>	
 				</div>
 			</form>	
 				<div class="login3">
 					<div class="loginBtn">
-					로그인
+						<img alt="LoginBtn" src="resources/images/MainPageImage/Login.bmp">
 					</div>
 				</div>
 				
 				<div class="login4">
 					<div class="memberLogiBtn">
-					회원가입
+						<img alt="RegisterBtn" src="resources/images/MainPageImage/RegisterImg.bmp">
 					</div>
 				</div>
 			
@@ -205,25 +127,25 @@ function refreshList1(){
 		</c:choose>	
 				<div class="login1_1">
 					<div class="memberInfo">
-						<span id="memNick">${sNick}</span>님 환영합니다
+						<b><span id="memNick">${sNick}</span>님 환영합니다</b>
 					</div>
 				</div>
 				
 				<div class="login2_1">
 					<div class="logout">
-						logout
+						<img alt="LogoutBtn" src="resources/images/MainPageImage/Logout.bmp">
 					</div>		
 				</div>
 				
 				<div class="login3_1">
 					<div class="mypage">
-						mypage
+						<img alt="MypageBtn" src="resources/images/MainPageImage/Mypage.bmp">
 					</div>
 				</div>
 				
 				<div class="login4_1">
 					<div class="basket">
-						basket
+						<img alt="BasketBtn" src="resources/images/MainPageImage/Basket.bmp">
 					</div>
 				</div>
 				
@@ -237,74 +159,71 @@ function refreshList1(){
 		
 		<div class="menubar">
 			<div class="logo">
-				logo
+				<img alt="logo" src="resources/images/MainPageImage/SaniPaniLogo.png" width="226.44px" height="150px" border="2">
 			</div>
 			
-			<div class="menuall">
-				<div class="auctionBoard" id="auctionBoard">
-					auction
-				</div>
-				<div class="auctionBoard_1" id="auctionBoard_1" style="display:none;">
-					auction1
-					<div class="home">가정제품</div>
-					<div class="elec">전자기기</div>
-					<div class="cloth">의류,신발</div>
-					<div class="watch">시계</div>
-					<div class="cosmetic">화장품</div>
-					<div class="travel">여행용품</div>
-					<div class="furni">가구</div>
-					<div class="book">도서</div>
-					<div class="etc">기타</div>
+			<div class="menuall" height="150px">
+			<div height="30px"></div>
+			<br/>
+				<div class="auctionBoard" id="auctionBoard" height="120px">
+					<img alt="AuctionImg" src="resources/images/MainPageImage/AuctionImg.bmp">
 				</div>
 				<div class="tradeBoard" id="tradeBoard">
-					trade
-				</div>
-				<div class="tradeBoard_1" id="tradeBoard_1" style="display:none;">
-					trade1
-					<div class="home_1">가정제품</div>
-					<div class="elec_1">전자기기</div>
-					<div class="cloth_1">의류,신발</div>
-					<div class="watch_1">시계</div>
-					<div class="cosmetic_1">화장품</div>
-					<div class="travel_1">여행용품</div>
-					<div class="furni_1">가구</div>
-					<div class="book_1">도서</div>
-					<div class="etc_1">기타</div>
+					<img alt="TradeImg" src="resources/images/MainPageImage/TradeImg.bmp">
 				</div>
 				<div class="reportBoard">
-					report
+					<img alt="ReportImg" src="resources/images/MainPageImage/ReportImg.bmp">
 				</div>
-				
 				<div class="customerBoard">
-					customer
+					<img alt="CustomerImg" src="resources/images/MainPageImage/CustomerImg.bmp">
 				</div>
-				
 				<div class="freeBoard">
-					free
+					<img alt="FreeImg" src="resources/images/MainPageImage/FreeImg.bmp">
 				</div>
 			</div>
 		</div>
-		
-		
-		
-		
-		
+		<br/>
 		<div class="content">
 		<div class="tradeCategory">
-			<div class="home">가정제품</div>
-			<div class="elec">전자기기</div>
-			<div class="cloth">의류,신발</div>
-			<div class="watch">시계</div>
-			<div class="cosmetic">화장품</div>
-			<div class="travel">여행용품</div>
-			<div class="furni">가구</div>
-			<div class="book">도서</div>
-			<div class="etc">기타</div>
-		
+			<div class="AuctionBoardCategory"><img alt="TabImg" src="resources/images/AuctionPageImage/TradeTab.bmp"></div>
+			<div class="home_1"><img alt="HomeImg" src="resources/images/AuctionPageImage/AuctionHome.bmp"></div>
+			<div class="elec_1"><img alt="elecImg" src="resources/images/AuctionPageImage/AuctionElec.bmp"></div>
+			<div class="cloth_1"><img alt="clothImg" src="resources/images/AuctionPageImage/AuctionCloth.bmp"></div>
+			<div class="watch_1"><img alt="watchImg" src="resources/images/AuctionPageImage/AuctionWatch.bmp"></div>
+			<div class="cosmetic_1"><img alt="cosmeticImg" src="resources/images/AuctionPageImage/AuctionCosmetic.bmp"></div>
+			<div class="travel_1"><img alt="travelImg" src="resources/images/AuctionPageImage/AuctionTravel.bmp"></div>
+			<div class="furni_1"><img alt="furniImg" src="resources/images/AuctionPageImage/AuctionFurni.bmp"></div>
+			<div class="book_1"><img alt="bookImg" src="resources/images/AuctionPageImage/AuctionBook.bmp"></div>
+			<div class="etc_1"><img alt="etcImg" src="resources/images/AuctionPageImage/AuctionEtc.bmp"></div>
 		</div>
 		<div class="tradeTable">
-		<h2>거래게시판 </h2>
-			<form action="#" id="actionForm" method="post">
+		<div class="tradeTag"><h2>거래게시판 </h2></div>
+	
+		<form action="#" name="list2" method="post">
+			    <select class="small" name="search2" id="searchSelect2">
+				<option value="1" selected="selected">최신순</option>
+				<option value="2">가격순</option>
+			</select>
+		</form> 
+				<form action="#" id="actionForm" method="get">
+				<c:choose>
+					<c:when test="${empty param.page}"> <!-- empty 는 비어있으면. -->
+						<input type="hidden" name="page" value="1" />
+					</c:when>
+			
+					<c:otherwise>
+						<input type="hidden" name="page" value="${param.page}"/>
+					</c:otherwise>
+				</c:choose>
+					<input type="hidden" name="search" />
+				<input type="hidden" name="catogery" value="1" />
+			
+				<input type="hidden" name="searchText" value="${param.searchText}"/>
+				<input type="hidden" name="testNo" />
+				<input type="hidden" name="sNo" value="${sNo}"/>
+				<input type="hidden" name="sRank" value="${sGrade}"/>
+			</form>
+			<form action="#" id="actionForm1" method="get">
 				<c:choose>
 					<c:when test="${empty param.page}"> <!-- empty 는 비어있으면. -->
 						<input type="hidden" name="page" value="1" />
@@ -318,10 +237,10 @@ function refreshList1(){
 				<input type="hidden" name="page" value="1" />
 				<input type="hidden" name="searchText" value="${param.searchText}"/>
 				<input type="hidden" name="testNo" />
-				<input type="hidden" name="sNo" value="${sNo}"/>
+				
 			</form>
 
-			<table border="1">
+			<table >
 				<thead>
 					<tr>
 						<th>No</th>
@@ -330,7 +249,7 @@ function refreshList1(){
 						<th>내용</th>
 					
 						<th>가격</th>
-						<th>거래상태</th>
+						
 						<th>작성자</th>
 						<th>작성일</th>
 						<th>조회수</th>

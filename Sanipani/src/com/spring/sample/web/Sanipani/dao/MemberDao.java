@@ -73,5 +73,27 @@ public class MemberDao implements IMemberDao {
 		// TODO Auto-generated method stub
 		return (int) sqlMapClient.queryForObject("register.getMoney",params);
 	}
+	@Override
+	public int showAutionBuyPage(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return (int) sqlMapClient.queryForObject("register.showAutionBuyPage",params);
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<HashMap<String, String>> showAutionBuy(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return (ArrayList<HashMap<String, String>>) sqlMapClient.queryForList("register.showAutionBuy",params);
+	}
+	@Override
+	public int showAutionTradePage(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return (int) sqlMapClient.queryForObject("register.showAutionTradePage", params);
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<HashMap<String, String>> showAutionTrade(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return (ArrayList<HashMap<String, String>>) sqlMapClient.queryForList("register.showAutionTrade",params);
+	}
 	
 }

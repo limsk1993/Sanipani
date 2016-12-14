@@ -1,5 +1,6 @@
 package com.spring.sample.web.Sanipani.dao;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -292,9 +293,9 @@ public class TradeDao implements ITradeDao {
 	}
 	@SuppressWarnings("unchecked")
 	@Override
-	public HashMap<String, String> getTradeTotal1(HashMap<String, String> params) throws Throwable {
+	public int getTradeTotal1(HashMap<String, String> params) throws Throwable {
 		// TODO Auto-generated method stub
-		return (HashMap<String, String>) sqlMapClient.queryForObject("Tradepage.getTradeTotal1",params);
+		return (int) sqlMapClient.queryForObject("Tradepage.getTradeTotal1",params);
 	}
 
 	@Override
@@ -341,12 +342,10 @@ public class TradeDao implements ITradeDao {
 		// TODO Auto-generated method stub
 		sqlMapClient.insert("Tradepage.MoneyUpdate",params);
 	}
-	
-	@SuppressWarnings("unchecked")
+
 	@Override
-	public HashMap<String, String> getTradeCon1(HashMap<String, String> params) throws Throwable {
-		// TODO Auto-generated method stub
-		return (HashMap<String, String>) sqlMapClient.queryForObject("Tradepage.getTradeCon1",params);
+	public int getTradeCon1(HashMap<String, String> params) throws Throwable {
+		return (int) sqlMapClient.queryForObject("Tradepage.getTradeCon1",params);
 	}
 
 	@Override
@@ -432,6 +431,71 @@ public class TradeDao implements ITradeDao {
 		
 		return res;
 	}
+	
+	@Override
+	public void TradeDelUpdate(HashMap<String, String> params) throws SQLException {
+		// TODO Auto-generated method stub
+		sqlMapClient.update("Tradepage.TradeDelUpdate",params);
+	}
+
+
+	
+	
+	///////////////////////Auction
+	@Override
+	public void EscrowUpdateAuction(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		sqlMapClient.update("Tradepage.EscrowUpdateAuction",params);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public HashMap<String, String> getStatusAuction(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return (HashMap<String, String>) sqlMapClient.queryForObject("Tradepage.getStatusAuction",params);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public HashMap<String, String> getStatusBuyer(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return (HashMap<String, String>) sqlMapClient.queryForObject("Tradepage.getStatusBuyer",params);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public HashMap<String, String> getAuctionSeller(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return (HashMap<String, String>) sqlMapClient.queryForObject("Tradepage.getAuctionSeller",params);
+	}
+
+	@Override
+	public void DeliveryUpdateAuction(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		sqlMapClient.update("Tradepage.DeliveryUpdateAuction",params);
+	}
+
+	@Override
+	public Long getTradeUserNo1(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return (Long) sqlMapClient.queryForObject("Tradepage.getTradeUserNo1",params);
+	}
+
+	@Override
+	public void CompleteUpdateAuction(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		sqlMapClient.update("Tradepage.CompleteUpdateAuction",params);
+	}
+
+	@Override
+	public void TradeStatusUpdate(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		sqlMapClient.update("Tradepage.TradeStatusUpdate",params);
+	}
+
+	
+
+	
 
 
 
