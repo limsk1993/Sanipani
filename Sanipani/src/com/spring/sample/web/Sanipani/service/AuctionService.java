@@ -109,4 +109,19 @@ public class AuctionService implements IAuctionService {
 		iAuctionDao.reportAuctionReply(params);
 	}
 
+	@Override
+	public HashMap<String, String> getAuctionCon1(HashMap<String, String> params) throws Throwable {
+		return iAuctionDao.getAuctionCon1(params);
+	}
+
+	@Override
+	public void insertAuctionTotal(HashMap<String, String> params) throws Throwable {
+		iAuctionDao.insertAuctionTotal(params);
+	}
+
+	@Override
+	public void insertAuctionTotal2(HashMap<String, String> params) throws Throwable {
+		iAuctionDao.insertAuctionTotal2(params);
+	}
+
 }

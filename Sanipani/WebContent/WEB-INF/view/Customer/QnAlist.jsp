@@ -33,10 +33,40 @@ $(document).ready(function(){
 		$("input[name='testNo']").val($(this).attr("name"));
 		$("#actionForm").attr("action", "CusBoardetail");
 		$("#actionForm").submit();
+		
+		var params = $("#actionForm").serialize();
+		
+		$.ajax({
+			type : "post",
+			url : "Cuslookup",
+			dataType : "json",
+			data : params,
+			success : function(result){
+				
+			},
+			error : function(result){
+				alert("실패");
+			}
+		});
 	});
 	$(".bar").on("click", function(){
 		location.href="CusBoard";
 });
+	$(".bar1_1").on("click", function(){
+		location.href="CusBoard";
+	});
+	$(".bar1_2").on("click", function(){
+		location.href="CusRefund";
+	});
+	$(".bar1_3").on("click", function(){
+		location.href="Cuscall";
+	});
+	$(".bar1_4").on("click", function(){
+		location.href="CusCoupon";
+	});
+	$(".bar1_5").on("click", function(){
+		location.href="CusService";
+	});
 });
 
 
@@ -57,6 +87,7 @@ function QnAlister(){
 				html += "<td>" + result.list[i].CUSTOMER_NO + "</td>";
 				html += "<td>" + result.list[i].CUSTOMER_WORDTITLE + "</td>";
 				html += "<td>" + result.list[i].CUSTOMER_WORDCONTENT + "</td>";
+				html += "<td>" + result.list[i].CUSTOMER_WRITER + "</td>";
 				html += "<td>" + result.list[i].CUSTOMER_WRITERDATE + "</td>";
 				html += "<td>" + result.list[i].CUSTOMER_LOOKUP + "</td>";
 				html += "</tr>";
@@ -250,7 +281,7 @@ function QnAlister(){
 		
 		<div class="content">
 		<div class="bar">
-			QNA 게싯판
+			<b>고객센터 >> 문의내역</b> 
 			</div>
 			<div class="bar1">
 				<div class="bar1_1">
@@ -290,7 +321,7 @@ function QnAlister(){
 	<input type="hidden" name="CuSearch" value="${param.CuSearch}"/>
 	<input type="hidden" name="testNo" />
 </form>
-	 <table border="1">
+	 <table>
 		<thead>
 			<tr>
 				<th>글번호</th>

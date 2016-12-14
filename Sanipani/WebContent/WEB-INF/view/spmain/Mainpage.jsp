@@ -54,6 +54,36 @@
 	width : 190px;
 	height: 150px;
 }
+.sampleMain {
+	border: 1px solid #000000;
+	background-color: #B2FFD1;
+}
+table img{
+	width : 100px;
+	height: 100px;
+}
+
+td{
+	text-overflow: ellipsis;
+	height: 25px;
+}
+table{
+	text-overflow: ellipsis;
+	width:1100px;
+	border-bottom: 1px;
+	margin-left: 10pt;
+	border: 1px solid #000000;
+}
+select{
+	margin-left: 820px;
+}
+
+th {
+	background-color: #6DD66D;
+}
+tr:hover{
+	background-color: #EEEEEE;
+}
 
 </style>
 <script type="text/javascript">
@@ -367,7 +397,7 @@ function refreshFreeBoard(){
 		
 		<div class="content">
 			<div class="EndApproachAuction">
-				<h2>마감 임박 경매</h2>
+				<h2>경매현황</h2>
 			</div>
 				<form action="#" id="actionForm" method="get">
 					<c:choose>
@@ -381,6 +411,7 @@ function refreshFreeBoard(){
 					<input type="hidden" name="searchText" value="${param.searchText}" />
 					<input type="hidden" name="auctionNo" />
 					<input type="hidden" name="FreeNo" />
+					<input type="hidden" name="sRank" value="${sGrade}"/>
 				</form>
 			<div class="sampleMain">
 			</div>
@@ -412,7 +443,14 @@ function refreshFreeBoard(){
 					</tbody>
 				</table>
 			<br/>
-			<input type="button" id="NoticeWrite" value="공지사항 글쓰기" />
+			<c:choose>
+				<c:when test="${sGrade eq 0}">
+					<input type="button" id="NoticeWrite" value="공지사항 글쓰기" />
+				</c:when>
+				<c:otherwise>
+					<input type="hidden" id="NoticeWrite" value="공지사항 글쓰기" />
+				</c:otherwise>
+			</c:choose>
 			<div class="RecentWordLook">
 				<h2>최신 글보기</h2>
 				<h3>거래</h3>

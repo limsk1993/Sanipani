@@ -42,4 +42,10 @@ public interface IAuctionService {
 	public int deleteAuctionReply(HashMap<String, String> params) throws Throwable;
 
 	public void reportAuctionReply(HashMap<String, String> params) throws Throwable;
+
+	public HashMap<String, String> getAuctionCon1(HashMap<String, String> params) throws Throwable;
+
+	public void insertAuctionTotal(HashMap<String, String> params) throws Throwable;
+
+	public void insertAuctionTotal2(HashMap<String, String> params) throws Throwable;
 }

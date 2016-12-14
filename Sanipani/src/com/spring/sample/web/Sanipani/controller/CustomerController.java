@@ -325,4 +325,192 @@ public class CustomerController {
 				      return new ResponseEntity<String>(mapper.writeValueAsString(modelMap),
 				                                responseHeaders, HttpStatus.CREATED);
 			}
+			   @RequestMapping(value="/Cusreply")
+			   public @ResponseBody ResponseEntity<String> Cusreply(
+				         HttpServletRequest request,
+				         @RequestParam HashMap<String, String> params,
+				         ModelAndView modelAndView) throws Throwable {
+				      
+				      ObjectMapper mapper = new ObjectMapper();
+				      Map<String, Object> modelMap = new HashMap<String, Object>();
+				      
+				      int res = iCustomerService.Cusreply(params);
+				    		  
+				      modelMap.put("res", res); //
+				      
+				      HttpHeaders responseHeaders = new HttpHeaders();
+				      responseHeaders.add("Content-Type", "text/json; charset=UTF-8");
+				      
+				      return new ResponseEntity<String>(mapper.writeValueAsString(modelMap),
+				                                responseHeaders, HttpStatus.CREATED);
+			}
+			   @RequestMapping(value="/QnAlookup")
+			   public @ResponseBody ResponseEntity<String> QnAlookup(
+				         HttpServletRequest request,
+				         @RequestParam HashMap<String, String> params,
+				         ModelAndView modelAndView) throws Throwable {
+				      
+				      ObjectMapper mapper = new ObjectMapper();
+				      Map<String, Object> modelMap = new HashMap<String, Object>();
+				      
+				      int res = iCustomerService.QnAlookup(params);
+				    		  
+				      modelMap.put("res", res); //
+				      
+				      HttpHeaders responseHeaders = new HttpHeaders();
+				      responseHeaders.add("Content-Type", "text/json; charset=UTF-8");
+				      
+				      return new ResponseEntity<String>(mapper.writeValueAsString(modelMap),
+				                                responseHeaders, HttpStatus.CREATED);
+			}
+			   @RequestMapping(value="/Cuslookup")
+			   public @ResponseBody ResponseEntity<String> Cuslookup(
+				         HttpServletRequest request,
+				         @RequestParam HashMap<String, String> params,
+				         ModelAndView modelAndView) throws Throwable {
+				      
+				      ObjectMapper mapper = new ObjectMapper();
+				      Map<String, Object> modelMap = new HashMap<String, Object>();
+				      
+				      int res = iCustomerService.Cuslookup(params);
+				    		  
+				      modelMap.put("res", res); //
+				      
+				      HttpHeaders responseHeaders = new HttpHeaders();
+				      responseHeaders.add("Content-Type", "text/json; charset=UTF-8");
+				      
+				      return new ResponseEntity<String>(mapper.writeValueAsString(modelMap),
+				                                responseHeaders, HttpStatus.CREATED);
+			}
+			   
+				@RequestMapping(value= "/Cuscall")
+				  public ModelAndView Cuscall(HttpServletRequest request,
+						  						HttpSession session,
+						  				ModelAndView modelAndView){
+					modelAndView.setViewName("Customer/CusCall");
+					return modelAndView;
+				}
+				@RequestMapping(value= "/CusRefund")
+				  public ModelAndView CusRefund(HttpServletRequest request,
+						  						HttpSession session,
+						  				ModelAndView modelAndView){
+					modelAndView.setViewName("Customer/CusRefund");
+					return modelAndView;
+				}
+				@RequestMapping(value= "/CusService")
+				  public ModelAndView CusService(HttpServletRequest request,
+						  						HttpSession session,
+						  				ModelAndView modelAndView){
+					modelAndView.setViewName("Customer/CusService");
+					return modelAndView;
+				}
+				@RequestMapping(value= "/CusCoupon")
+				  public ModelAndView CusCoupon(HttpServletRequest request,
+						  						HttpSession session,
+						  				ModelAndView modelAndView){
+					modelAndView.setViewName("Customer/CusCoupon");
+					return modelAndView;
+				}
+				@RequestMapping(value = "/Refundlist")
+				   public @ResponseBody ResponseEntity<String> Refundlist(
+				         HttpServletRequest request,
+				         @RequestParam HashMap<String, String> params,
+				         ModelAndView modelAndView) throws Throwable {
+				      
+				      ObjectMapper mapper = new ObjectMapper();
+				      Map<String, Object> modelMap = new HashMap<String, Object>();
+				      
+				      PagingBean pb = iPagingService.getPageingBean(Integer.parseInt(params.get("page")), iCustomerService.getRefundlist(params));
+				      
+				      params.put("start", Integer.toString(pb.getStartCount()));
+				      params.put("end", Integer.toString(pb.getEndCount()));
+				      
+				      ArrayList<HashMap<String, String>> list = iCustomerService.getRefund(params);
+				           
+				      modelMap.put("list", list);
+				      modelMap.put("pb", pb);
+				            
+				      HttpHeaders responseHeaders = new HttpHeaders();
+				      responseHeaders.add("Content-Type", "text/json; charset=UTF-8");
+				      
+				      return new ResponseEntity<String>(mapper.writeValueAsString(modelMap),
+				                                responseHeaders, HttpStatus.CREATED);   
+				   }
+				@RequestMapping(value = "/Calllist")
+				   public @ResponseBody ResponseEntity<String> Calllist(
+				         HttpServletRequest request,
+				         @RequestParam HashMap<String, String> params,
+				         ModelAndView modelAndView) throws Throwable {
+				      
+				      ObjectMapper mapper = new ObjectMapper();
+				      Map<String, Object> modelMap = new HashMap<String, Object>();
+				      
+				      PagingBean pb = iPagingService.getPageingBean(Integer.parseInt(params.get("page")), iCustomerService.getCalllist(params));
+				      
+				      params.put("start", Integer.toString(pb.getStartCount()));
+				      params.put("end", Integer.toString(pb.getEndCount()));
+				      
+				      ArrayList<HashMap<String, String>> list = iCustomerService.getCall(params);
+				           
+				      modelMap.put("list", list);
+				      modelMap.put("pb", pb);
+				            
+				      HttpHeaders responseHeaders = new HttpHeaders();
+				      responseHeaders.add("Content-Type", "text/json; charset=UTF-8");
+				      
+				      return new ResponseEntity<String>(mapper.writeValueAsString(modelMap),
+				                                responseHeaders, HttpStatus.CREATED);   
+				   }
+				@RequestMapping(value = "/Couponlist")
+				   public @ResponseBody ResponseEntity<String> Couponlist(
+				         HttpServletRequest request,
+				         @RequestParam HashMap<String, String> params,
+				         ModelAndView modelAndView) throws Throwable {
+				      
+				      ObjectMapper mapper = new ObjectMapper();
+				      Map<String, Object> modelMap = new HashMap<String, Object>();
+				      
+				      PagingBean pb = iPagingService.getPageingBean(Integer.parseInt(params.get("page")), iCustomerService.getCouponlist(params));
+				      
+				      params.put("start", Integer.toString(pb.getStartCount()));
+				      params.put("end", Integer.toString(pb.getEndCount()));
+				      
+				      ArrayList<HashMap<String, String>> list = iCustomerService.getCoupon(params);
+				           
+				      modelMap.put("list", list);
+				      modelMap.put("pb", pb);
+				            
+				      HttpHeaders responseHeaders = new HttpHeaders();
+				      responseHeaders.add("Content-Type", "text/json; charset=UTF-8");
+				      
+				      return new ResponseEntity<String>(mapper.writeValueAsString(modelMap),
+				                                responseHeaders, HttpStatus.CREATED);   
+				   }
+				@RequestMapping(value = "/Servicelist")
+				   public @ResponseBody ResponseEntity<String> Servicelist(
+				         HttpServletRequest request,
+				         @RequestParam HashMap<String, String> params,
+				         ModelAndView modelAndView) throws Throwable {
+				      
+				      ObjectMapper mapper = new ObjectMapper();
+				      Map<String, Object> modelMap = new HashMap<String, Object>();
+				      
+				      PagingBean pb = iPagingService.getPageingBean(Integer.parseInt(params.get("page")), iCustomerService.getServicelist(params));
+				      
+				      params.put("start", Integer.toString(pb.getStartCount()));
+				      params.put("end", Integer.toString(pb.getEndCount()));
+				      
+				      ArrayList<HashMap<String, String>> list = iCustomerService.getService(params);
+				           
+				      modelMap.put("list", list);
+				      modelMap.put("pb", pb);
+				            
+				      HttpHeaders responseHeaders = new HttpHeaders();
+				      responseHeaders.add("Content-Type", "text/json; charset=UTF-8");
+				      
+				      return new ResponseEntity<String>(mapper.writeValueAsString(modelMap),
+				                                responseHeaders, HttpStatus.CREATED);   
+				   }
+
+			   
 }

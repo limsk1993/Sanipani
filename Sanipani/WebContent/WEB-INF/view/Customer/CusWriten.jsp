@@ -28,6 +28,22 @@ $(document).ready(function(){
 	$("#CusCanBtn").on("click", function(){
 		history.go(-1)();
 	});
+	
+	$(".bar1_1").on("click", function(){
+		location.href="CusBoard";
+	});
+	$(".bar1_2").on("click", function(){
+		location.href="CusRefund";
+	});
+	$(".bar1_3").on("click", function(){
+		location.href="Cuscall";
+	});
+	$(".bar1_4").on("click", function(){
+		location.href="CusCoupon";
+	});
+	$(".bar1_5").on("click", function(){
+		location.href="CusService";
+	});
 });
 function Cusadd(data, result){
 	if(result == "success"){
@@ -216,7 +232,7 @@ function removePre(data) {
 		
 		<div class="content">
 		<div class="bar">
-			QNA 게싯판
+			<b>고객센터 >> 문의작성 </b>
 			</div>
 			<div class="bar1">
 				<div class="bar1_1">
@@ -229,7 +245,7 @@ function removePre(data) {
 				주문 / 결제
 				</div>
 				<div class="bar1_4">
-				쿠폰 / 사니파니머니
+				사니파니머니
 				</div>
 				<div class="bar1_5">
 				회원 서비스
@@ -239,17 +255,17 @@ function removePre(data) {
 				
 		<div class="content2"> 		 
 			<div class="bar2">
-				QNA 작성ㅋ
+				문의 작성
 			</div>
 				<div class="qnabar">
 				<form action="fileUploadAjax" id="CusActionForm" method="post" enctype="multipart/form-data">
 					<div class="category"> 
-					
+						
 			
 						<select class="small" name="Category" id="Category">
 							<option value="1" selected="selected">환불 /거래 취소</option><!-- 처음에 선택되는값  -->
 							<option value="2" >주문/결제</option>
-							<option value="3" >쿠폰/사니파니머니</option>
+							<option value="3" >사니파니머니</option>
 							<option value="4" >회원서비스</option>
 						</select>
 					</div>	
@@ -257,14 +273,15 @@ function removePre(data) {
 					<div class="title">
 						제목
 						<input type="text" name="CusTitle" >
+						<input type="hidden" name="sNo" value="${sNo}">
+						<input type="hidden" name="Nick" value="${sId}">
 					</div>
 					<div class="title" >
 						내용
 					</div> 
 					<div class="Writecontent">
 						
-						<textarea cols="70" rows="20" style="resize:none;" name="CusBoardContent">
-						</textarea>	
+						<textarea cols="70" rows="20" style="resize:none;" name="CusBoardContent"></textarea>	
 						
 					</div>
 					</form>

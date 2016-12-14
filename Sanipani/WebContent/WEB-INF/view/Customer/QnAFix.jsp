@@ -236,7 +236,7 @@ function removePre(data) {
 				주문 / 결제
 				</div>
 				<div class="bar1_4">
-				쿠폰 / 사니파니머니
+				사니파니머니
 				</div>
 				<div class="bar1_5">
 				회원 서비스
@@ -246,9 +246,9 @@ function removePre(data) {
 				
 		<div class="content2"> 		 
 			<div class="bar2">
-				내 문의 내역
+				<b>고객센터 >> 자주묻는질문(수정)</b>
 			</div>
-				<div class="qnabar">
+				<div class="qnabar2">
 <form action="#" id="actionForm2" method="post">
 	<input type="hidden" name="page" value="${param.page}"/>
 	<input type="hidden" name="searchText" value="${param.searchText }"/>
@@ -263,17 +263,22 @@ function removePre(data) {
 	    </div>
 	    <div class="Writecontent">
 	        내용
-	    <textarea cols="70" rows="20" style="resize:none;" name="QNACONTENT">
-	    ${con.QNA_CONTENT}
-		</textarea>	
-		</div>											
-		<input type="button" value="수정" id="QnAmodBtn"/>
-		<input type="button" value="취소" id="QnAbackBtn"/>
+	    <textarea cols="70" rows="15" style="resize:none;" name="QNACONTENT">${con.QNA_CONTENT}</textarea>	
+		
+		</div>	
+											
+		
 				
 				
-</form>
+
 
 </div>
+	<div class="replycontent">
+		답변<textarea cols="70" rows="8" style="resize:none;" name="QNAREPLY">${con.QNA_REPLY}</textarea>
+	</div>
+</form>	
+		<input type="button" value="수정" id="QnAmodBtn"/>
+		<input type="button" value="취소" id="QnAbackBtn"/>
 		</div>
 			</div>	
 	 </div>

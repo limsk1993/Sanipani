@@ -20,7 +20,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.sample.common.bean.PagingBean;
 import com.spring.sample.common.service.IPagingService;
-import com.spring.sample.web.Sanipani.service.IAuctionService;
 import com.spring.sample.web.Sanipani.service.IMainService;
 
 @Controller
@@ -29,20 +28,16 @@ public class MainController {
 	   public IMainService iMainService;
 	   
 	   @Autowired
-	   public IAuctionService iAuctionService;
-	   
-	   @Autowired
 	   public IPagingService iPagingService;
 	   
 	
 	 @RequestMapping(value="/Mainpage")
 	   public ModelAndView Mainpage(HttpServletRequest request,
-			   						@RequestParam HashMap<String, String> params,
-			   						ModelAndView modelAndView) throws Throwable{
-		 
+	                      ModelAndView modelAndView){
+	      
 		 modelAndView.setViewName("spmain/Mainpage");// /<<는 경로 ㅋ
 	     
-	     return modelAndView;
+	      return modelAndView;
 	   }
 	 
 	   @RequestMapping(value = "/testLoginCheckAjax")
@@ -88,6 +83,7 @@ public class MainController {
 		   return modelAndView;
 	   }
 	   
+
 	   @RequestMapping(value="/refreshNotice")
 		public @ResponseBody ResponseEntity<String> refreshNotice(
 					HttpServletRequest request,

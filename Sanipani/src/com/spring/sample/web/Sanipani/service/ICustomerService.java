@@ -47,6 +47,29 @@ public interface ICustomerService {
 
 	public int Cusdelete(HashMap<String, String> params) throws Throwable;
 
+	public int Cusreply(HashMap<String, String> params) throws Throwable;
+
+	public int getRefundlist(HashMap<String, String> params) throws Throwable;
+
+	public ArrayList<HashMap<String, String>> getRefund(HashMap<String, String> params) throws Throwable;
+
+	public int getCalllist(HashMap<String, String> params)throws Throwable;
+
+	public ArrayList<HashMap<String, String>> getCall(HashMap<String, String> params) throws Throwable;
+
+	public int getCouponlist(HashMap<String, String> params) throws Throwable;
+
+	public ArrayList<HashMap<String, String>> getCoupon(HashMap<String, String> params) throws Throwable;
+
+	public int getServicelist(HashMap<String, String> params) throws Throwable;
+
+	public ArrayList<HashMap<String, String>> getService(HashMap<String, String> params) throws Throwable;
+
+	public int QnAlookup(HashMap<String, String> params) throws Throwable;
+
+	public int Cuslookup(HashMap<String, String> params) throws Throwable;
+
+
 
 
 	

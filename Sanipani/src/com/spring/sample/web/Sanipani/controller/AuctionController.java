@@ -165,8 +165,10 @@ public class AuctionController {
 										  @RequestParam HashMap<String, String> params,
 										  ModelAndView modelAndView) throws Throwable {
 		HashMap<String, String> con = iAuctionService.getAuctionCon(params);
+		HashMap<String, String> con1 = iAuctionService.getAuctionCon1(params);
 		
 		modelAndView.addObject("con", con);
+		modelAndView.addObject("con1", con1);
 		
 		modelAndView.setViewName("spAuctionBoard/AuctionDetailLook");
 		return modelAndView;
@@ -218,9 +220,42 @@ public class AuctionController {
 		
 		int res = iAuctionService.updateAuctionEnd(params);
 		int res2 = iAuctionService.updateAuctionEnd2(params);
+		//iAuctionService.insertAuctionTotal(params);
 		
 		modelMap.put("res", res);
 		modelMap.put("res2", res2);
+		
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Content-Type", "text/json; charset=UTF-8");
+		
+		return new ResponseEntity<String>(mapper.writeValueAsString(modelMap), responseHeaders, HttpStatus.CREATED);
+	}
+	
+	@RequestMapping(value="/updateAuctionEnd1")
+	public @ResponseBody ResponseEntity<String> updateAuctionEnd1(
+			HttpServletRequest request,
+			@RequestParam HashMap<String, String> params, 
+			ModelAndView modelAndView) throws Throwable {
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> modelMap = new HashMap<String, Object>();
+		
+		iAuctionService.insertAuctionTotal(params);
+		
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Content-Type", "text/json; charset=UTF-8");
+		
+		return new ResponseEntity<String>(mapper.writeValueAsString(modelMap), responseHeaders, HttpStatus.CREATED);
+	}
+	
+	@RequestMapping(value="/updateAuctionEnd2")
+	public @ResponseBody ResponseEntity<String> updateAuctionEnd2(
+			HttpServletRequest request,
+			@RequestParam HashMap<String, String> params, 
+			ModelAndView modelAndView) throws Throwable {
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> modelMap = new HashMap<String, Object>();
+		
+		iAuctionService.insertAuctionTotal2(params);
 		
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.add("Content-Type", "text/json; charset=UTF-8");

@@ -34,6 +34,21 @@ $(document).ready(function(){
 		$("input[name='testNo2']").val($(this).attr("name"));
 		$("#actionForm2").attr("action", "QnABoardetail");
 		$("#actionForm2").submit();
+		
+		var params = $("#actionForm2").serialize();
+		
+		$.ajax({
+			type : "post",
+			url : "QnAlookup",
+			dataType : "json",
+			data : params,
+			success : function(result){
+				
+			},
+			error : function(result){
+				alert("실패");
+			}
+		});
 	});
 	$(".bar").on("click", function(){
 		location.href="CusBoard";
@@ -252,7 +267,7 @@ function QnABoarder(){
 		
 		<div class="content">
 		<div class="bar">
-			QNA 게싯판
+			<b>고객센터 >> 자주묻는질문 </b>
 			</div>
 			<div class="bar1">
 				<div class="bar1_1">
@@ -293,7 +308,7 @@ function QnABoarder(){
 			<input type="hidden" name="testNo2" />
 </form>
 		
-	 <table border="1">
+	 <table>
 		<thead>
 			<tr>
 				<th>글번호</th>
@@ -302,6 +317,7 @@ function QnABoarder(){
 				<th>작성자</th>
 				<th>날짜</th>
 				<th>조회수</th>
+				<th>답글</th>>
 			</tr>
 		</thead>
 		<tbody id="tb">

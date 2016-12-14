@@ -140,5 +140,82 @@ public class CustomerService implements ICustomerService {
 		// TODO Auto-generated method stub
 		return iCustomerDao.getCusdelete(params);
 	}
+
+
+	@Override
+	public int Cusreply(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return iCustomerDao.getCusreply(params);
+	}
+
+
+	@Override
+	public int getRefundlist(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return iCustomerDao.getRefundlist(params);
+	}
+
+
+	@Override
+	public ArrayList<HashMap<String, String>> getRefund(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return iCustomerDao.getRefund(params);
+	}
+
+
+	@Override
+	public int getCalllist(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return iCustomerDao.getCalllist(params);
+	}
+
+
+	@Override
+	public ArrayList<HashMap<String, String>> getCall(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return iCustomerDao.getCall(params);
+	}
+
+
+	@Override
+	public int getCouponlist(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return iCustomerDao.getCouponlist(params);
+	}
+
+
+	@Override
+	public ArrayList<HashMap<String, String>> getCoupon(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return iCustomerDao.getCoupon(params);
+	}
+
+
+	@Override
+	public int getServicelist(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return iCustomerDao.getServicelist(params);
+	}
+
+
+	@Override
+	public ArrayList<HashMap<String, String>> getService(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return iCustomerDao.getService(params);
+	}
+
+
+	@Override
+	public int QnAlookup(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return iCustomerDao.getQnAlookup(params);
+	}
+
+
+	@Override
+	public int Cuslookup(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return iCustomerDao.getCuslookup(params);
+	}
 	
 }

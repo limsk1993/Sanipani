@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" href="resources/css/spmain/Mainpage.css"/>
 <style type="text/css">
 .showTradeBoard{
-	margin-top : 80px;
+	margin-top : 10px;
 	margin-left : 115px;
 	width: 900px;
 	height: 1000px;
@@ -24,14 +24,14 @@
 	
 }
 .TradeProgress{
-	margin-top : 40px;
-	width: 900px;
+	margin-top : 10px;
+	width: 800px;
 	height: 400px;
 
 }
 .TradeRequest{
-	margin-top : 40px;
-	width: 900px;
+	margin-top : 10px;
+	width: 800px;
 	height: 400px;
 
 }
@@ -637,6 +637,7 @@ function showAutionTrade(){
 			</div>
 			
 			
+<<<<<<< HEAD
 			      <!--로그인 접속전  -->
       
       <c:choose>
@@ -746,6 +747,116 @@ function showAutionTrade(){
          </div>
       </div>
 		
+=======
+			<!--로그인 접속전  -->
+		<c:choose>
+			<c:when test="${sNo ne null}">
+				<div class="loginAccess" id="loginAccess" style="display: none;">
+			</c:when>
+			<c:otherwise>
+				<div class="loginAccess" id="loginAccess">
+			</c:otherwise>
+		</c:choose>	
+			<form action="#" id="LoginForm" method="post" style="display:inline"><!--form도  display를 줘야한다 -->
+			
+				<div class="login1">
+					<div class="id">
+						<b>ID:</b><input type="text" name="Id" id="Id" maxlength="15" border="1">
+					</div>
+				</div>
+			
+				<div class="login2">
+					<div class="pw">
+						<b>PW:</b><input type="password" name="Pw" id="Pw"  maxlength="15" border="1">
+					</div>	
+				</div>
+			</form>	
+				<div class="login3">
+					<div class="loginBtn">
+						<img alt="LoginBtn" src="resources/images/MainPageImage/Login.bmp">
+					</div>
+				</div>
+				
+				<div class="login4">
+					<div class="memberLogiBtn">
+						<img alt="RegisterBtn" src="resources/images/MainPageImage/RegisterImg.bmp">
+					</div>
+				</div>
+			
+			
+			</div>
+		
+			
+			
+			
+			<!-- 로그인 접속후 -->
+		<c:choose>
+			<c:when test="${sNo ne null}">
+				<div class="loginCut" id="loginCut">
+			</c:when>
+			<c:otherwise>
+				<div class="loginCut" id="loginCut" style="display:none" >
+			</c:otherwise>
+		</c:choose>	
+				<div class="login1_1">
+					<div class="memberInfo">
+						<b><span id="memNick">${sNick}</span>님 환영합니다</b>
+					</div>
+				</div>
+				
+				<div class="login2_1">
+					<div class="logout">
+						<img alt="LogoutBtn" src="resources/images/MainPageImage/Logout.bmp">
+					</div>		
+				</div>
+				
+				<div class="login3_1">
+					<div class="mypage">
+						<img alt="MypageBtn" src="resources/images/MainPageImage/Mypage.bmp">
+					</div>
+				</div>
+				
+				<div class="login4_1">
+					<div class="basket">
+						<img alt="BasketBtn" src="resources/images/MainPageImage/Basket.bmp">
+					</div>
+				</div>
+				
+			
+			</div>
+			  
+		</div>
+		
+	
+		
+		
+		<div class="menubar">
+			<div class="logo">
+				<img alt="logo" src="resources/images/MainPageImage/SaniPaniLogo.png" width="226.44px" height="150px" border="2">
+			</div>
+			
+			<div class="menuall" height="150px">
+			<div height="30px"></div>
+			<br/>
+				<div class="auctionBoard" id="auctionBoard" height="120px">
+					<img alt="AuctionImg" src="resources/images/MainPageImage/AuctionImg.bmp">
+				</div>
+				<div class="tradeBoard" id="tradeBoard">
+					<img alt="TradeImg" src="resources/images/MainPageImage/TradeImg.bmp">
+				</div>
+				<div class="reportBoard">
+					<img alt="ReportImg" src="resources/images/MainPageImage/ReportImg.bmp">
+				</div>
+				<div class="customerBoard">
+					<img alt="CustomerImg" src="resources/images/MainPageImage/CustomerImg.bmp">
+				</div>
+				<div class="freeBoard">
+					<img alt="FreeImg" src="resources/images/MainPageImage/FreeImg.bmp">
+				</div>
+			</div>
+		</div>
+		<br/>
+>>>>>>> branch 'master' of https://github.com/limsk1993/Sanipani
 		<div class="content">
 			<div class="showTradeBoard">
 			

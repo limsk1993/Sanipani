@@ -47,46 +47,50 @@ $(document).ready(function(){
       
    
 function refreshList1(){
-   var params = $("#actionForm").serialize(); //serialize 정렬해서 보여준다.
-   
-   $.ajax({//비동기화방식
-      type : "post",
-      url : "refreshTest1", 
-      dataType : "json",
-      data : params,
-      success : function(result){
-         var html = "";
-         
-         for(var i = 0 ; i < result.list.length ; i++){
-            html += "<tr name='" + result.list[i].TRADE_WORD_NO + "'>";
-            html += "<td td width='10px'>" + result.list[i].NO + "</td>";
-            if(result.list[i].PICTURENAME==null){
-            	html += "<td width='100px'><img src=\"resources/images/TradeStatus1/no_image.png\"/></td>";
-            }else{
-                html += "<td width='100px'>"+"<img src=\"resources/upload/"+result.list[i].PICTURENAME+"\"/></td>";
-            }
-            html += "<td width='100px'>" + result.list[i].TRADE_BOARD + "</td>";
-            html += "<td width='100px'>" + result.list[i].WORD_TITLE + "</td>";
-            html += "<td>" + result.list[i].BUY_PAY + "</td>";
-            
-            html += "<td>" + result.list[i].NICK + "</td>";
-            html += "<td>" + result.list[i].WRITER_DATE + "</td>";
-            html += "<td>" + result.list[i].LOOKUP + "</td>";
-            
-            html += "</tr>";
-         }
-         
-         $("#tradeList").html(html);
-         
-      html = "";
-      html += "<span name='1'>처음</span>";
-      
-/*       if($("input[name='page']").val() == 1){
-         html += "<span name='1'>이전</span>";
-      } else{
-         html += "<span name='" + ($("input[name='page']").val - 1) + "'>이전</span>";
-      } */
-      if($("input[name='page']").val() == 1) {
+
+
+
+	var params = $("#actionForm").serialize(); //serialize 정렬해서 보여준다.
+	
+	$.ajax({//비동기화방식
+		type : "post",
+		url : "refreshTest1", 
+		dataType : "json",
+		data : params,
+		success : function(result){
+			var html = "";
+			
+			for(var i = 0 ; i < result.list.length ; i++){
+				html += "<tr name='" + result.list[i].TRADE_WORD_NO + "'>";
+				html += "<td width='15px'>" + result.list[i].NO + "</td>";
+				if(result.list[i].PICTURENAME==null){
+				html += "<td width='100px'><img src=\"resources/images/TradeStatus1/no_image.png\"/></td>";
+				}else{
+					html += "<td width='100px'>"+"<img src=\"resources/upload/"+result.list[i].PICTURENAME+"\"/></td>";
+				}
+				html += "<td width='200px' style='table-layout:fixed'>" + result.list[i].TRADE_BOARD + "</td>";
+				html += "<td width='200px'>" + result.list[i].WORD_TITLE + "</td>";
+				html += "<td width='80px'> " + result.list[i].BUY_PAY + "</td>";
+				
+				html += "<td>" + result.list[i].NICK + "</td>";
+				html += "<td>" + result.list[i].WRITER_DATE + "</td>";
+				html += "<td width='30px'>" + result.list[i].LOOKUP + "</td>";
+				
+				html += "</tr>";
+			}
+			console.log(html);
+			$("#tradeList").html(html);
+			
+		html = "";
+		html += "<span name='1'>처음</span>";
+		
+/* 		if($("input[name='page']").val() == 1){
+			html += "<span name='1'>이전</span>";
+		} else{
+			html += "<span name='" + ($("input[name='page']").val - 1) + "'>이전</span>";
+		} */
+		if($("input[name='page']").val() == 1) {
+
             html += "<span name='1'>이전</span>";
          } else {
             html += "<span name = '" + ($("input[name='page']").val() - 1) + "'>이전</span>";
@@ -116,4 +120,4 @@ function refreshList1(){
          alert("error!!");
       }
    });
-}
+ }
