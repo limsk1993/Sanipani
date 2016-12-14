@@ -14,14 +14,13 @@
 	vertical-align :top;
 	display : inline-block;
 	padding : 20px;
-	width: 690px;
+	width: 650px;
 	height: 90%;
-	background-color: #B2FFD1;
-	margin-left: 80px;
+	background-color: #FFFFFF;
 }
 .AuctionCategory {
 	display : inline-block;
-	width: 200px;
+	width: 220px;
 	height: 90%;
 	background-color: #B2FFD1;
 }
@@ -95,6 +94,29 @@
    margin-top:20px;
    margin-left:100px;
    width:80%;
+}
+table img{
+	width : 100px;
+	height: 100px;
+}
+td{
+	text-overflow: ellipsis;
+	height: 50px;
+}
+table{
+	text-overflow: ellipsis;
+	width:850px;
+	border-bottom: 1px;
+}
+select{
+	margin-left: 820px;
+}
+
+th {
+	background-color: #6DD66D;
+}
+tr:hover{
+	background-color: #EEEEEE;
 }
 </style>
 <script type="text/javascript">
@@ -353,7 +375,7 @@ function refreshList() {
 			<table border="1">
 				<thead>
 					<tr>
-						<th>글번호</th>
+						<th>No</th>
 						<th>물품사진</th>
 						<th>물품명</th>
 						<th>제목</th>

@@ -17,30 +17,31 @@
 	padding : 20px;
 	width: 690px;
 	height: 90%;
-	background-color: #F1232F;
+	background-color: #FFFFFF;
+	margin-left: 50px;
 }
 
 .AuctionCategory {
 	display : inline-block;
-	width: 200px;
+	width: 220px;
 	height: 90%;
-	background-color: #123FAC;
+	background-color: #B2FFD1;
 }
 
 .AuctionPictureIf {
    width : 100%;
    height : 390px;
-   background-color: #F123FF;
+   background-color: #B2FFD1;
 }
 .AuctionContent{
    width : 100%;
    height : 500px;
-   background-color: #000131;
+   background-color: #FFFFFF;
 }
 .AuctionReply{
    width : 100%;
    height : 150px;
-   background-color: #F1240F;
+   background-color: #FFFFFF;
 
 }
 .AuctionPicture{
@@ -48,20 +49,20 @@
    display : inline-block;
    width : 49%;
    height : 390px;
-   background-color: #FFFFFF;
+   background-color: #B2FFD1;
 }
 .AuctionPictureMain{
    
    margin-left : 20px;
    width : 300px;
    height : 300px;
-   background-color: #444444;
+   background-color: #FFFFFF;
    
 }
 .AuctionPictureMain img{
    width : 300px;
    height : 300px;
-   background-color: #444444;
+   background-color: #FFFFFF;
 }
 .AuctionPicture1 {
    margin-left : 20px;
@@ -69,7 +70,7 @@
    display : inline-block;
    width : 70px;
    height : 70px;
-   background-color: #444444;
+   background-color: #FFFFFF;
 }
 .AuctionPicture1 img{
    width : 70px;
@@ -80,7 +81,7 @@
    display : inline-block;
    width : 70px;
    height : 70px;
-   background-color: #444444;
+   background-color: #FFFFFF;
    
 }
 
@@ -94,7 +95,7 @@
    display : inline-block;
    width : 70px;
    height : 70px;
-   background-color: #444444;
+   background-color: #FFFFFF;
    
 }
 .AuctionPicture3 img{
@@ -106,7 +107,7 @@
    display : inline-block;
    width : 70px;
    height : 70px;
-   background-color: #444444;
+   background-color: #FFFFFF;
    
 }
 .AuctionPicture4 img{
@@ -118,7 +119,7 @@
    display : inline-block;
    width : 50%;
    height : 390px;
-   background-color: #F123FF;
+   background-color: #B2FFD1;
 }
    
 .AuctionContentTop {
@@ -134,7 +135,7 @@
    display : block;
    width : 100%;
    height : 40px;
-   background-color: #F000FF;
+   background-color: #FFFFFF;
 }
 
 .AuctionContentBottom2 {
@@ -142,7 +143,7 @@
    display : block;
    width : 100%;
    height : 50px;
-   background-color: #F000FF;
+   background-color: #FFFFFF;
 }
 
 .AuctionPriceRegisterBtn {
@@ -832,7 +833,7 @@ function showReply(){
                  html +="<td width='20%''>"+result.list1[i].NICK+"</td>";
                  html +="<td width='20%'>"+result.list1[i].AUCTIONREPLYDATE+"</td>";
                  html +="<td width='40%'></td>";
-                 html +="<td width='20%'><div class='reportBtn1'>신고하기</div></td>";
+                 html +="<td width='20%'><input type='button' class='reportBtn1' value='신고하기'></td>";
                  html +="</tr>";
                  html +="<tr>";   
                  html +="<td colspan='4' height='80px'><div class='replyContent'>" + result.list1[i].A_COMMENT_CONTENT + "</div></td>";               
@@ -869,7 +870,6 @@ function showReply(){
 			
 			
 			<!--로그인 접속전  -->
-		
 		<c:choose>
 			<c:when test="${sNo ne null}">
 				<div class="loginAccess" id="loginAccess" style="display: none;">
@@ -882,25 +882,25 @@ function showReply(){
 			
 				<div class="login1">
 					<div class="id">
-						id:<input type="text" name="Id" id="Id" maxlength="15">
+						<b>ID:</b><input type="text" name="Id" id="Id" maxlength="15" border="1">
 					</div>
 				</div>
 			
 				<div class="login2">
 					<div class="pw">
-						pw:<input type="password" name="Pw" id="Pw"  maxlength="15">
+						<b>PW:</b><input type="password" name="Pw" id="Pw"  maxlength="15" border="1">
 					</div>	
 				</div>
 			</form>	
 				<div class="login3">
 					<div class="loginBtn">
-					로그인
+						<img alt="LoginBtn" src="resources/images/MainPageImage/Login.bmp">
 					</div>
 				</div>
 				
 				<div class="login4">
 					<div class="memberLogiBtn">
-					회원가입
+						<img alt="RegisterBtn" src="resources/images/MainPageImage/RegisterImg.bmp">
 					</div>
 				</div>
 			
@@ -921,25 +921,25 @@ function showReply(){
 		</c:choose>	
 				<div class="login1_1">
 					<div class="memberInfo">
-						<span id="memNick">${sNick}</span>님 환영합니다
+						<b><span id="memNick">${sNick}</span>님 환영합니다</b>
 					</div>
 				</div>
 				
 				<div class="login2_1">
 					<div class="logout">
-						logout
+						<img alt="LogoutBtn" src="resources/images/MainPageImage/Logout.bmp">
 					</div>		
 				</div>
 				
 				<div class="login3_1">
 					<div class="mypage">
-						mypage
+						<img alt="MypageBtn" src="resources/images/MainPageImage/Mypage.bmp">
 					</div>
 				</div>
 				
 				<div class="login4_1">
 					<div class="basket">
-						basket
+						<img alt="BasketBtn" src="resources/images/MainPageImage/Basket.bmp">
 					</div>
 				</div>
 				
@@ -953,70 +953,56 @@ function showReply(){
 		
 		<div class="menubar">
 			<div class="logo">
-				logo
+				<img alt="logo" src="resources/images/MainPageImage/SaniPaniLogo.png" width="226.44px" height="150px" border="2">
 			</div>
 			
-			<div class="menuall">
-				<div class="auctionBoard" id="auctionBoard">
-					auction
-				</div>
-				<div class="auctionBoard_1" id="auctionBoard_1" style="display:none;">
-					auction1
-					<div class="home">가정제품</div>
-					<div class="elec">전자기기</div>
-					<div class="cloth">의류,신발</div>
-					<div class="watch">시계</div>
-					<div class="cosmetic">화장품</div>
-					<div class="travel">여행용품</div>
-					<div class="furni">가구</div>
-					<div class="book">도서</div>
-					<div class="etc">기타</div>
+			<div class="menuall" height="150px">
+			<div height="30px"></div>
+			<br/>
+				<div class="auctionBoard" id="auctionBoard" height="120px">
+					<img alt="AuctionImg" src="resources/images/MainPageImage/AuctionImg.bmp">
 				</div>
 				<div class="tradeBoard" id="tradeBoard">
-					trade
-				</div>
-				<div class="tradeBoard_1" id="tradeBoard_1" style="display:none;">
-					trade1
-					<div class="home_1">가정제품</div>
-					<div class="elec_1">전자기기</div>
-					<div class="cloth_1">의류,신발</div>
-					<div class="watch_1">시계</div>
-					<div class="cosmetic_1">화장품</div>
-					<div class="travel_1">여행용품</div>
-					<div class="furni_1">가구</div>
-					<div class="book_1">도서</div>
-					<div class="etc_1">기타</div>
+					<img alt="TradeImg" src="resources/images/MainPageImage/TradeImg.bmp">
 				</div>
 				<div class="reportBoard">
-					report
+					<img alt="ReportImg" src="resources/images/MainPageImage/ReportImg.bmp">
 				</div>
-				
 				<div class="customerBoard">
-					customer
+					<img alt="CustomerImg" src="resources/images/MainPageImage/CustomerImg.bmp">
 				</div>
-				
 				<div class="freeBoard">
-					free
+					<img alt="FreeImg" src="resources/images/MainPageImage/FreeImg.bmp">
 				</div>
 			</div>
 		</div>
-		
+		<br/>
 		<div class="content">
 			<div class="AuctionCategory">
-				<div class="home">가정제품</div>
-				<div class="elec">전자기기</div>
-				<div class="cloth">의류,신발</div>
-				<div class="watch">시계</div>
-				<div class="cosmetic">화장품</div>
-				<div class="travel">여행용품</div>
-				<div class="furni">가구</div>
-				<div class="book">도서</div>
-				<div class="etc">기타</div>
+				<div class="AuctionBoardCategory"><img alt="TabImg" src="resources/images/AuctionPageImage/AuctionTab.bmp"></div>
+				<div class="home"><img alt="HomeImg" src="resources/images/AuctionPageImage/AuctionHome.bmp"></div>
+				<div class="elec"><img alt="elecImg" src="resources/images/AuctionPageImage/AuctionElec.bmp"></div>
+				<div class="cloth"><img alt="clothImg" src="resources/images/AuctionPageImage/AuctionCloth.bmp"></div>
+				<div class="watch"><img alt="watchImg" src="resources/images/AuctionPageImage/AuctionWatch.bmp"></div>
+				<div class="cosmetic"><img alt="cosmeticImg" src="resources/images/AuctionPageImage/AuctionCosmetic.bmp"></div>
+				<div class="travel"><img alt="travelImg" src="resources/images/AuctionPageImage/AuctionTravel.bmp"></div>
+				<div class="furni"><img alt="furniImg" src="resources/images/AuctionPageImage/AuctionFurni.bmp"></div>
+				<div class="book"><img alt="bookImg" src="resources/images/AuctionPageImage/AuctionBook.bmp"></div>
+				<div class="etc"><img alt="etcImg" src="resources/images/AuctionPageImage/AuctionEtc.bmp"></div>
 			</div>
 			<div class="AuctionDetailLook">
 				<div class="AuctionPictureIf">
 					<div class="AuctionPicture">
-						<div class="AuctionPictureMain">   <img alt="${con.PICTURENAME}" src="resources/upload/${con.PICTURENAME}"/></div>
+						<div class="AuctionPictureMain">
+						<c:choose>
+							<c:when test="${empty con.PICTURENAME}">
+								<img alt="${con.PICTURENAME}" src="WebContent/resources/images/TradeStatus1/no_image.png"/>
+							</c:when>
+							<c:otherwise>
+								<img alt="${con.PICTURENAME}" src="resources/upload/${con.PICTURENAME}"/>
+							</c:otherwise>
+						</c:choose>
+						</div>
 		              	<div class="AuctionPicture1"> <img alt="${con.PICTURENAME1}" src="resources/upload/${con.PICTURENAME1}"/></div>
 		              	<div class="AuctionPicture2"> <img alt="${con.PICTURENAME2}" src="resources/upload/${con.PICTURENAME2}"/></div>
 		              	<div class="AuctionPicture3"> <img alt="${con.PICTURENAME3}" src="resources/upload/${con.PICTURENAME3}"/></div>
@@ -1039,7 +1025,7 @@ function showReply(){
 					<input type="hidden" name="AuctionWordNumber" value="${con.AUCTIONWORDNO}"/>
 				</form>
 				<input type="button" name="reportAuction" value="이 글 신고하기"/>
-				<table name="AuctionTable" border="1" width="330" height="250">
+				<table name="AuctionTable" width="330" height="250">
 					<tr>
 					</tr>
 					<tr>
@@ -1188,7 +1174,7 @@ function showReply(){
 		            <input type="hidden" name="auctionMemNo" value="${sNo}" />
 		            <input type="hidden" name="AuctionWordNumber" value="${con.AUCTIONWORDNO}"/>
 		            <input type="hidden" name="replyNo" value=""/>
-		            <table border="1" width="600px">
+		            <table width="600px">
 		               <tr>
 		                  <td>댓글
 		                  </td>
@@ -1200,13 +1186,13 @@ function showReply(){
 		               </tr>
 		               <tr>
 		                  <td>
-		                  	<div class="WriteBtn">글쓰기</div>
+		                  	<input type="button" class="WriteBtn" value="글쓰기" />
 		                  </td>
 		               </tr>
 		            </table>
 	            </form>
 	            <br/>
-	            <table border="1" width="700px">
+	            <table width="700px">
 	               <tbody id="ReplyList">
 	               </tbody>
 	            </table>

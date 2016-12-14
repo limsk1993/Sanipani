@@ -238,28 +238,16 @@ $(document).ready(function(){
 	});
 	$(".elec_1").on("click",function(){
 		location.href="TradeBoard1";
-
-
-	});
-	
-
-
-	$(".elec_1").on("click",function(){
-		location.href="TradeBoard";
 	});
 
 	$(".cloth_1").on("click",function(){
 
 		location.href="TradeBoard2";
 
-
-
 	});
 	$(".watch_1").on("click",function(){
 
 		location.href="TradeBoard3";
-
-
 
 	});
 	$(".cosmetic_1").on("click",function(){

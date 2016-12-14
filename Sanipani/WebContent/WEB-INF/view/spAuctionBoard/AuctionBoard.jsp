@@ -14,13 +14,13 @@
 	vertical-align :top;
 	display : inline-block;
 	padding : 20px;
-	width: 690px;
+	width: 650px;
 	height: 90%;
-	background-color: #B2FFD1;
+	background-color: #FFFFFF;
 }
 .AuctionCategory {
 	display : inline-block;
-	width: 200px;
+	width: 220px;
 	height: 90%;
 	background-color: #B2FFD1;
 }
@@ -105,7 +105,7 @@ td{
 }
 table{
 	text-overflow: ellipsis;
-	width:900px;
+	width:850px;
 	border-bottom: 1px;
 }
 select{
@@ -375,7 +375,7 @@ function refreshList() {
 			<table border="1">
 				<thead>
 					<tr>
-						<th>글번호</th>
+						<th>No</th>
 						<th>물품사진</th>
 						<th>물품명</th>
 						<th>제목</th>

@@ -18,6 +18,7 @@
 	height: 230px;
 	margin: 1em;
 	font-size: 12px;
+	border: 1px solid #000000;
 }
 
 .AuctionProductPicture {
