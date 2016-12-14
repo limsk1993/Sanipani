@@ -29,24 +29,72 @@ $(document).ready(function(){
 $(".bar").on("click", function(){
 	location.href="CusBoard";
 });
+$(".bar1_1").on("click", function(){
+	location.href="CusBoard";
+});
+$(".bar1_2").on("click", function(){
+	location.href="CusRefund";
+});
+$(".bar1_3").on("click", function(){
+	location.href="Cuscall";
+});
+$(".bar1_4").on("click", function(){
+	location.href="CusCoupon";
+});
+$(".bar1_5").on("click", function(){
+	location.href="CusService";
+});
 $(".bar2").on("click", function(){
 	location.href="QnABoard";
 });
 $(".barQ").on("click", function(){
 	location.href="QnAlist";
 });
+
 $(".barBtn").on("click", function(){
 	location.href="QnAWriten";
 });
+
 $("#tb").on("click", "tr", function(){
 	$("input[name='testNo']").val($(this).attr("name"));
 	$("#actionForm").attr("action", "CusBoardetail");
 	$("#actionForm").submit();
+	
+	var params = $("#actionForm").serialize();
+	
+	$.ajax({
+		type : "post",
+		url : "Cuslookup",
+		dataType : "json",
+		data : params,
+		success : function(result){
+			
+		},
+		error : function(result){
+			alert("실패");
+		}
+	});
 });
+
 $("#tb2").on("click", "tr", function(){
 	$("input[name='testNo2']").val($(this).attr("name"));
 	$("#actionForm2").attr("action", "QnABoardetail");
 	$("#actionForm2").submit();
+	
+	var params = $("#actionForm2").serialize();
+	
+	$.ajax({
+		type : "post",
+		url : "QnAlookup",
+		dataType : "json",
+		data : params,
+		success : function(result){
+			
+		},
+		error : function(result){
+			alert("실패");
+		}
+	});
 });
 /* 	$("#tb").on("click", "tr", function(){
 		$("input[name='testNo']").val($(this).attr("name"));
@@ -70,6 +118,7 @@ $("#tb2").on("click", "tr", function(){
 					html += "<td>" + result.list[i].CUSTOMER_NO + "</td>";
 					html += "<td>" + result.list[i].CUSTOMER_WORDTITLE + "</td>";
 					html += "<td>" + result.list[i].CUSTOMER_WORDCONTENT + "</td>";
+					html += "<td>" + result.list[i].CUSTOMER_WRITER + "</td>";
 					html += "<td>" + result.list[i].CUSTOMER_WRITERDATE + "</td>";
 					html += "<td>" + result.list[i].CUSTOMER_LOOKUP + "</td>";
 					html += "</tr>";
@@ -358,7 +407,7 @@ $(document).ready(function(){
 		<div class="content">
 			
 			<div class="bar">
-			QNA 게싯판
+			<b>고객센터</b>
 			</div>
 			
 			<div class="bar1">
@@ -372,7 +421,7 @@ $(document).ready(function(){
 				주문 / 결제
 				</div>
 				<div class="bar1_4">
-				쿠폰 / 사니파니머니
+				사니파니머니
 				</div>
 				<div class="bar1_5">
 				회원 서비스
@@ -386,7 +435,7 @@ $(document).ready(function(){
 				
 			</div>	
 				<div class="bar2_1">
-				<form action="#" id="actionForm2" method="post">
+				<form action="#" id="actionForm2" method="get">
 	<c:choose>
 		<c:when test="${empty param.page}"> <!-- empty 는 비어있으면. -->
 			<input type="hidden" name="page" value="1" />
@@ -399,7 +448,7 @@ $(document).ready(function(){
 	<input type="hidden" name="searchText" value="${param.searchText}"/>
 	<input type="hidden" name="testNo2" />
 </form>
-	 <table border="1">
+	 <table >
 		<thead>
 			<tr>
 				<th>글번호</th>
@@ -415,16 +464,26 @@ $(document).ready(function(){
 			  </table>
 
 				</div>
+	<c:choose>
+		<c:when test="${sGrade eq 0 }">			
 			<div class="barBtn">
 			  <!-- 글쓰기 버튼 -->
 			 <!-- <input type="button" value="글쓰기" id="writeBtn"/> -->
 			 글쓰기 버튼
-			</div>		
+			</div>
+		</c:when>
+			<c:otherwise>
+				<div class="barBtn" style="display:none">
+				</div>
+			</c:otherwise>
+			
+	</c:choose>
+						
 			<div class="barQ">		
 			내 문의 내역
 			</div>
 			<div class="barQ_1">
-			<form action="#" id="actionForm" method="post">
+			<form action="#" id="actionForm" method="get">
 	<c:choose>
 		<c:when test="${empty param.page}"> <!-- empty 는 비어있으면. -->
 			<input type="hidden" name="page" value="1" />
@@ -437,12 +496,13 @@ $(document).ready(function(){
 	<input type="hidden" name="searchText" value="${param.searchText}"/>
 	<input type="hidden" name="testNo" />
 </form>
-	 <table border="1">
+	 <table>
 		<thead>
 			<tr>
 				<th>글번호</th>
 				<th>제목</th>
 				<th>내용</th>
+				<th>작성자</th>
 				<th>날짜</th>
 				<th>조회수</th>
 			</tr>

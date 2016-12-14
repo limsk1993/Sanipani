@@ -27,5 +27,9 @@
 	<sqlMap resource="/com/spring/sample/sqlMap/spAdmin/spAdmin.xml" />
 	<!-- Register쿼리 -->
 	<sqlMap resource="/com/spring/sample/sqlMap/Register/registerSQL.xml" />
+	<!-- ReportBoard쿼리 -->
+	<sqlMap resource="/com/spring/sample/sqlMap/ReportBoard/ReportBoardSQL.xml" />
+	<!-- MyPage쿼리 -->
+	<sqlMap resource="/com/spring/sample/sqlMap/spMypage/spMypage.xml" />
 </sqlMapConfig>
  
