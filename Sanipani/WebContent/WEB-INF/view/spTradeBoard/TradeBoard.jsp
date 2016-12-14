@@ -192,7 +192,7 @@ tr:hover{
 		<div class="tradeTag"><h2>거래게시판 </h2></div>
 	
 		<form action="#" name="list2" method="post">
-			    <select class="small" name="search2" id="searchSelect2">
+			<select class="small" name="search2" id="searchSelect2">
 				<option value="1" selected="selected">최신순</option>
 				<option value="2">가격순</option>
 			</select>

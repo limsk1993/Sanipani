@@ -7,7 +7,7 @@
 				parameterClass="java.util.HashMap"
 				resultClass="java.util.HashMap">
       			SELECT A.AUCTIONWORDNO, A.AUCTIONPRODUCTNAME, WORDTITLE, WORDCONTENT, RNOWBUYPAY,
-      				   MAX(BIDPRICE) AS BIDPRICE, STARTBUYPAY, WRITERDATE, ENDDATE, LOOKUP, PICTURENAME, A.NICK, A.MEMBERNO, to_char(A.ENDDATE, 'YYYY-MM-DD') AS REALENDDATE,
+      				   MAX(BIDPRICE) AS BIDPRICE, STARTBUYPAY, WRITERDATE, ENDDATE, LOOKUP, PICTURENAME, A.NICK, A.MEMBERNO, to_char(A.ENDDATE, 'YYYY-MM-DD') AS REALENDDATE, A.AUCTIONDEL,
       				   TO_NUMBER (SUBSTR (NUMTODSINTERVAL(ENDDATE-SYSDATE, 'DAY'), 2, 9)) || '일 ' || 
 		          	   TO_NUMBER (SUBSTR (NUMTODSINTERVAL(ENDDATE-SYSDATE, 'DAY'), 12, 2)) || '시간 ' || 
 		           	   TO_NUMBER (SUBSTR (NUMTODSINTERVAL(ENDDATE-SYSDATE, 'DAY'), 15, 2)) || '분 '|| 
@@ -15,7 +15,7 @@
 				FROM (SELECT ROW_NUMBER() OVER(ORDER BY AB.AUCTIONWORDNO DESC) AS RNUM, 
 							 AB.AUCTIONWORDNO, AB.AUCTIONPRODUCTNAME, AB.WORDTITLE, AB.WORDCONTENT,
 							 AB.RNOWBUYPAY, AC.BIDPRICE, AB.STARTBUYPAY, to_char(AB.WRITERDATE, 'YYYY-MM-DD') AS WRITERDATE,
-							 AB.ENDDATE AS ENDDATE, AB.LOOKUP, AP.PICTURENAME, MI.NICK, AC.AUCTIONNO, AB.MEMBERNO, AB.AUCTIONCATEGORY
+							 AB.ENDDATE AS ENDDATE, AB.LOOKUP, AP.PICTURENAME, MI.NICK, AC.AUCTIONNO, AB.MEMBERNO, AB.AUCTIONCATEGORY, AB.AUCTIONDEL
 				      FROM AUCTIONBOARD AB LEFT OUTER JOIN AUCTIONPICTURE AP ON AB.AUCTIONWORDNO = AP.AUCTIONWORDNO
 				                           LEFT OUTER JOIN MEMBERINFO MI ON AB.MEMBERNO = MI.MEMBERNO
 				                           LEFT OUTER JOIN AUCTION AC ON AB.AUCTIONWORDNO = AC.AUCTIONWORDNO
@@ -53,8 +53,14 @@
 		    			</isEqual>
 						) A
 				WHERE A.RNUM BETWEEN #start# AND #end#
-				GROUP BY A.AUCTIONWORDNO, A.AUCTIONPRODUCTNAME, WORDTITLE, WORDCONTENT, RNOWBUYPAY, STARTBUYPAY, WRITERDATE, ENDDATE, LOOKUP, PICTURENAME, A.NICK, A.MEMBERNO, A.AUCTIONCATEGORY
+				<isNotEqual  property="sRank" compareValue="0">
+    				AND A.AUCTIONDEL = 1
+    			</isNotEqual>
+				GROUP BY A.AUCTIONWORDNO, A.AUCTIONPRODUCTNAME, WORDTITLE, WORDCONTENT, RNOWBUYPAY, STARTBUYPAY, WRITERDATE, ENDDATE, LOOKUP, PICTURENAME, A.NICK, A.MEMBERNO, A.AUCTIONCATEGORY, A.AUCTIONDEL
 				ORDER BY A.AUCTIONWORDNO DESC
+				<isEqual property="search" compareValue="2">
+    			 	ORDER BY BIDPRICE
+    			</isEqual>
 		</select>
 		
 		<select id="getAuctionCount"
@@ -125,6 +131,26 @@
 			WHERE AB.AUCTIONWORDNO = #auctionNo#
 		</select>
 		
+		<select id="getAuctionCon1"
+				parameterClass="java.util.HashMap"
+				resultClass="java.util.HashMap">
+			SELECT TOTAL_M-TOTAL_B AS TOTAL
+                FROM 
+               ( SELECT   SUM(CHARGE_PRICE) AS TOTAL_M,MEMBERNO
+                  FROM      SANIPANIMONEY
+                   WHERE     MEMBERNO=#sNo#
+                   GROUP BY MEMBERNO) 
+     
+                   T LEFT OUTER JOIN 
+    
+             (SELECT    SUM(EXCHANGE_PRICE)AS TOTAL_B,MEMBERNO
+                FROM      SANIPANIMONEY 
+                WHERE     MEMBERNO=#sNo#
+                       
+                GROUP BY  MEMBERNO
+             ) U ON T.MEMBERNO =U.MEMBERNO
+		</select>
+		
 		<select id="getAuctionNo"
 				resultClass="Integer">
 			SELECT MAX(AUCTIONWORDNO)
@@ -150,19 +176,22 @@
 			WHERE AUCTIONWORDNO = #auctionNo#
 		</update>
 		
-		<update id="updateAuctionAddDate">
+		<update id="updateAuctionAddDate"
+				parameterClass="java.util.HashMap">
 			UPDATE AUCTIONBOARD
 			SET ENDDATE = ENDDATE + 0.0035
 			WHERE AUCTIONWORDNO = #auctionNo#
 		</update>
 		
-		<update id="updateAuctionEnd">
+		<update id="updateAuctionEnd"
+				parameterClass="java.util.HashMap">
 			UPDATE AUCTIONBOARD
 			SET AUCTIONBOARDSTATUS = 1
 			WHERE AUCTIONWORDNO = #auctionNo#
 		</update>
 		
-		<update id="updateAuctionEnd2">
+		<update id="updateAuctionEnd2"
+				parameterClass="java.util.HashMap">
 			UPDATE AUCTION
 			SET AUCTIONSTATUS = 1, TRADESTATUSNO = 6
 			WHERE AUCTIONWORDNO = #auctionNo#
@@ -189,7 +218,8 @@
 			WHERE AUCTIONWORDNO = #auctionNo#
 		</update>
 		
-		<delete id="deleteNotAuctionMember">
+		<delete id="deleteNotAuctionMember"
+				parameterClass="java.util.HashMap">
 			DELETE FROM AUCTION
 			WHERE AUCTIONWORDNO = #auctionNo#
 			AND TRADESTATUSNO != 6
@@ -213,7 +243,8 @@
             VALUES(AUCTION_COMMENT_SEQ.NEXTVAL, #AuctionWordNumber#, #auctionMemNo#, SYSDATE, #replyContent#, 1)
 		</insert>
 		
-		<update id="deleteAuctionReply">
+		<update id="deleteAuctionReply"
+				parameterClass="java.util.HashMap">
 			UPDATE AUCTION_COMMENT
 			SET A_COMMENT_DEL = 0
 			WHERE A_COMMENT_NO = #replyNo#
@@ -225,6 +256,17 @@
 									REPORTDELETE, PICTURE, PICTURE1, PICTURE2, PICTURE3, PICTURE4, REPORT_CONTENT, AUCTIONWORDNO, A_COMMENT_NO)
             VALUES(REPORT_SEQ.NEXTVAL, #reportTitle#, #reportContent#, #fraudUser#, SYSDATE, '0', #reportCato#, #memberNo#, 1, #textFile#, 
                    #textFile1#, #textFile2#, #textFile3#, #textFile4#, #replyContent#, #auctionNo#, #replyNo1#)
+		</insert>
+		
+		<insert id="insertAuctionTotal"
+				parameterClass="java.util.HashMap">
+			INSERT INTO SANIPANIMONEY (SA_PA_MO_NO, MEMBERNO, EXCHANGE_PRICE, EXCHANGE_DATE)
+			VALUES(SA_PA_MONEY.NEXTVAL, #auctionMemNo#, #RightNowBuyPay#, SYSDATE)
+		</insert>
+		
+		<insert id="insertAuctionTotal2">
+			INSERT INTO SANIPANIMONEY (SA_PA_MO_NO, MEMBERNO, EXCHANGE_PRICE, EXCHANGE_DATE)
+			VALUES(SA_PA_MONEY.NEXTVAL, #auctionMemNo#, #BidPrice#, SYSDATE)
 		</insert>
 		
    </sqlMap>

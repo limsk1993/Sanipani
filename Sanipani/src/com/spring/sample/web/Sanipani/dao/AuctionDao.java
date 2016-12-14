@@ -169,4 +169,20 @@ public class AuctionDao implements IAuctionDao {
 		sqlMapClient.insert("AuctionBoard.reportAuctionReply", params);
 		
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public HashMap<String, String> getAuctionCon1(HashMap<String, String> params) throws Throwable {
+		return (HashMap<String, String>) sqlMapClient.queryForObject("AuctionBoard.getAuctionCon1", params);
+	}
+
+	@Override
+	public void insertAuctionTotal(HashMap<String, String> params) throws Throwable {
+		sqlMapClient.insert("AuctionBoard.insertAuctionTotal", params);
+	}
+
+	@Override
+	public void insertAuctionTotal2(HashMap<String, String> params) throws Throwable {
+		sqlMapClient.insert("AuctionBoard.insertAuctionTotal2", params);
+	}
 }

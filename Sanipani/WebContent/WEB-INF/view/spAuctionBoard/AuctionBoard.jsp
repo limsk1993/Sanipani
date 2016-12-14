@@ -123,6 +123,13 @@ tr:hover{
 $(document).ready(function() {
 	refreshList();
 	
+	$("#searchSelect2").on("change",function(){
+		$("input[name='search']").val($("select[name='search2']").val());
+		//alert($("input[name='search']").val());
+		$("#list2").submit();
+		refreshList();
+	});
+	
 	$("#searchBtn").on("click", function() {
 		$("input[name='searchText']").val($("#searchText").val());
 		$("input[name='page']").val("1");
@@ -359,6 +366,12 @@ function refreshList() {
 		</div>
 			<div class="AuctionTable">
 			<h2>경매게시판 </h2>
+			<form action="#" name="list2" method="post">
+				<select class="small" name="search2" id="searchSelect2">
+					<option value="1" selected="selected">최신순</option>
+					<option value="2">가격순</option>
+				</select>
+			</form>
 			<form action="#" id="actionForm" method="get">
 				<c:choose>
 					<c:when test="${empty param.page}">
@@ -368,9 +381,13 @@ function refreshList() {
 						<input type="hidden" name="page" value="${param.page}" />
 					</c:otherwise>
 				</c:choose>
+				<input type="hidden" name="search" />
 				<input type="hidden" name="catogery" value="1" />
 				<input type="hidden" name="searchText" value="${param.searchText}" />
 				<input type="hidden" name="auctionNo" />
+				<input type="hidden" name="sNo" value="${sNo}"/>
+				<input type="hidden" name="sRank" value="${sGrade}"/>
+				<input type="hidden" name="TotalPrice" value="${con.TOTAL}" />
 			</form>
 			<table border="1">
 				<thead>

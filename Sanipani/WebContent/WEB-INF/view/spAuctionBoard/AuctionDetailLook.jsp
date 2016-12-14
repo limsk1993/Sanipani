@@ -397,8 +397,27 @@ $(document).ready(function() {
 	$(".AuctionPriceRegisterBtn").on("click",function(){
 		var updateForm = $("#updateForm")
 		
- 		if($("input[name='AuctionBoardStatus']").val() == 1) {
+		console.log($("input[name='TotalPrice']").val());
+		console.log($("input[name='BidPrice']").val());
+		console.log($("input[name='StartBuyPay']").val());
+		
+		if($("input[name='AuctionBoardStatus']").val() == 1) {
 			alert("경매가 마감이 되어 경매가를 등록할 수 없습니다.");
+			return false;
+		}
+		
+		if($("input[name='TotalPrice']").val() * 1 < $("input[name='BidPrice']").val() * 1) {
+			alert("사니파니머니가 부족합니다. 충전해주세요.");
+			return false;
+		}
+		
+		if($("input[name='TotalPrice']").val() * 1 < $("input[name='StartBuyPay']").val() * 1) {
+			alert("사니파니머니가 부족합니다. 충전해주세요.");
+			return false;
+		}
+		
+		if($("input[name='TotalPrice']").val() * 1 < $("input[name='AuctionPrice']").val() * 1) {
+			alert("사니파니머니가 부족합니다. 충전해주세요.");
 			return false;
 		}
 		
@@ -427,48 +446,40 @@ $(document).ready(function() {
 			
 			$.ajax({
 				type : "post",
-				url : "updateAuctionEnd",
+				url : "updateAuctionEnd1",
 				dataType : "json",
 				data : params,
 				success : function(result) {
-					if (result.res > 0) {
-						if($("input[name='AuctionBoardStatus']").val() == 1 || $("input[name='AuctionStatus']").val() == 1) {
-							D = 0;
-							H = 0;
-							M = 0;
-							S = 0;
-							
-							$(".countTimeDay").html(D);
-							$(".countTimeHour").html(H);
-							$(".countTimeMinute").html(M);
-							$(".countTimeSecond").html(S);
-							
-							clearInterval(timer);
-							
-							alert("경매가 종료되었습니다.");
-							
-							/* var params = $("#actionForm").serialize();
-							
-							$.ajax({
-								type : "post",
-								url : "deleteNotAuctionMember",
-								dataType : "json",
-								data : params,
-								success : function(result) {
-									if(result.res > 0) {
-										alert("경매 미참여자는 삭제되었습니다.");
-									} else {
-										alert("경매 미참여자가 삭제되지 않았습니다.");
-									}
-								},
-								error : function(result) {
-									alert("ERROR");
+					$.ajax({
+						type : "post",
+						url : "updateAuctionEnd",
+						dataType : "json",
+						data : params,
+						success : function(result) {
+							if (result.res > 0) {
+								if($("input[name='AuctionBoardStatus']").val() == 1 || $("input[name='AuctionStatus']").val() == 1) {
+									D = 0;
+									H = 0;
+									M = 0;
+									S = 0;
+									
+									$(".countTimeDay").html(D);
+									$(".countTimeHour").html(H);
+									$(".countTimeMinute").html(M);
+									$(".countTimeSecond").html(S);
+									
+									clearInterval(timer);
+									
+									alert("경매가 종료되었습니다.");
 								}
-							}); */
+							} else {
+								alert("경매가 종료되지 않았습니다.");
+							}
+						},
+						error : function(result) {
+							alert("ERROR");
 						}
-					} else {
-						alert("경매가 종료되지 않았습니다.");
-					}
+					});
 				},
 				error : function(result) {
 					alert("ERROR");
@@ -608,15 +619,26 @@ $(document).ready(function() {
 				
 				$.ajax({
 					type : "post",
-					url : "updateAuctionEnd",
+					url : "updateAuctionEnd2",
 					dataType : "json",
 					data : params,
 					success : function(result) {
-						if (result.res > 0) {
-							alert('해당 경매가 종료되었습니다.');
-						} else {
-							alert("경매가 종료되지 않았습니다.");
-						}
+						$.ajax({
+							type : "post",
+							url : "updateAuctionEnd",
+							dataType : "json",
+							data : params,
+							success : function(result) {
+								if(result.res > 0) {
+									alert('해당 경매가 종료되었습니다.');
+								} else {
+									alert("경매가 종료되지 않았습니다.");
+								}
+							},
+							error : function(result) {
+								alert("ERROR");
+							}
+						});
 					},
 					error : function(result) {
 						alert("ERROR");
@@ -632,7 +654,7 @@ $(document).ready(function() {
 					data : params,
 					success : function(result) {
 						if(result.res > 0) {
-							alert("경매 미참여자는 삭제되었습니다.");
+							alert("경매 참여자는 삭제되었습니다.");
 						} else {
 							
 						}
@@ -1023,6 +1045,7 @@ function showReply(){
 					<input type="hidden" name="StartBuyPay" value="${con.STARTBUYPAY}" />
 					<input type="hidden" name="auctionMemNo" value="${sNo}" />
 					<input type="hidden" name="AuctionWordNumber" value="${con.AUCTIONWORDNO}"/>
+					<input type="hidden" name="TotalPrice" value="${con1.TOTAL}" />
 				</form>
 				<input type="button" name="reportAuction" value="이 글 신고하기"/>
 				<table name="AuctionTable" width="330" height="250">
@@ -1126,6 +1149,8 @@ function showReply(){
 										<input type="hidden" name="MemberNo" value="${con.MEMBERNO}"/>
 										<input type="hidden" name="BidPrice" value="${con.BIDPRICE}"/>
 										<input type="hidden" name="auctionMemNo" value="${sNo}" />
+										<input type="hidden" name="TotalPrice" value="${con1.TOTAL}" />
+										<input type="hidden" name="RightNowBuyPay" value="${con.RNOWBUYPAY}" />
 									<table width="690px" style="margin-top : 10px">
 										<tr>
 											<td>현재 경매가 :
