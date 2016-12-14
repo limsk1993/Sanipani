@@ -49,6 +49,7 @@ public class MainController {
 	    	  session.setAttribute("sNo", mem.get("MEMBERNO"));
 	    	  session.setAttribute("sNick", mem.get("NICK"));
 	    	  session.setAttribute("sId", mem.get("ID"));
+	    	  session.setAttribute("sGrade", mem.get("GRADE_NO"));
 	    	
 	      
 	    	  modelMap.put("res","success");
