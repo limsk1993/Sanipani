@@ -46,13 +46,15 @@
 			WHERE NOTICENO = #NoticeNo#
 		</select>
 		
-		<update id="deleteNotice">
+		<update id="deleteNotice"
+				parameterClass="java.util.HashMap">
 			UPDATE NOTICEBOARD
 			SET NOTICEDEL = 0
 			WHERE NOTICENO = #NoticeNo#
 		</update>
 		
-		<update id="updateNotice">
+		<update id="updateNotice"
+				parameterClass="java.util.HashMap">
 			UPDATE NOTICEBOARD
 			SET NOTICETITLE = #Noticetitle#, NOTICECONTENT = #NoticeContents#
 			WHERE NOTICENO = #NoticeNo#

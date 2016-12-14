@@ -59,23 +59,23 @@ function refreshList1(){
 			
 			for(var i = 0 ; i < result.list.length ; i++){
 				html += "<tr name='" + result.list[i].TRADE_WORD_NO + "'>";
-				html += "<td td width='15px'>" + result.list[i].NO + "</td>";
+				html += "<td width='15px'>" + result.list[i].NO + "</td>";
 				if(result.list[i].PICTURENAME==null){
 				html += "<td width='100px'><img src=\"resources/images/TradeStatus1/no_image.png\"/></td>";
 				}else{
 					html += "<td width='100px'>"+"<img src=\"resources/upload/"+result.list[i].PICTURENAME+"\"/></td>";
 				}
-				html += "<div class='Board'><td width='200px' style='table-layout:fixed'>" + result.list[i].TRADE_BOARD + "</td></div>";
-				html += "<div class='Board'><td width='200px'>" + result.list[i].WORD_TITLE + "</td></div>";
+				html += "<td width='200px' style='table-layout:fixed'>" + result.list[i].TRADE_BOARD + "</td>";
+				html += "<td width='200px'>" + result.list[i].WORD_TITLE + "</td>";
 				html += "<td width='80px'> " + result.list[i].BUY_PAY + "</td>";
 				
 				html += "<td>" + result.list[i].NICK + "</td>";
 				html += "<td>" + result.list[i].WRITER_DATE + "</td>";
-				html += "<td width='30px>" + result.list[i].LOOKUP + "</td>";
+				html += "<td width='30px'>" + result.list[i].LOOKUP + "</td>";
 				
 				html += "</tr>";
 			}
-			
+			console.log(html);
 			$("#tradeList").html(html);
 			
 		html = "";

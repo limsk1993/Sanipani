@@ -147,29 +147,7 @@ $(document).ready(function(){
 	$(".memberLogiBtn").on("click", function() {
 		location.href="spmember";
 	});
-	
-	
-	
-	$(".auctionBoard").on("mouseover",function(){
-		auctionBoard_1.style.display="inline-block"
-		auctionBoard.style.display="none"
-	});
-	
-	$(".auctionBoard_1").on("mouseleave",function(){
-		auctionBoard_1.style.display="none"
-		auctionBoard.style.display="inline-block"
-	});
-	
-	
-	$(".tradeBoard").on("mouseover",function(){
-		tradeBoard_1.style.display="inline-block"
-		tradeBoard.style.display="none"
-	});
-	$(".tradeBoard_1").on("mouseleave",function(){
-		tradeBoard_1.style.display="none"
-		tradeBoard.style.display="inline-block"
-	});
-	
+
 	$(".reportBoard").on("click",function(){
 		location.href="ReportBoard";
 	});
@@ -182,10 +160,10 @@ $(document).ready(function(){
 	
 
 	$(".mypage").on("click",function(){
-		location.href="AuctionBoard";
+		location.href="MyPage";
 	});
 	$(".basket").on("click",function(){
-		location.href="sp";
+		location.href="spmemberBasket";
 	});
 	
 	

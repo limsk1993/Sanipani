@@ -10,15 +10,17 @@
 .BlkList{
 	display: block;
 	   margin-top: 5px;
+	   margin-left: 10px;
 	   height:40px;
-	   background-color: #409991;
+	   background-color: #B2FFD1;
 }
 
 .RepList{
 	display: block;
 	   margin-top: 5px;
+	   margin-left: 10px;
 	   height:40px;
-	   background-color: #409991;
+	   background-color: #B2FFD1;
 }
    
 .BlackList {
@@ -27,7 +29,7 @@
 	padding: 20px;
 	width: 690px;
 	height: 90%;
-	background-color: #F1232F;
+	background-color: #FFFFFF;
 	text-align: center;	
 }
 
@@ -35,7 +37,7 @@
 	display: inline-block;
 	width: 200px;
 	height: 90%;
-	background-color: #123FAC;
+	background-color: #B2FFD1;
 }
 
 </style>
@@ -272,8 +274,9 @@ $(document).ready(function(){
 		<br/>
 	<div class="content">
 		<div class="ReportCategory">
-			<div class="RepList">신고 접수 목록</div>
-			<div class="BlkList">블랙리스트 목록</div>
+			<div class="ReportTab"><img alt="#" src="resources/images/AuctionPageImage/ReportTab.bmp"></div>
+			<div class="RepList"><img alt="#" src="resources/images/AuctionPageImage/ReportRepList.bmp"></div>
+			<div class="BlkList"><img alt="#" src="resources/images/AuctionPageImage/ReportBlkList.bmp"></div>
 		</div>
 		<div class="BlackList">
 			<h2>블랙리스트 목록</h2>

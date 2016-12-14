@@ -397,7 +397,7 @@ function refreshFreeBoard(){
 		
 		<div class="content">
 			<div class="EndApproachAuction">
-				<h2>마감 임박 경매</h2>
+				<h2>경매현황</h2>
 			</div>
 				<form action="#" id="actionForm" method="get">
 					<c:choose>
@@ -448,7 +448,7 @@ function refreshFreeBoard(){
 					<input type="button" id="NoticeWrite" value="공지사항 글쓰기" />
 				</c:when>
 				<c:otherwise>
-					
+					<input type="hidden" id="NoticeWrite" value="공지사항 글쓰기" />
 				</c:otherwise>
 			</c:choose>
 			<div class="RecentWordLook">

@@ -30,7 +30,7 @@
 	padding: 20px;
 	width: 690px;
 	height: 90%;
-	background-color: #B2FFD1;
+	background-color: #FFFFFF;
 	text-align: center;	
 }
 
@@ -39,6 +39,10 @@
 	width: 200px;
 	height: 90%;
 	background-color: #B2FFD1;
+}
+
+table {
+	border: 1px solid #000000;
 }
 
 </style>
@@ -292,7 +296,7 @@ $(document).ready(function(){
 				<input type="hidden" name="ReportNo" />				
 			</form>
 
-			<table border="1">
+			<table>
 				<thead>
 					<tr>
 						<th width="100px">글번호</th>
